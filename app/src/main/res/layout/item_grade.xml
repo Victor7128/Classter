@@ -5,64 +5,132 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="8dp"
-    android:layout_marginBottom="4dp"
-    app:cardCornerRadius="6dp"
-    app:cardElevation="1dp"
-    app:cardBackgroundColor="#FAFAFA"
+    android:layout_marginBottom="8dp"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="3dp"
+    app:cardBackgroundColor="@color/white"
     app:strokeWidth="1dp"
-    app:strokeColor="#E0E0E0">
+    app:strokeColor="@color/colorPrimaryLight">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <!-- Header del Grado -->
+        <!-- Header del Grado con diseño mejorado -->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layoutGradeHeader"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="12dp"
-            android:background="?attr/selectableItemBackground"
+            android:padding="16dp"
+            android:background="@drawable/bg_grade_header"
             android:clickable="true"
-            android:focusable="true">
+            android:focusable="true"
+            android:foreground="?attr/selectableItemBackground">
 
-            <ImageView
-                android:id="@+id/ivGradeExpandIcon"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:src="@drawable/ic_expand_more"
+            <!-- Badge del grado con FrameLayout -->
+            <FrameLayout
+                android:id="@+id/cardGradeBadge"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/bg_grade_badge_circle"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:tint="@color/secondaryColor" />
+                app:layout_constraintBottom_toBottomOf="parent">
 
-            <TextView
-                android:id="@+id/tvGradeNumber"
+                <TextView
+                    android:id="@+id/tvGradeNumber"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="3°"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/white"
+                    android:gravity="center"
+                    android:fontFamily="sans-serif-black" />
+
+            </FrameLayout>
+
+            <!-- Info del grado -->
+            <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="3°"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                android:textColor="@android:color/black"
-                android:layout_marginStart="8dp"
-                app:layout_constraintStart_toEndOf="@id/ivGradeExpandIcon"
-                app:layout_constraintEnd_toStartOf="@id/btnDeleteGrade"
+                android:orientation="vertical"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="12dp"
+                app:layout_constraintStart_toEndOf="@id/cardGradeBadge"
+                app:layout_constraintEnd_toStartOf="@id/layoutActions"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent" />
+                app:layout_constraintBottom_toBottomOf="parent">
 
-            <ImageButton
-                android:id="@+id/btnDeleteGrade"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                android:src="@drawable/ic_delete"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:contentDescription="Eliminar grado"
-                android:padding="6dp"
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Grado"
+                    android:textSize="11sp"
+                    android:textColor="@color/text_hint"
+                    android:textAllCaps="true"
+                    android:letterSpacing="0.05" />
+
+                <TextView
+                    android:id="@+id/tvGradeLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Tercer Grado"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/text_primary"
+                    android:fontFamily="sans-serif-medium" />
+
+            </LinearLayout>
+
+            <!-- Acciones (expand + delete) -->
+            <LinearLayout
+                android:id="@+id/layoutActions"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:tint="#E53935" />
+                app:layout_constraintBottom_toBottomOf="parent">
+
+                <!-- Botón eliminar -->
+                <FrameLayout
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:background="@drawable/bg_delete_button"
+                    android:layout_marginEnd="8dp">
+
+                    <ImageButton
+                        android:id="@+id/btnDeleteGrade"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/ic_delete"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:contentDescription="Eliminar grado"
+                        android:padding="6dp"
+                        app:tint="#E53935" />
+
+                </FrameLayout>
+
+                <!-- Icono expandir -->
+                <FrameLayout
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:background="@drawable/bg_expand_button">
+
+                    <ImageView
+                        android:id="@+id/ivGradeExpandIcon"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:padding="6dp"
+                        android:src="@drawable/ic_expand_more"
+                        app:tint="@color/secondaryColor" />
+
+                </FrameLayout>
+
+            </LinearLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -73,26 +141,47 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:visibility="gone"
-            android:paddingStart="12dp"
-            android:paddingEnd="12dp"
-            android:paddingBottom="8dp">
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="16dp"
+            android:background="#FAFAFA">
+
+            <!-- Divider -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#E0E0E0"
+                android:layout_marginBottom="12dp" />
 
             <!-- RecyclerView para secciones -->
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerViewSections"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:nestedScrollingEnabled="false" />
+                android:nestedScrollingEnabled="false"
+                android:overScrollMode="never" />
 
             <!-- Botón para agregar sección -->
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnAddSection"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="+ Agregar Sección"
+                android:text="Agregar Sección"
                 android:textColor="@color/secondaryColor"
                 android:textSize="14sp"
-                android:layout_marginTop="6dp"
+                android:textStyle="bold"
+                android:layout_marginTop="8dp"
+                android:paddingTop="12dp"
+                android:paddingBottom="12dp"
+                app:icon="@drawable/ic_add"
+                app:iconTint="@color/secondaryColor"
+                app:iconGravity="textStart"
+                app:iconPadding="8dp"
+                app:cornerRadius="10dp"
+                app:strokeWidth="2dp"
+                app:strokeColor="@color/secondaryColor"
+                app:rippleColor="#E8F5E9"
                 style="@style/Widget.Material3.Button.OutlinedButton" />
 
         </LinearLayout>

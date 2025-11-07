@@ -13,8 +13,11 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatDelegate
 import com.evalua.classter.LoginActivity
 import com.evalua.classter.R
+import com.google.android.material.card.MaterialCardView
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
@@ -24,13 +27,19 @@ class UserProfileMenuDialog(context: Context) : Dialog(context) {
     private lateinit var auth: FirebaseAuth
     private lateinit var sharedPreferences: SharedPreferences
 
+    // ✅ NUEVAS VISTAS DEL DISEÑO MEJORADO
     private lateinit var ivUserAvatar: ImageView
     private lateinit var tvUserName: TextView
     private lateinit var tvUserEmail: TextView
     private lateinit var tvUserRole: TextView
+    private lateinit var tvCurrentTheme: TextView
+
+    // ✅ CARDS DEL NUEVO DISEÑO
+    private lateinit var cardChangeTheme: MaterialCardView
+    private lateinit var cardChangePassword: MaterialCardView
+    private lateinit var llChangeTheme: LinearLayout
     private lateinit var llChangePassword: LinearLayout
     private lateinit var llLogout: LinearLayout
-    private lateinit var dividerPassword: View
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,9 +62,14 @@ class UserProfileMenuDialog(context: Context) : Dialog(context) {
         tvUserName = findViewById(R.id.tvUserName)
         tvUserEmail = findViewById(R.id.tvUserEmail)
         tvUserRole = findViewById(R.id.tvUserRole)
+        tvCurrentTheme = findViewById(R.id.tvCurrentTheme)
+
+        // ✅ INICIALIZAR NUEVOS ELEMENTOS
+        cardChangeTheme = findViewById(R.id.cardChangeTheme)
+        cardChangePassword = findViewById(R.id.cardChangePassword)
+        llChangeTheme = findViewById(R.id.llChangeTheme)
         llChangePassword = findViewById(R.id.llChangePassword)
         llLogout = findViewById(R.id.llLogout)
-        dividerPassword = findViewById(R.id.dividerPassword)
     }
 
     private fun setupUserInfo() {
@@ -74,30 +88,79 @@ class UserProfileMenuDialog(context: Context) : Dialog(context) {
             else -> "USUARIO"
         }
 
-        // ✅ CORREGIDO: Mostrar opción de cambiar contraseña para TODOS los roles
-        // (alumnos, docentes y apoderados)
+        // ✅ MOSTRAR TEMA ACTUAL
+        updateCurrentThemeText()
+
+        // ✅ MOSTRAR/OCULTAR OPCIÓN DE CAMBIAR CONTRASEÑA
         if (role == "ALUMNO" || role == "DOCENTE" || role == "APODERADO") {
-            llChangePassword.visibility = View.VISIBLE
-            dividerPassword.visibility = View.VISIBLE
+            cardChangePassword.visibility = View.VISIBLE
         } else {
-            llChangePassword.visibility = View.GONE
-            dividerPassword.visibility = View.GONE
+            cardChangePassword.visibility = View.GONE
         }
     }
 
     private fun setupListeners() {
+        // ✅ NUEVO: Listener para cambiar tema
+        llChangeTheme.setOnClickListener {
+            showThemeDialog()
+        }
+
+        // Listener para cambiar contraseña
         llChangePassword.setOnClickListener {
             showChangePasswordDialog()
         }
 
+        // Listener para cerrar sesión
         llLogout.setOnClickListener {
             showLogoutConfirmation()
         }
+    }
 
-        // Cerrar el diálogo al hacer clic fuera de él
-        setOnDismissListener {
-            // Limpiar recursos si es necesario
+    // ✅ NUEVA FUNCIÓN: Actualizar texto del tema actual
+    private fun updateCurrentThemeText() {
+        val appPrefs = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+        val themeMode = appPrefs.getInt("theme_mode", AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
+
+        tvCurrentTheme.text = when (themeMode) {
+            AppCompatDelegate.MODE_NIGHT_NO -> "Modo claro"
+            AppCompatDelegate.MODE_NIGHT_YES -> "Modo oscuro"
+            else -> "Seguir sistema"
         }
+    }
+
+    // ✅ NUEVA FUNCIÓN: Diálogo para cambiar tema
+    private fun showThemeDialog() {
+        val themes = arrayOf("Modo claro", "Modo oscuro", "Seguir sistema")
+        val appPrefs = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+        val currentTheme = when (appPrefs.getInt("theme_mode", AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)) {
+            AppCompatDelegate.MODE_NIGHT_NO -> 0
+            AppCompatDelegate.MODE_NIGHT_YES -> 1
+            else -> 2
+        }
+
+        MaterialAlertDialogBuilder(context)
+            .setTitle("Seleccionar tema")
+            .setIcon(R.drawable.ic_theme)
+            .setSingleChoiceItems(themes, currentTheme) { dialog, which ->
+                val mode = when (which) {
+                    0 -> AppCompatDelegate.MODE_NIGHT_NO
+                    1 -> AppCompatDelegate.MODE_NIGHT_YES
+                    else -> AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
+                }
+
+                // Guardar preferencia
+                appPrefs.edit().putInt("theme_mode", mode).apply()
+
+                // Aplicar tema inmediatamente
+                AppCompatDelegate.setDefaultNightMode(mode)
+
+                // Actualizar el texto mostrado
+                updateCurrentThemeText()
+
+                dialog.dismiss()
+            }
+            .setNegativeButton("Cancelar", null)
+            .show()
     }
 
     private fun showChangePasswordDialog() {
@@ -107,13 +170,15 @@ class UserProfileMenuDialog(context: Context) : Dialog(context) {
     }
 
     private fun showLogoutConfirmation() {
-        AlertDialog.Builder(context)
+        // ✅ USAR MaterialAlertDialogBuilder para consistencia
+        MaterialAlertDialogBuilder(context)
             .setTitle("Cerrar Sesión")
             .setMessage("¿Estás seguro de que quieres cerrar sesión?")
-            .setPositiveButton("Sí") { dialog, which ->
+            .setIcon(R.drawable.ic_logout)
+            .setPositiveButton("Cerrar Sesión") { dialog, which ->
                 performLogout()
             }
-            .setNegativeButton("No") { dialog, which ->
+            .setNegativeButton("Cancelar") { dialog, which ->
                 dialog.dismiss()
             }
             .show()
@@ -123,10 +188,13 @@ class UserProfileMenuDialog(context: Context) : Dialog(context) {
         // Cerrar sesión en Firebase
         auth.signOut()
 
-        // Limpiar SharedPreferences
+        // Limpiar SharedPreferences de usuario
         val editor = sharedPreferences.edit()
         editor.clear()
         editor.apply()
+
+        // ✅ NO limpiar las preferencias del tema
+        // Las preferencias de "app_prefs" se mantienen para conservar el tema seleccionado
 
         // Redirigir al LoginActivity
         val intent = Intent(context, LoginActivity::class.java)

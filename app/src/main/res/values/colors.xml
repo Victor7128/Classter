@@ -1,33 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- ============================================ -->
+    <!-- COLORES PRINCIPALES - LIGHT MODE -->
+    <!-- ============================================ -->
+
+    <!-- Primarios -->
     <color name="primaryColor">#2196F3</color>
     <color name="primaryDark">#1565C0</color>
+    <color name="primaryLight">#E3F2FD</color>
+
+    <!-- Secundarios -->
     <color name="secondaryColor">#43A047</color>
+    <color name="secondaryDark">#2E7D32</color>
+    <color name="secondaryLight">#E8F5E9</color>
+
+    <!-- Acentos -->
     <color name="accentColor">#FF9800</color>
     <color name="purple_500">#9C27B0</color>
-    <color name="white">#FFFFFF</color>
 
-    <!-- Colores existentes -->
+    <!-- Backgrounds -->
+    <color name="background_primary">#F5F5F5</color>
+    <color name="background_secondary">#FFFFFF</color>
+    <color name="background_tertiary">#FAFAFA</color>
+
+    <!-- Superficies (Cards, Dialogs) -->
+    <color name="surface">#FFFFFF</color>
+    <color name="surface_variant">#F5F5F5</color>
+
+    <!-- Textos -->
+    <color name="text_primary">#212121</color>
+    <color name="text_secondary">#666666</color>
+    <color name="text_hint">#999999</color>
+    <color name="text_disabled">#BDBDBD</color>
+
+    <!-- Dividers y Borders -->
+    <color name="divider">#E0E0E0</color>
+    <color name="border">#BDBDBD</color>
+
+    <!-- Colores para evaluación -->
+    <color name="evaluation_ad">#4CAF50</color>
+    <color name="evaluation_a">#2196F3</color>
+    <color name="evaluation_b">#FF9800</color>
+    <color name="evaluation_c">#F44336</color>
+    <color name="evaluation_none">#9E9E9E</color>
+
+    <!-- Estados -->
+    <color name="error">#F44336</color>
+    <color name="success">#4CAF50</color>
+    <color name="warning">#FF9800</color>
+    <color name="info">#2196F3</color>
+
+    <!-- Colores fijos (no cambian con el tema) -->
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="transparent">#00000000</color>
+
+    <!-- Overlays -->
+    <color name="overlay_light">#1A000000</color>
+    <color name="overlay_medium">#4D000000</color>
+    <color name="overlay_dark">#80000000</color>
+
+    <!-- Legacy colors (mantener compatibilidad) -->
     <color name="colorPrimary">#1976D2</color>
     <color name="colorPrimaryVariant">#1565C0</color>
     <color name="colorPrimaryDark">#0D47A1</color>
     <color name="colorSecondary">#03DAC6</color>
-
-    <!-- Colores para evaluación -->
-    <color name="evaluation_ad">#4CAF50</color>  <!-- Verde -->
-    <color name="evaluation_a">#2196F3</color>   <!-- Azul -->
-    <color name="evaluation_b">#FF9800</color>   <!-- Naranja -->
-    <color name="evaluation_c">#F44336</color>   <!-- Rojo -->
-    <color name="evaluation_none">#9E9E9E</color> <!-- Gris -->
-
-    <color name="observation_active">#FF9800</color>
-    <color name="observation_inactive">#CCCCCC</color>
-    <color name="promedio_background">#E3F2FD</color>
-    <color name="promedio_final_background">#FFF3E0</color>
-    <color name="header_session">#E0E0E0</color>
-    <color name="header_competency">#C8E6C9</color>
-    <color name="header_ability">#BBDEFB</color>
-    <color name="header_criterion">#F5F5F5</color>
+    <color name="colorPrimaryLight">#E3F2FD</color>
 
     <!-- Colores de calificaciones -->
     <color name="grade_ad_bg">#C8E6C9</color>
@@ -39,11 +77,15 @@
     <color name="grade_c_bg">#FFCDD2</color>
     <color name="grade_c_text">#C62828</color>
 
-    <!-- ⭐ NUEVOS COLORES DE TEXTO (Agregar estos) -->
-    <color name="text_primary">#333333</color>
-    <color name="text_secondary">#666666</color>
-    <color name="text_hint">#999999</color>
-    <color name="text_disabled">#CCCCCC</color>
-    <color name="black">#000000</color>
-    <color name="colorPrimaryLight">#E3F2FD</color>
+    <!-- Headers -->
+    <color name="header_session">#E0E0E0</color>
+    <color name="header_competency">#C8E6C9</color>
+    <color name="header_ability">#BBDEFB</color>
+    <color name="header_criterion">#F5F5F5</color>
+
+    <!-- Observaciones -->
+    <color name="observation_active">#FF9800</color>
+    <color name="observation_inactive">#CCCCCC</color>
+    <color name="promedio_background">#E3F2FD</color>
+    <color name="promedio_final_background">#FFF3E0</color>
 </resources>

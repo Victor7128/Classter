@@ -6,71 +6,136 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F5F5F5"
+    android:background="@color/background_primary"
     tools:context=".MainActivity">
 
     <!-- Toolbar/Header -->
-
-    <!-- Botón de menú de usuario - CON ELEVACIÓN MAYOR -->
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
         android:layout_width="0dp"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/primaryColor"
-        android:elevation="4dp"
+        android:background="@drawable/bg_toolbar_gradient"
+        android:elevation="8dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:title="Dashboard Docente"
-        app:titleTextColor="@android:color/white" />
+        app:titleTextAppearance="@style/ToolbarTitleStyle"
+        app:titleTextColor="@color/white">
 
-    <ImageButton
-        android:id="@+id/ibUserMenu"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:src="@drawable/ic_user"
-        android:background="?attr/selectableItemBackgroundBorderless"
-        android:contentDescription="Menú de usuario"
-        android:layout_marginEnd="16dp"
-        android:elevation="8dp"
+        <ImageView
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_gravity="start"
+            android:src="@drawable/ic_school"
+            app:tint="@color/white"
+            android:contentDescription="Logo" />
+
+    </com.google.android.material.appbar.MaterialToolbar>
+
+    <!-- Botón de usuario -->
+    <FrameLayout
+        android:id="@+id/cardUserMenu"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginEnd="12dp"
+        android:background="@drawable/bg_user_button_circle"
+        android:elevation="12dp"
         app:layout_constraintTop_toTopOf="@id/toolbar"
         app:layout_constraintBottom_toBottomOf="@id/toolbar"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:tint="@android:color/white" />
+        app:layout_constraintEnd_toEndOf="parent">
 
-    <!-- RecyclerView para los bimestres -->
+        <ImageButton
+            android:id="@+id/ibUserMenu"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Menú de usuario"
+            android:padding="10dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_user_enhanced" />
+
+    </FrameLayout>
+
+    <!-- Título de sección -->
+    <LinearLayout
+        android:id="@+id/layoutSectionTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:paddingTop="16dp"
+        android:paddingBottom="12dp"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <View
+            android:layout_width="4dp"
+            android:layout_height="24dp"
+            android:background="@drawable/bg_accent_bar"
+            android:layout_marginEnd="12dp" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Bimestres Académicos"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="@color/text_primary"
+            android:fontFamily="sans-serif-medium" />
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_calendar"
+            app:tint="@color/primaryColor"
+            android:alpha="0.7"
+            android:contentDescription="Calendario" />
+
+    </LinearLayout>
+
+    <!-- RecyclerView -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewBimesters"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:padding="8dp"
+        android:padding="12dp"
         android:clipToPadding="false"
-        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        android:scrollbars="vertical"
+        android:fadeScrollbars="true"
+        android:scrollbarStyle="outsideOverlay"
+        android:overScrollMode="never"
+        app:layout_constraintTop_toBottomOf="@id/layoutSectionTitle"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         tools:listitem="@layout/item_bimester" />
 
-    <!-- ProgressBar para carga -->
+    <!-- ProgressBar -->
     <ProgressBar
         android:id="@+id/progressBar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
         android:visibility="gone"
+        android:indeterminateTint="@color/primaryColor"
+        android:elevation="8dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- TextView para estado vacío -->
+    <!-- Estado vacío -->
     <TextView
         android:id="@+id/tvEmptyState"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="No hay bimestres disponibles"
         android:textSize="16sp"
-        android:textColor="@android:color/darker_gray"
+        android:textColor="@color/text_secondary"
         android:visibility="gone"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"

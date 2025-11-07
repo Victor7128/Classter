@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- ============================================ -->
+    <!-- COLORES PRINCIPALES - DARK MODE -->
+    <!-- ============================================ -->
+
+    <!-- Primarios (más brillantes en dark mode) -->
+    <color name="primaryColor">#64B5F6</color>
+    <color name="primaryDark">#42A5F5</color>
+    <color name="primaryLight">#1E3A5F</color>
+
+    <!-- Secundarios (más brillantes en dark mode) -->
+    <color name="secondaryColor">#66BB6A</color>
+    <color name="secondaryDark">#4CAF50</color>
+    <color name="secondaryLight">#1B3A1D</color>
+
+    <!-- Acentos -->
+    <color name="accentColor">#FFB74D</color>
+    <color name="purple_500">#BA68C8</color>
+
+    <!-- Backgrounds (oscuros) -->
+    <color name="background_primary">#121212</color>
+    <color name="background_secondary">#1E1E1E</color>
+    <color name="background_tertiary">#2C2C2C</color>
+
+    <!-- Superficies (Cards, Dialogs) -->
+    <color name="surface">#1E1E1E</color>
+    <color name="surface_variant">#2C2C2C</color>
+
+    <!-- Textos (claros) -->
+    <color name="text_primary">#E0E0E0</color>
+    <color name="text_secondary">#B0B0B0</color>
+    <color name="text_hint">#757575</color>
+    <color name="text_disabled">#616161</color>
+
+    <!-- Dividers y Borders (más oscuros) -->
+    <color name="divider">#3D3D3D</color>
+    <color name="border">#4D4D4D</color>
+
+    <!-- Colores para evaluación (ajustados para dark mode) -->
+    <color name="evaluation_ad">#66BB6A</color>
+    <color name="evaluation_a">#64B5F6</color>
+    <color name="evaluation_b">#FFB74D</color>
+    <color name="evaluation_c">#EF5350</color>
+    <color name="evaluation_none">#757575</color>
+
+    <!-- Estados -->
+    <color name="error">#EF5350</color>
+    <color name="success">#66BB6A</color>
+    <color name="warning">#FFB74D</color>
+    <color name="info">#64B5F6</color>
+
+    <!-- Colores fijos (no cambian) -->
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="transparent">#00000000</color>
+
+    <!-- Overlays (para dark mode) -->
+    <color name="overlay_light">#1AFFFFFF</color>
+    <color name="overlay_medium">#4DFFFFFF</color>
+    <color name="overlay_dark">#80FFFFFF</color>
+
+    <!-- Legacy colors adaptados -->
+    <color name="colorPrimary">#64B5F6</color>
+    <color name="colorPrimaryVariant">#42A5F5</color>
+    <color name="colorPrimaryDark">#2196F3</color>
+    <color name="colorSecondary">#26C6DA</color>
+    <color name="colorPrimaryLight">#1E3A5F</color>
+
+    <!-- Colores de calificaciones (dark mode) -->
+    <color name="grade_ad_bg">#2E5D32</color>
+    <color name="grade_ad_text">#81C784</color>
+    <color name="grade_a_bg">#1E3A5F</color>
+    <color name="grade_a_text">#90CAF9</color>
+    <color name="grade_b_bg">#4D3319</color>
+    <color name="grade_b_text">#FFCC80</color>
+    <color name="grade_c_bg">#4D2626</color>
+    <color name="grade_c_text">#EF9A9A</color>
+
+    <!-- Headers (dark mode) -->
+    <color name="header_session">#3D3D3D</color>
+    <color name="header_competency">#2E5D32</color>
+    <color name="header_ability">#1E3A5F</color>
+    <color name="header_criterion">#2C2C2C</color>
+
+    <!-- Observaciones -->
+    <color name="observation_active">#FFB74D</color>
+    <color name="observation_inactive">#616161</color>
+    <color name="promedio_background">#1E3A5F</color>
+    <color name="promedio_final_background">#4D3319</color>
+</resources>
