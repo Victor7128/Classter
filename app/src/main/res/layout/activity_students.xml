@@ -2,94 +2,214 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/background_primary"
+    tools:context=".StudentsActivity">
 
+    <!-- AppBarLayout con Header -->
     <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:elevation="8dp"
+        android:background="@drawable/bg_toolbar_gradient">
 
+        <!-- Toolbar -->
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+            android:background="@android:color/transparent"
+            app:title="Estudiantes"
+            app:titleTextAppearance="@style/ToolbarTitleStyle"
+            app:titleTextColor="@color/white"
+            app:navigationIcon="@drawable/ic_back"
+            app:navigationIconTint="@color/white" />
 
-    </com.google.android.material.appbar.AppBarLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-        <!-- Información de la sección -->
+        <!-- Header Card con info de la sección -->
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
-            app:cardCornerRadius="8dp"
-            app:cardElevation="2dp">
+            app:cardCornerRadius="16dp"
+            app:cardElevation="6dp"
+            app:cardBackgroundColor="@color/surface">
 
-            <TextView
-                android:id="@+id/tvSectionInfo"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="16dp"
-                android:text="II Bimestre - 3° - Sección A"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                android:textColor="@android:color/black"
-                android:gravity="center" />
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <!-- Título de sección -->
+                <TextView
+                    android:id="@+id/tvSectionInfo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="II Bimestre - 3° - Sección A"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/text_primary"
+                    android:fontFamily="sans-serif-medium"
+                    android:gravity="center" />
+
+                <!-- Contador de estudiantes -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center"
+                    android:layout_marginTop="12dp">
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/ic_students"
+                        app:tint="@color/primaryColor"
+                        android:contentDescription="Estudiantes" />
+
+                    <TextView
+                        android:id="@+id/tvStudentCount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0 estudiantes"
+                        android:textSize="14sp"
+                        android:textColor="@color/text_secondary"
+                        android:layout_marginStart="8dp"
+                        android:fontFamily="sans-serif-medium" />
+
+                </LinearLayout>
+
+            </LinearLayout>
 
         </com.google.android.material.card.MaterialCardView>
 
-        <!-- Lista de estudiantes -->
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <!-- Contenido principal -->
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1">
+            android:layout_height="wrap_content">
 
+            <!-- Lista de estudiantes -->
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerViewStudents"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:padding="8dp"
-                android:clipToPadding="false" />
+                android:layout_height="wrap_content"
+                android:padding="12dp"
+                android:clipToPadding="false"
+                tools:listitem="@layout/item_student" />
 
-            <TextView
-                android:id="@+id/tvEmptyState"
+            <!-- Estado vacío mejorado -->
+            <LinearLayout
+                android:id="@+id/layoutEmptyState"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="No hay estudiantes en esta sección.\nAgrega uno con el botón +"
-                android:textSize="16sp"
-                android:textColor="@android:color/darker_gray"
+                android:orientation="vertical"
                 android:gravity="center"
-                android:visibility="gone" />
+                android:padding="32dp"
+                android:visibility="gone"
+                tools:visibility="visible">
 
-            <ProgressBar
-                android:id="@+id/progressBar"
+                <!-- Icono grande -->
+                <ImageView
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    android:src="@drawable/ic_empty_students"
+                    app:tint="@color/text_hint"
+                    android:alpha="0.5"
+                    android:contentDescription="Sin estudiantes" />
+
+                <!-- Texto principal -->
+                <TextView
+                    android:id="@+id/tvEmptyState"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="No hay estudiantes"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/text_secondary"
+                    android:layout_marginTop="16dp"
+                    android:fontFamily="sans-serif-medium" />
+
+                <!-- Texto secundario -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Agrega estudiantes con el botón +"
+                    android:textSize="14sp"
+                    android:textColor="@color/text_hint"
+                    android:layout_marginTop="8dp"
+                    android:gravity="center" />
+
+                <!-- Botón de acción alternativo -->
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnEmptyAddStudent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Agregar Estudiante"
+                    android:layout_marginTop="24dp"
+                    app:icon="@drawable/ic_add"
+                    app:iconGravity="textStart"
+                    app:cornerRadius="12dp"
+                    style="@style/Widget.Material3.Button" />
+
+            </LinearLayout>
+
+            <!-- Progress Bar mejorado -->
+            <LinearLayout
+                android:id="@+id/layoutLoading"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:visibility="gone" />
+                android:orientation="vertical"
+                android:gravity="center"
+                android:visibility="gone"
+                tools:visibility="gone">
+
+                <ProgressBar
+                    android:id="@+id/progressBar"
+                    android:layout_width="56dp"
+                    android:layout_height="56dp"
+                    android:indeterminateTint="@color/primaryColor" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Cargando estudiantes..."
+                    android:textSize="14sp"
+                    android:textColor="@color/text_secondary"
+                    android:layout_marginTop="16dp"
+                    android:fontFamily="sans-serif-medium" />
+
+            </LinearLayout>
 
         </FrameLayout>
 
-    </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
 
-    <!-- Botón flotante para agregar -->
+    <!-- FAB mejorado con gradiente -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabAddStudent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
-        android:layout_margin="16dp"
-        android:src="@drawable/ic_add"
+        android:layout_margin="24dp"
+        android:src="@drawable/ic_add_enhanced"
         android:contentDescription="Agregar estudiante"
-        app:tint="@android:color/white" />
+        app:backgroundTint="@color/accentColor"
+        app:tint="@color/white"
+        app:elevation="8dp"
+        app:hoveredFocusedTranslationZ="12dp"
+        app:pressedTranslationZ="16dp" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

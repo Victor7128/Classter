@@ -6,6 +6,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
+import android.view.View
 import android.view.MenuItem
 import android.widget.ProgressBar
 import android.widget.TextView
@@ -163,6 +164,12 @@ class StudentsActivity : AppCompatActivity() {
         fabAddStudent.setOnClickListener {
             showAddStudentDialog()
         }
+
+        // ✅ NUEVO: Botón de agregar en empty state
+        val btnEmptyAddStudent = findViewById<View>(R.id.btnEmptyAddStudent)
+        btnEmptyAddStudent?.setOnClickListener {
+            showAddStudentDialog()
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -194,18 +201,41 @@ class StudentsActivity : AppCompatActivity() {
 
     // ✅ ACTUALIZADO: Usar getStudents() con corrutinas
     private fun loadStudents() {
-        progressBar.visibility = ProgressBar.VISIBLE
+        // ✅ Mostrar loading
+        val layoutLoading = findViewById<View>(R.id.layoutLoading)
+        if (layoutLoading != null) {
+            layoutLoading.visibility = View.VISIBLE
+        } else {
+            progressBar.visibility = ProgressBar.VISIBLE
+        }
+
+        // Ocultar empty state
+        val layoutEmpty = findViewById<View>(R.id.layoutEmptyState)
+        layoutEmpty?.visibility = View.GONE
         tvEmptyState.visibility = TextView.GONE
 
         lifecycleScope.launch {
             try {
                 val students = RetrofitClient.apiService.getStudents(sectionId)
                 updateStudentsList(students)
-                progressBar.visibility = ProgressBar.GONE
+
+                // ✅ Ocultar loading
+                if (layoutLoading != null) {
+                    layoutLoading.visibility = View.GONE
+                } else {
+                    progressBar.visibility = ProgressBar.GONE
+                }
 
             } catch (e: Exception) {
                 Log.e(TAG, "Error loading students", e)
-                progressBar.visibility = ProgressBar.GONE
+
+                // ✅ Ocultar loading
+                if (layoutLoading != null) {
+                    layoutLoading.visibility = View.GONE
+                } else {
+                    progressBar.visibility = ProgressBar.GONE
+                }
+
                 Toast.makeText(
                     this@StudentsActivity,
                     "Error al cargar estudiantes: ${e.message}",
@@ -220,12 +250,34 @@ class StudentsActivity : AppCompatActivity() {
         studentsList.addAll(students)
         adapter.notifyDataSetChanged()
 
+        // ✅ CORREGIDO: Actualizar contador
+        val tvStudentCount = findViewById<TextView>(R.id.tvStudentCount)
+        tvStudentCount?.text = "${students.size} ${if (students.size == 1) "estudiante" else "estudiantes"}"
+
+        // ✅ CORREGIDO: Manejar estados visuales
         if (students.isEmpty()) {
-            tvEmptyState.visibility = TextView.VISIBLE
+            // Ocultar RecyclerView
             rvStudents.visibility = RecyclerView.GONE
+
+            // Mostrar empty state (usa el ID correcto del nuevo layout)
+            val layoutEmpty = findViewById<View>(R.id.layoutEmptyState)
+            if (layoutEmpty != null) {
+                layoutEmpty.visibility = View.VISIBLE
+            } else {
+                // Si no existe layoutEmptyState, usar el TextView antiguo
+                tvEmptyState.visibility = TextView.VISIBLE
+            }
         } else {
-            tvEmptyState.visibility = TextView.GONE
+            // Mostrar RecyclerView
             rvStudents.visibility = RecyclerView.VISIBLE
+
+            // Ocultar empty state
+            val layoutEmpty = findViewById<View>(R.id.layoutEmptyState)
+            if (layoutEmpty != null) {
+                layoutEmpty.visibility = View.GONE
+            } else {
+                tvEmptyState.visibility = TextView.GONE
+            }
         }
     }
 

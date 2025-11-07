@@ -17,6 +17,8 @@ class StudentAdapter(
 
     inner class StudentViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val tvStudentName: TextView = view.findViewById(R.id.tvStudentName)
+        val tvStudentInitial: TextView? = view.findViewById(R.id.tvStudentInitial)
+        val tvStudentNumber: TextView? = view.findViewById(R.id.tvStudentNumber)
         val btnEditStudent: ImageButton = view.findViewById(R.id.btnEditStudent)
         val btnDeleteStudent: ImageButton = view.findViewById(R.id.btnDeleteStudent)
     }
@@ -30,6 +32,12 @@ class StudentAdapter(
     override fun onBindViewHolder(holder: StudentViewHolder, position: Int) {
         val student = students[position]
         holder.tvStudentName.text = student.full_name
+
+        // ✅ NUEVO: Configurar inicial del avatar
+        holder.tvStudentInitial?.text = student.full_name.firstOrNull()?.uppercase() ?: "?"
+
+        // ✅ NUEVO: Configurar número de orden
+        holder.tvStudentNumber?.text = "#${position + 1}"
 
         holder.btnEditStudent.setOnClickListener {
             onEditStudent(student)
@@ -48,6 +56,8 @@ class StudentAdapter(
         if (position != -1) {
             students.removeAt(position)
             notifyItemRemoved(position)
+            // ✅ NUEVO: Actualizar números después de eliminar
+            notifyItemRangeChanged(position, students.size - position)
         }
     }
 
@@ -56,6 +66,8 @@ class StudentAdapter(
         students.sortBy { it.full_name }
         val position = students.indexOfFirst { it.id == student.id }
         notifyItemInserted(position)
+        // ✅ NUEVO: Actualizar números después de agregar
+        notifyItemRangeChanged(position, students.size - position)
     }
 
     fun updateStudent(student: Student) {

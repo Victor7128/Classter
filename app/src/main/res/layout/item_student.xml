@@ -2,55 +2,165 @@
 <com.google.android.material.card.MaterialCardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp"
-    app:cardElevation="2dp"
-    app:cardCornerRadius="8dp">
+    android:layout_marginStart="8dp"
+    android:layout_marginEnd="8dp"
+    android:layout_marginTop="6dp"
+    android:layout_marginBottom="6dp"
+    app:cardElevation="3dp"
+    app:cardCornerRadius="14dp"
+    app:cardBackgroundColor="@color/surface">
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="16dp"
-        android:gravity="center_vertical">
+        android:padding="16dp">
 
-        <!-- Nombre del estudiante -->
-        <TextView
-            android:id="@+id/tvStudentName"
+        <!-- Avatar circular con inicial -->
+        <FrameLayout
+            android:id="@+id/frameAvatar"
+            android:layout_width="52dp"
+            android:layout_height="52dp"
+            android:background="@drawable/bg_student_avatar"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <TextView
+                android:id="@+id/tvStudentInitial"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="A"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                android:gravity="center"
+                android:fontFamily="sans-serif-black" />
+
+        </FrameLayout>
+
+        <!-- Contenido del estudiante -->
+        <LinearLayout
+            android:id="@+id/layoutStudentInfo"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Nombre del Estudiante"
-            android:textSize="16sp"
-            android:textColor="@android:color/black"
-            android:textStyle="bold"
-            android:maxLines="2"
-            android:ellipsize="end" />
-
-        <!-- Botón de editar -->
-        <ImageButton
-            android:id="@+id/btnEditStudent"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:orientation="vertical"
+            android:layout_marginStart="16dp"
             android:layout_marginEnd="8dp"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:src="@drawable/ic_edit"
-            android:contentDescription="Editar estudiante"
-            android:scaleType="centerInside"
-            app:tint="#1976D2" />
+            app:layout_constraintStart_toEndOf="@id/frameAvatar"
+            app:layout_constraintEnd_toStartOf="@id/layoutActions"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent">
 
-        <!-- Botón de eliminar -->
-        <ImageButton
-            android:id="@+id/btnDeleteStudent"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:src="@drawable/ic_delete"
-            android:contentDescription="Eliminar estudiante"
-            android:scaleType="centerInside"
-            app:tint="#F44336" />
+            <!-- Número de orden -->
+            <TextView
+                android:id="@+id/tvStudentNumber"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1"
+                android:textSize="11sp"
+                android:textColor="@color/text_hint"
+                android:textAllCaps="true"
+                android:letterSpacing="0.1"
+                tools:text="#1" />
 
-    </LinearLayout>
+            <!-- Nombre del estudiante -->
+            <TextView
+                android:id="@+id/tvStudentName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="García López, Juan Carlos"
+                android:textSize="16sp"
+                android:textColor="@color/text_primary"
+                android:textStyle="bold"
+                android:maxLines="2"
+                android:ellipsize="end"
+                android:layout_marginTop="2dp"
+                android:fontFamily="sans-serif-medium"
+                tools:text="García López, Juan Carlos" />
+
+            <!-- Info adicional (código, estado, etc.) -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="4dp"
+                android:gravity="center_vertical">
+
+                <ImageView
+                    android:layout_width="14dp"
+                    android:layout_height="14dp"
+                    android:src="@drawable/ic_check_circle"
+                    app:tint="@color/secondaryColor"
+                    android:contentDescription="Estado" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Activo"
+                    android:textSize="12sp"
+                    android:textColor="@color/secondaryColor"
+                    android:layout_marginStart="4dp"
+                    android:fontFamily="sans-serif-medium" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <!-- Acciones -->
+        <LinearLayout
+            android:id="@+id/layoutActions"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <!-- Botón Editar -->
+            <FrameLayout
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/bg_action_button_blue"
+                android:layout_marginEnd="8dp">
+
+                <ImageButton
+                    android:id="@+id/btnEditStudent"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:src="@drawable/ic_edit_enhanced"
+                    android:contentDescription="Editar estudiante"
+                    android:scaleType="centerInside"
+                    android:padding="8dp"
+                    app:tint="@color/primaryColor" />
+
+            </FrameLayout>
+
+            <!-- Botón Eliminar -->
+            <FrameLayout
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/bg_action_button_red">
+
+                <ImageButton
+                    android:id="@+id/btnDeleteStudent"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:src="@drawable/ic_delete_enhanced"
+                    android:contentDescription="Eliminar estudiante"
+                    android:scaleType="centerInside"
+                    android:padding="8dp"
+                    app:tint="@color/error" />
+
+            </FrameLayout>
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </com.google.android.material.card.MaterialCardView>
