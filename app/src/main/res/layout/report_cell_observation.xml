@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="30dp"
+    android:layout_height="60dp"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:background="#FFF8E1">
+
+    <ImageView
+        android:id="@+id/ivObservation"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:src="@drawable/ic_note_empty"
+        android:contentDescription="Observación"
+        android:clickable="true"
+        android:focusable="true"
+        android:background="?android:attr/selectableItemBackgroundBorderless" />
+
+</LinearLayout>

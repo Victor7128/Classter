@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Selecciona las capacidades del Currículo Nacional"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:textColor="@android:color/black"
+        android:layout_marginBottom="8dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Las capacidades son recursos para actuar de manera competente. Estos recursos son los conocimientos, habilidades y actitudes que los estudiantes utilizan para afrontar una situación determinada."
+        android:textSize="14sp"
+        android:textColor="@android:color/darker_gray"
+        android:layout_marginBottom="16dp" />
+
+    <!-- Área de selección múltiple -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Capacidades disponibles:"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="8dp" />
+
+    <!-- Mensaje informativo -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="✓ Puedes seleccionar múltiples capacidades\n✓ Solo se agregarán las que no existan"
+        android:textSize="12sp"
+        android:textColor="@android:color/darker_gray"
+        android:background="#F0F8FF"
+        android:padding="8dp"
+        android:layout_marginBottom="16dp" />
+
+</LinearLayout>

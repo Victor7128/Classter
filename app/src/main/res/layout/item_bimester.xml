@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="2dp"
+    app:strokeWidth="0dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- Header del Bimestre -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layoutBimesterHeader"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true">
+
+            <ImageView
+                android:id="@+id/ivExpandIcon"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_expand_more"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:tint="@color/primaryColor" />
+
+            <TextView
+                android:id="@+id/tvBimesterName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="III Bimestre"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@android:color/black"
+                android:layout_marginStart="12dp"
+                app:layout_constraintStart_toEndOf="@id/ivExpandIcon"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!-- Contenedor de Grados (expandible) -->
+        <LinearLayout
+            android:id="@+id/layoutGradesContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:paddingBottom="8dp">
+
+            <!-- RecyclerView para grados -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerViewGrades"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:nestedScrollingEnabled="false" />
+
+            <!-- Botón para agregar grado -->
+            <Button
+                android:id="@+id/btnAddGrade"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="+ Agregar Grado"
+                android:textColor="@color/primaryColor"
+                android:background="@drawable/bg_button_outline"
+                android:layout_marginTop="8dp"
+                style="?attr/materialButtonOutlinedStyle" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</com.google.android.material.card.MaterialCardView>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/tvTitle"
+    android:layout_width="match_parent"
+    android:layout_height="40dp"
+    android:text="Sesión"
+    android:textSize="14sp"
+    android:textStyle="bold"
+    android:textColor="#333333"
+    android:gravity="center"
+    android:background="#E0E0E0"
+    android:padding="8dp"
+    android:maxLines="2"
+    android:ellipsize="end" />

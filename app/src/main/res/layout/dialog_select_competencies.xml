@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <!-- MOSTRAR ÁREA AUTOMÁTICA DEL DOCENTE -->
+    <TextView
+        android:id="@+id/tvAreaInfo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:text="Área: Cargando..."
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:background="#E8F5E8"
+        android:padding="12dp"
+        android:gravity="center" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Agregar Competencias del Currículo Nacional"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:textColor="@android:color/black"
+        android:layout_marginBottom="8dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Selecciona las competencias que trabajarás en esta sesión de aprendizaje."
+        android:textSize="14sp"
+        android:textColor="@android:color/darker_gray"
+        android:layout_marginBottom="16dp" />
+
+    <!-- Lista de competencias con scroll -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Competencias disponibles:"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="8dp" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvCompetenciasDialog"
+        android:layout_width="match_parent"
+        android:layout_height="350dp"
+        android:background="#FAFAFA"
+        android:padding="8dp" />
+
+    <!-- Información adicional -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="💡 Las competencias se filtran automáticamente por tu área curricular."
+        android:textSize="12sp"
+        android:textColor="@android:color/darker_gray"
+        android:background="#F0F8FF"
+        android:padding="8dp"
+        android:drawablePadding="8dp" />
+
+</LinearLayout>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/column_header_textview"
+    android:layout_width="220dp"
+    android:layout_height="80dp"
+    android:background="#BBDEFB"
+    android:gravity="center"
+    android:padding="8dp"
+    android:text="Criterio"
+    android:textColor="#0D47A1"
+    android:textSize="12sp"
+    android:textStyle="bold"
+    android:maxLines="3"
+    android:lineSpacingExtra="2dp"
+    android:ellipsize="end" />

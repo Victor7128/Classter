@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "17638515197",
+    "project_id": "classter-ab3ea",
+    "storage_bucket": "classter-ab3ea.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:17638515197:android:36e3597db913778997b994",
+        "android_client_info": {
+          "package_name": "com.evalua.classter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "17638515197-c9e7qnrp9a3l50mvbsk6a4dqafots8f3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD2cWcXUcpJbKRCVVjjRSU3bFIIlg0uwtM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "17638515197-c9e7qnrp9a3l50mvbsk6a4dqafots8f3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

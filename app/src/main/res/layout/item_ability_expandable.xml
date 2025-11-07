@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="4dp"
+    app:cardElevation="1dp"
+    app:cardCornerRadius="6dp"
+    app:cardBackgroundColor="#FFFFFF">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- Header de la capacidad -->
+        <LinearLayout
+            android:id="@+id/layoutAbilityHeader"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="12dp"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true">
+
+            <!-- Icono de expansión -->
+            <ImageView
+                android:id="@+id/ivAbilityExpandIcon"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/ic_expand_more"
+                android:layout_marginEnd="8dp"
+                android:layout_gravity="center_vertical" />
+
+            <!-- Información de la capacidad -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tvAbilityName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Traduce cantidades a expresiones numéricas"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:textColor="@android:color/black" />
+
+                <TextView
+                    android:id="@+id/tvAbilityDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:text="Capacidad de la competencia"
+                    android:textSize="12sp"
+                    android:textColor="@android:color/darker_gray"
+                    android:visibility="gone" />
+            </LinearLayout>
+
+            <!-- Botón de opciones -->
+            <ImageButton
+                android:id="@+id/btnAbilityOptions"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:src="@drawable/ic_more_vert"
+                android:contentDescription="Opciones"
+                android:scaleType="center" />
+        </LinearLayout>
+
+        <!-- Contenido expandible de criterios -->
+        <LinearLayout
+            android:id="@+id/layoutAbilityExpandedContent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone"
+            android:background="#FAFAFA"
+            android:paddingStart="16dp"
+            android:paddingEnd="8dp">
+
+            <!-- Botón agregar criterio -->
+            <LinearLayout
+                android:id="@+id/layoutAgregarCriterio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="12dp"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true">
+
+                <TextView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:background="@drawable/circle_background_purple"
+                    android:gravity="center"
+                    android:text="+"
+                    android:textSize="12sp"
+                    android:textColor="@android:color/white"
+                    android:layout_marginEnd="8dp" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_gravity="center_vertical"
+                    android:text="Crear Criterio de Evaluación"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <!-- Lista de criterios -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvCriteria"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="8dp" />
+        </LinearLayout>
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>

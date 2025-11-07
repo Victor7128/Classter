@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="220dp"
+    android:layout_height="80dp"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:background="@android:color/white"
+    android:padding="8dp">
+
+    <!-- Spinner -->
+    <Spinner
+        android:id="@+id/spinnerGrade"
+        android:layout_width="140dp"
+        android:layout_height="38dp"
+        android:layout_gravity="center"
+        android:background="@drawable/grade_spinner_simple"
+        android:dropDownWidth="130dp" />
+
+    <!-- Indicador de observación -->
+    <TextView
+        android:id="@+id/btnObservation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="4dp"
+        android:text="💭"
+        android:textSize="12sp"
+        android:background="@drawable/observation_btn_simple"
+        android:padding="4dp"
+        android:clickable="true"
+        android:focusable="true" />
+
+</LinearLayout>

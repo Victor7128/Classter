@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/action_import_manual"
+        android:title="Importar lista"
+        android:icon="@drawable/ic_edit"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/action_import_txt"
+        android:title="Importar TXT"
+        android:icon="@drawable/ic_text_file"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/action_import_csv"
+        android:title="Importar CSV"
+        android:icon="@drawable/ic_upload"
+        app:showAsAction="ifRoom" />
+
+</menu>

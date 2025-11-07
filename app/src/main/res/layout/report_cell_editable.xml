@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="90dp"
+    android:layout_height="60dp"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:background="#E3F2FD">
+
+    <EditText
+        android:id="@+id/etGrade"
+        android:layout_width="70dp"
+        android:layout_height="40dp"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        android:textColor="#1565C0"
+        android:gravity="center"
+        android:background="@drawable/editable_cell_background"
+        android:inputType="text"
+        android:maxLength="2"
+        android:hint="Prom." />
+
+</LinearLayout>

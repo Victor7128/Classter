@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="8dp"
+    android:layout_marginBottom="4dp"
+    app:cardCornerRadius="6dp"
+    app:cardElevation="1dp"
+    app:cardBackgroundColor="#FAFAFA"
+    app:strokeWidth="1dp"
+    app:strokeColor="#E0E0E0">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- Header del Grado -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layoutGradeHeader"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="12dp"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true">
+
+            <ImageView
+                android:id="@+id/ivGradeExpandIcon"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/ic_expand_more"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:tint="@color/secondaryColor" />
+
+            <TextView
+                android:id="@+id/tvGradeNumber"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="3°"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="@android:color/black"
+                android:layout_marginStart="8dp"
+                app:layout_constraintStart_toEndOf="@id/ivGradeExpandIcon"
+                app:layout_constraintEnd_toStartOf="@id/btnDeleteGrade"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent" />
+
+            <ImageButton
+                android:id="@+id/btnDeleteGrade"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:src="@drawable/ic_delete"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="Eliminar grado"
+                android:padding="6dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:tint="#E53935" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!-- Contenedor de Secciones (expandible) -->
+        <LinearLayout
+            android:id="@+id/layoutSectionsContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            android:paddingBottom="8dp">
+
+            <!-- RecyclerView para secciones -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerViewSections"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:nestedScrollingEnabled="false" />
+
+            <!-- Botón para agregar sección -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnAddSection"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="+ Agregar Sección"
+                android:textColor="@color/secondaryColor"
+                android:textSize="14sp"
+                android:layout_marginTop="6dp"
+                style="@style/Widget.Material3.Button.OutlinedButton" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</com.google.android.material.card.MaterialCardView>

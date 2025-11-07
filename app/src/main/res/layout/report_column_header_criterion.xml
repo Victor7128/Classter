@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/tvTitle"
+    android:layout_width="90dp"
+    android:layout_height="60dp"
+    android:text="Criterio"
+    android:textSize="9sp"
+    android:textStyle="bold"
+    android:textColor="#333333"
+    android:gravity="center"
+    android:background="#F5F5F5"
+    android:padding="4dp"
+    android:maxLines="4"
+    android:ellipsize="end" />
