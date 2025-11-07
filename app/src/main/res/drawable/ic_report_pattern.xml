@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="120dp"
+    android:height="120dp"
+    android:viewportWidth="120"
+    android:viewportHeight="120">
+
+    <!-- Gráfico de barras principal -->
+    <path
+        android:fillColor="#000000"
+        android:pathData="M75,5h-54c-4,0 -7,3 -7,7v56c0,4 3,7 7,7h54c4,0 7,-3 7,-7v-56c0,-4 -3,-7 -7,-7zM35,63h-7v-28h7v28zM49,63h-7v-42h7v42zM63,63h-7v-16h7v16z" />
+
+    <!-- Gráfico circular (arriba derecha) -->
+    <path
+        android:fillColor="#000000"
+        android:pathData="M91.5,20c-11,0 -20,9 -20,20s9,20 20,20 20,-9 20,-20 -9,-20 -20,-20zM91.5,55c-8.3,0 -15,-6.7 -15,-15s6.7,-15 15,-15 15,6.7 15,15 -6.7,15 -15,15z"
+        android:alpha="0.5" />
+    <path
+        android:fillColor="#000000"
+        android:pathData="M91.5,25v15h15c0,-8.3 -6.7,-15 -15,-15z"
+        android:alpha="0.5" />
+
+    <!-- Gráfico de líneas (abajo) -->
+    <path
+        android:fillColor="#000000"
+        android:pathData="M105,70h-90c-3,0 -5,2 -5,5v35c0,3 2,5 5,5h90c3,0 5,-2 5,-5v-35c0,-3 -2,-5 -5,-5zM100,105h-80v-25l10,5 15,-8 15,6 15,-10 15,8 10,-4v28z"
+        android:alpha="0.4" />
+
+    <!-- Decoración: puntos de datos (CIRCLES AS PATHS) -->
+    <path
+        android:fillColor="#000000"
+        android:pathData="M30,83 A2,2 0 1,1 30,87 A2,2 0 1,1 30,83 Z"
+        android:alpha="0.6" />
+    <path
+        android:fillColor="#000000"
+        android:pathData="M45,76 A2,2 0 1,1 45,80 A2,2 0 1,1 45,76 Z"
+        android:alpha="0.6" />
+    <path
+        android:fillColor="#000000"
+        android:pathData="M60,81 A2,2 0 1,1 60,85 A2,2 0 1,1 60,81 Z"
+        android:alpha="0.6" />
+    <path
+        android:fillColor="#000000"
+        android:pathData="M75,72 A2,2 0 1,1 75,76 A2,2 0 1,1 75,72 Z"
+        android:alpha="0.6" />
+    <path
+        android:fillColor="#000000"
+        android:pathData="M90,79 A2,2 0 1,1 90,83 A2,2 0 1,1 90,79 Z"
+        android:alpha="0.6" />
+
+    <!-- Decoración: iconos pequeños -->
+    <path
+        android:fillColor="#000000"
+        android:pathData="M98,10h-4v-4h-3v4h-4v3h4v4h3v-4h4z"
+        android:alpha="0.3" />
+    <path
+        android:fillColor="#000000"
+        android:pathData="M25,75h-4v-4h-3v4h-4v3h4v4h3v-4h4z"
+        android:alpha="0.3" />
+</vector>

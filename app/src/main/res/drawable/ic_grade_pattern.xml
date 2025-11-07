@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="120dp"
+    android:height="120dp"
+    android:viewportWidth="120"
+    android:viewportHeight="120">
+
+    <!-- Clipboard principal -->
+    <path
+        android:fillColor="#000000"
+        android:pathData="M75,10h-16c-1.5,-5 -6,-8.5 -11,-8.5s-9.5,3.5 -11,8.5h-16c-4,0 -7,3 -7,7v56c0,4 3,7 7,7h54c4,0 7,-3 7,-7v-56c0,-4 -3,-7 -7,-7zM48,5c2,0 3.5,1.5 3.5,3.5s-1.5,3.5 -3.5,3.5 -3.5,-1.5 -3.5,-3.5 1.5,-3.5 3.5,-3.5zM54,63h-28v-7h28v7zM65,49h-42v-7h42v7zM65,35h-42v-7h42v7z" />
+
+    <!-- Clipboard secundario (arriba derecha) -->
+    <path
+        android:fillColor="#000000"
+        android:pathData="M105,25h-8c-0.8,-2.5 -3,-4.2 -5.5,-4.2s-4.7,1.7 -5.5,4.2h-8c-2,0 -3.5,1.5 -3.5,3.5v28c0,2 1.5,3.5 3.5,3.5h27c2,0 3.5,-1.5 3.5,-3.5v-28c0,-2 -1.5,-3.5 -3.5,-3.5zM91.5,23c1,0 1.8,0.8 1.8,1.8s-0.8,1.7 -1.8,1.7 -1.7,-0.7 -1.7,-1.7 0.7,-1.8 1.7,-1.8zM94,52h-14v-3.5h14v3.5zM98,44h-21v-3.5h21v3.5zM98,36h-21v-3.5h21v3.5z"
+        android:alpha="0.6" />
+
+    <!-- Clipboard terciario (abajo izquierda) -->
+    <path
+        android:fillColor="#000000"
+        android:pathData="M40,80h-8c-0.8,-2.5 -3,-4.2 -5.5,-4.2s-4.7,1.7 -5.5,4.2h-8c-2,0 -3.5,1.5 -3.5,3.5v28c0,2 1.5,3.5 3.5,3.5h27c2,0 3.5,-1.5 3.5,-3.5v-28c0,-2 -1.5,-3.5 -3.5,-3.5zM26.5,78c1,0 1.8,0.8 1.8,1.8s-0.8,1.7 -1.8,1.7 -1.7,-0.7 -1.7,-1.7 0.7,-1.8 1.7,-1.8zM29,107h-14v-3.5h14v3.5zM33,99h-21v-3.5h21v3.5zM33,91h-21v-3.5h21v3.5z"
+        android:alpha="0.4" />
+
+    <!-- Decoración: líneas de texto -->
+    <path
+        android:fillColor="#000000"
+        android:pathData="M28,40h32v2h-32z"
+        android:alpha="0.3" />
+    <path
+        android:fillColor="#000000"
+        android:pathData="M28,46h32v2h-32z"
+        android:alpha="0.3" />
+    <path
+        android:fillColor="#000000"
+        android:pathData="M28,52h20v2h-20z"
+        android:alpha="0.3" />
+</vector>

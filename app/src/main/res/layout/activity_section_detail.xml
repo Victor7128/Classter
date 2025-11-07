@@ -2,26 +2,105 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/background_primary"
+    tools:context=".SectionDetailActivity">
 
+    <!-- AppBarLayout con Header -->
     <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:elevation="8dp"
+        android:background="@drawable/bg_toolbar_gradient">
 
+        <!-- Toolbar -->
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+            android:background="@android:color/transparent"
+            app:title="Detalles de Sección"
+            app:titleTextAppearance="@style/ToolbarTitleStyle"
+            app:titleTextColor="@color/white"
+            app:navigationIcon="@drawable/ic_back"
+            app:navigationIconTint="@color/white" />
+
+        <!-- Header Card con info de la sección -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="6dp"
+            app:cardBackgroundColor="@color/surface">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <!-- Título principal -->
+                <TextView
+                    android:id="@+id/tvSectionTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="II Bimestre - 3° - Sección A"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/text_primary"
+                    android:fontFamily="sans-serif-medium"
+                    android:gravity="center" />
+
+                <!-- Badges informativos -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center"
+                    android:layout_marginTop="12dp">
+
+                    <!-- Badge Bimestre -->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="📚 II Bimestre"
+                        android:textSize="12sp"
+                        android:textColor="@color/primaryColor"
+                        android:background="@drawable/bg_badge_blue"
+                        android:paddingHorizontal="12dp"
+                        android:paddingVertical="6dp"
+                        android:layout_marginEnd="8dp"
+                        android:fontFamily="sans-serif-medium" />
+
+                    <!-- Badge Grado -->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="🎓 3° Grado"
+                        android:textSize="12sp"
+                        android:textColor="@color/secondaryColor"
+                        android:background="@drawable/bg_badge_green"
+                        android:paddingHorizontal="12dp"
+                        android:paddingVertical="6dp"
+                        android:fontFamily="sans-serif-medium" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
 
     </com.google.android.material.appbar.AppBarLayout>
 
+    <!-- Contenido principal -->
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:fillViewport="true"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
@@ -30,208 +109,372 @@
             android:orientation="vertical"
             android:padding="16dp">
 
-            <!-- Título de la sección -->
-            <com.google.android.material.card.MaterialCardView
+            <!-- Título de sección -->
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                app:cardCornerRadius="8dp"
-                app:cardElevation="2dp">
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginBottom="16dp">
+
+                <View
+                    android:layout_width="4dp"
+                    android:layout_height="24dp"
+                    android:background="@drawable/bg_accent_bar"
+                    android:layout_marginEnd="12dp" />
 
                 <TextView
-                    android:id="@+id/tvSectionTitle"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:padding="16dp"
-                    android:text="II Bimestre 3° A"
+                    android:layout_weight="1"
+                    android:text="Gestión de Sección"
                     android:textSize="18sp"
                     android:textStyle="bold"
-                    android:textColor="@android:color/black"
-                    android:gravity="center" />
+                    android:textColor="@color/text_primary"
+                    android:fontFamily="sans-serif-medium" />
 
-            </com.google.android.material.card.MaterialCardView>
+            </LinearLayout>
 
-            <!-- Botón de Alumnos -->
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/cardStudents"
+            <!-- Grid de Cards -->
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                android:clickable="true"
-                android:focusable="true"
-                android:foreground="?attr/selectableItemBackground"
-                app:cardCornerRadius="8dp"
-                app:cardElevation="2dp">
+                android:orientation="vertical">
 
-                <LinearLayout
+                <!-- Card: Alumnos -->
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardStudents"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:padding="16dp"
-                    android:gravity="center_vertical">
+                    android:layout_marginBottom="16dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackground"
+                    app:cardCornerRadius="16dp"
+                    app:cardElevation="4dp"
+                    app:cardBackgroundColor="@color/surface">
 
-                    <ImageView
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
-                        android:src="@drawable/ic_students"
-                        android:padding="8dp"
-                        app:tint="@color/primaryColor" />
-
-                    <LinearLayout
-                        android:layout_width="0dp"
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical"
-                        android:layout_marginStart="16dp">
+                        android:padding="20dp">
 
-                        <TextView
-                            android:layout_width="wrap_content"
+                        <!-- Icono decorativo de fondo -->
+                        <ImageView
+                            android:layout_width="100dp"
+                            android:layout_height="100dp"
+                            android:src="@drawable/ic_students_pattern"
+                            android:alpha="0.05"
+                            app:tint="@color/primaryColor"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            android:contentDescription="Decoración" />
+
+                        <!-- Icono circular -->
+                        <FrameLayout
+                            android:id="@+id/iconStudents"
+                            android:layout_width="56dp"
+                            android:layout_height="56dp"
+                            android:background="@drawable/bg_icon_circle_gradient_blue"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent">
+
+                            <ImageView
+                                android:layout_width="32dp"
+                                android:layout_height="32dp"
+                                android:src="@drawable/ic_students_enhanced"
+                                android:layout_gravity="center"
+                                app:tint="@color/white"
+                                android:contentDescription="Alumnos" />
+
+                        </FrameLayout>
+
+                        <!-- Contenido -->
+                        <LinearLayout
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:text="Alumnos"
-                            android:textSize="18sp"
-                            android:textStyle="bold"
-                            android:textColor="@android:color/black" />
+                            android:orientation="vertical"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginEnd="40dp"
+                            app:layout_constraintStart_toEndOf="@id/iconStudents"
+                            app:layout_constraintEnd_toStartOf="@id/chevronStudents"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent">
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Gestionar lista de estudiantes"
-                            android:textSize="14sp"
-                            android:textColor="@android:color/darker_gray"
-                            android:layout_marginTop="4dp" />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Alumnos"
+                                android:textSize="19sp"
+                                android:textStyle="bold"
+                                android:textColor="@color/text_primary"
+                                android:fontFamily="sans-serif-medium" />
 
-                    </LinearLayout>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Gestionar lista de estudiantes"
+                                android:textSize="13sp"
+                                android:textColor="@color/text_secondary"
+                                android:layout_marginTop="4dp" />
 
-                    <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:src="@drawable/ic_chevron_right"
-                        app:tint="@android:color/darker_gray" />
+                            <!-- Badge con número -->
+                            <TextView
+                                android:id="@+id/tvStudentCount"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="25 estudiantes"
+                                android:textSize="12sp"
+                                android:textColor="@color/primaryColor"
+                                android:background="@drawable/bg_badge_count_blue"
+                                android:paddingHorizontal="10dp"
+                                android:paddingVertical="4dp"
+                                android:layout_marginTop="8dp"
+                                android:visibility="gone"
+                                android:fontFamily="sans-serif-medium" />
 
-                </LinearLayout>
+                        </LinearLayout>
 
-            </com.google.android.material.card.MaterialCardView>
+                        <!-- Chevron -->
+                        <ImageView
+                            android:id="@+id/chevronStudents"
+                            android:layout_width="28dp"
+                            android:layout_height="28dp"
+                            android:src="@drawable/ic_chevron_right"
+                            app:tint="@color/text_hint"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            android:contentDescription="Ir" />
 
-            <!-- Botón de Calificaciones (para futuro) -->
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/cardGrades"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                android:clickable="true"
-                android:focusable="true"
-                android:foreground="?attr/selectableItemBackground"
-                app:cardCornerRadius="8dp"
-                app:cardElevation="2dp">
+                    </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <LinearLayout
+                </com.google.android.material.card.MaterialCardView>
+
+                <!-- Card: Sesiones -->
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardGrades"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:padding="16dp"
-                    android:gravity="center_vertical">
+                    android:layout_marginBottom="16dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackground"
+                    app:cardCornerRadius="16dp"
+                    app:cardElevation="4dp"
+                    app:cardBackgroundColor="@color/surface">
 
-                    <ImageView
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
-                        android:src="@drawable/ic_grade"
-                        android:padding="8dp"
-                        app:tint="@color/accentColor" />
-
-                    <LinearLayout
-                        android:layout_width="0dp"
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical"
-                        android:layout_marginStart="16dp">
+                        android:padding="20dp">
 
-                        <TextView
-                            android:layout_width="wrap_content"
+                        <!-- Icono decorativo de fondo -->
+                        <ImageView
+                            android:layout_width="100dp"
+                            android:layout_height="100dp"
+                            android:src="@drawable/ic_grade_pattern"
+                            android:alpha="0.05"
+                            app:tint="@color/accentColor"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            android:contentDescription="Decoración" />
+
+                        <!-- Icono circular -->
+                        <FrameLayout
+                            android:id="@+id/iconGrades"
+                            android:layout_width="56dp"
+                            android:layout_height="56dp"
+                            android:background="@drawable/bg_icon_circle_gradient_orange"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent">
+
+                            <ImageView
+                                android:layout_width="32dp"
+                                android:layout_height="32dp"
+                                android:src="@drawable/ic_grade_enhanced"
+                                android:layout_gravity="center"
+                                app:tint="@color/white"
+                                android:contentDescription="Sesiones" />
+
+                        </FrameLayout>
+
+                        <!-- Contenido -->
+                        <LinearLayout
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:text="Sesiones"
-                            android:textSize="18sp"
-                            android:textStyle="bold"
-                            android:textColor="@android:color/black" />
+                            android:orientation="vertical"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginEnd="40dp"
+                            app:layout_constraintStart_toEndOf="@id/iconGrades"
+                            app:layout_constraintEnd_toStartOf="@id/chevronGrades"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent">
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Ver todas las Sesiones"
-                            android:textSize="14sp"
-                            android:textColor="@android:color/darker_gray"
-                            android:layout_marginTop="4dp" />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Sesiones"
+                                android:textSize="19sp"
+                                android:textStyle="bold"
+                                android:textColor="@color/text_primary"
+                                android:fontFamily="sans-serif-medium" />
 
-                    </LinearLayout>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Ver y gestionar todas las sesiones"
+                                android:textSize="13sp"
+                                android:textColor="@color/text_secondary"
+                                android:layout_marginTop="4dp" />
 
-                    <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:src="@drawable/ic_chevron_right"
-                        app:tint="@android:color/darker_gray" />
+                            <!-- Badge con número -->
+                            <TextView
+                                android:id="@+id/tvSessionCount"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="8 sesiones"
+                                android:textSize="12sp"
+                                android:textColor="@color/accentColor"
+                                android:background="@drawable/bg_badge_count_orange"
+                                android:paddingHorizontal="10dp"
+                                android:paddingVertical="4dp"
+                                android:layout_marginTop="8dp"
+                                android:visibility="gone"
+                                android:fontFamily="sans-serif-medium" />
 
-                </LinearLayout>
+                        </LinearLayout>
 
-            </com.google.android.material.card.MaterialCardView>
+                        <!-- Chevron -->
+                        <ImageView
+                            android:id="@+id/chevronGrades"
+                            android:layout_width="28dp"
+                            android:layout_height="28dp"
+                            android:src="@drawable/ic_chevron_right"
+                            app:tint="@color/text_hint"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            android:contentDescription="Ir" />
 
-            <!-- Botón de Reportes (para futuro) -->
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/cardReports"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:clickable="true"
-                android:focusable="true"
-                android:foreground="?attr/selectableItemBackground"
-                app:cardCornerRadius="8dp"
-                app:cardElevation="2dp">
+                    </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <LinearLayout
+                </com.google.android.material.card.MaterialCardView>
+
+                <!-- Card: Reportes -->
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardReports"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:padding="16dp"
-                    android:gravity="center_vertical">
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackground"
+                    app:cardCornerRadius="16dp"
+                    app:cardElevation="4dp"
+                    app:cardBackgroundColor="@color/surface">
 
-                    <ImageView
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
-                        android:src="@drawable/ic_report"
-                        android:padding="8dp"
-                        app:tint="@color/secondaryColor" />
-
-                    <LinearLayout
-                        android:layout_width="0dp"
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical"
-                        android:layout_marginStart="16dp">
+                        android:padding="20dp">
 
-                        <TextView
-                            android:layout_width="wrap_content"
+                        <!-- Icono decorativo de fondo -->
+                        <ImageView
+                            android:layout_width="100dp"
+                            android:layout_height="100dp"
+                            android:src="@drawable/ic_report_pattern"
+                            android:alpha="0.05"
+                            app:tint="@color/secondaryColor"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            android:contentDescription="Decoración" />
+
+                        <!-- Icono circular -->
+                        <FrameLayout
+                            android:id="@+id/iconReports"
+                            android:layout_width="56dp"
+                            android:layout_height="56dp"
+                            android:background="@drawable/bg_icon_circle_gradient_green"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent">
+
+                            <ImageView
+                                android:layout_width="32dp"
+                                android:layout_height="32dp"
+                                android:src="@drawable/ic_report_enhanced"
+                                android:layout_gravity="center"
+                                app:tint="@color/white"
+                                android:contentDescription="Reportes" />
+
+                        </FrameLayout>
+
+                        <!-- Contenido -->
+                        <LinearLayout
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:text="Reportes"
-                            android:textSize="18sp"
-                            android:textStyle="bold"
-                            android:textColor="@android:color/black" />
+                            android:orientation="vertical"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginEnd="40dp"
+                            app:layout_constraintStart_toEndOf="@id/iconReports"
+                            app:layout_constraintEnd_toStartOf="@id/chevronReports"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent">
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Generar reportes cada sesión"
-                            android:textSize="14sp"
-                            android:textColor="@android:color/darker_gray"
-                            android:layout_marginTop="4dp" />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Consolidado"
+                                android:textSize="19sp"
+                                android:textStyle="bold"
+                                android:textColor="@color/text_primary"
+                                android:fontFamily="sans-serif-medium" />
 
-                    </LinearLayout>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Ver consolidado y generar reportes"
+                                android:textSize="13sp"
+                                android:textColor="@color/text_secondary"
+                                android:layout_marginTop="4dp" />
 
-                    <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:src="@drawable/ic_chevron_right"
-                        app:tint="@android:color/darker_gray" />
+                            <!-- Badge con info -->
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="📊 Excel y PDF"
+                                android:textSize="12sp"
+                                android:textColor="@color/secondaryColor"
+                                android:background="@drawable/bg_badge_count_green"
+                                android:paddingHorizontal="10dp"
+                                android:paddingVertical="4dp"
+                                android:layout_marginTop="8dp"
+                                android:fontFamily="sans-serif-medium" />
 
-                </LinearLayout>
+                        </LinearLayout>
 
-            </com.google.android.material.card.MaterialCardView>
+                        <!-- Chevron -->
+                        <ImageView
+                            android:id="@+id/chevronReports"
+                            android:layout_width="28dp"
+                            android:layout_height="28dp"
+                            android:src="@drawable/ic_chevron_right"
+                            app:tint="@color/text_hint"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            android:contentDescription="Ir" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+
+            </LinearLayout>
 
         </LinearLayout>
 
