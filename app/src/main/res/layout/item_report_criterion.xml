@@ -7,8 +7,9 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:gravity="center_vertical"
-    android:paddingTop="6dp"
-    android:paddingBottom="6dp">
+    android:paddingTop="8dp"
+    android:paddingBottom="8dp"
+    android:background="@drawable/bg_criterion_item">
 
     <TextView
         android:id="@+id/tvCriterionName"
@@ -17,31 +18,40 @@
         android:layout_weight="1"
         android:text="• Propone alternativa de solución tecnológica"
         android:textSize="13sp"
-        android:textColor="#555555"
+        android:textColor="@color/text_secondary"
         android:layout_marginEnd="8dp"
         tools:text="• Propone alternativa de solución" />
 
     <TextView
         android:id="@+id/tvCriterionGrade"
-        android:layout_width="48dp"
-        android:layout_height="32dp"
+        android:layout_width="52dp"
+        android:layout_height="36dp"
         android:text="A"
-        android:textSize="14sp"
+        android:textSize="15sp"
         android:textStyle="bold"
         android:gravity="center"
-        android:background="@drawable/bg_grade"
+        android:background="@drawable/bg_grade_enhanced"
         android:layout_marginEnd="8dp"
+        android:fontFamily="sans-serif-black"
         tools:text="A" />
 
-    <ImageView
-        android:id="@+id/ivObservation"
-        android:layout_width="28dp"
-        android:layout_height="28dp"
-        android:src="@drawable/ic_note_empty"
-        android:padding="4dp"
-        android:clickable="true"
-        android:focusable="true"
-        android:background="?attr/selectableItemBackgroundBorderless"
-        android:contentDescription="Observación"
-        app:tint="#CCCCCC" />
+    <FrameLayout
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:background="@drawable/bg_observation_button">
+
+        <ImageView
+            android:id="@+id/ivObservation"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/ic_note_empty"
+            android:layout_gravity="center"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Observación"
+            app:tint="@color/text_hint" />
+
+    </FrameLayout>
+
 </LinearLayout>

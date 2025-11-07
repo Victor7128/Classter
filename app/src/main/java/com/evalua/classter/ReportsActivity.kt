@@ -347,6 +347,11 @@ class ReportsActivity : AppCompatActivity() {
 
     private fun displayConsolidatedTable(data: ConsolidatedResponse) {
         tvSectionTitle.text = "Consolidado - $sectionName"
+
+        // ✅ NUEVO: Actualizar badges dinámicamente
+        updateHeaderBadges(data)
+
+        // Texto de competencias
         tvCompetencyName.text = if (data.competencies.size == 1)
             data.competencies.first().display_name
         else
@@ -379,6 +384,15 @@ class ReportsActivity : AppCompatActivity() {
             "✅ ${data.students.size} estudiantes | ${data.sessions.size} sesiones",
             Toast.LENGTH_SHORT
         ).show()
+    }
+
+    // ✅ NUEVA FUNCIÓN: Actualizar badges del header
+    private fun updateHeaderBadges(data: ConsolidatedResponse) {
+        val tvStudentsBadge = findViewById<TextView>(R.id.tvStudentsBadge)
+        val tvSessionsBadge = findViewById<TextView>(R.id.tvSessionsBadge)
+
+        tvStudentsBadge?.text = "👥 ${data.students.size} ${if (data.students.size == 1) "Estudiante" else "Estudiantes"}"
+        tvSessionsBadge?.text = "📚 ${data.sessions.size} ${if (data.sessions.size == 1) "Sesión" else "Sesiones"}"
     }
 
     private fun handleAverageChange(studentId: Int, abilityId: Int?, grade: String?) {

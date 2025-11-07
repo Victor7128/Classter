@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import android.widget.FrameLayout  // ✅ AGREGAR ESTE IMPORT
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -35,8 +36,11 @@ class ReportStudentAdapter(
         val cardView: CardView = itemView.findViewById(R.id.cardStudent)
         val tvNumber: TextView = itemView.findViewById(R.id.tvStudentNumber)
         val tvName: TextView = itemView.findViewById(R.id.tvStudentName)
-        val ivExpand: ImageView = itemView.findViewById(R.id.ivExpandCollapse)
-        val ivGlobalObservation: ImageView = itemView.findViewById(R.id.ivGlobalObservation)
+
+        // ✅ CAMBIO 1: Cambiar de ImageView a FrameLayout
+        val ivExpand: FrameLayout = itemView.findViewById(R.id.ivExpandCollapse)
+        val ivGlobalObservation: FrameLayout = itemView.findViewById(R.id.ivGlobalObservation)
+
         val llExpandableContent: LinearLayout = itemView.findViewById(R.id.llExpandableContent)
         val llSessions: LinearLayout = itemView.findViewById(R.id.llSessions)
         val etFinalAverage: EditText = itemView.findViewById(R.id.etFinalAverage)
@@ -53,37 +57,51 @@ class ReportStudentAdapter(
         val isExpanded = expandedPositions.contains(position)
 
         // Configurar header de la card
-        holder.tvNumber.text = "${position + 1}."
+        holder.tvNumber.text = "${position + 1}"
         holder.tvName.text = student.full_name
 
-        // Icono de expandir/colapsar
-        holder.ivExpand.setImageResource(
-            if (isExpanded) R.drawable.ic_expand_less else R.drawable.ic_expand_more
-        )
+        // ✅ NUEVO: Acceder al ImageView interno y configurar rotación
+        val expandIconImageView = holder.ivExpand.findViewById<ImageView>(R.id.ivExpandCollapseIcon)
+        if (expandIconImageView != null) {
+            expandIconImageView.rotation = if (isExpanded) 180f else 0f
+        } else {
+            // Fallback: Si no existe el ID, intentar con el hijo directo
+            val childImageView = if (holder.ivExpand.childCount > 0) {
+                holder.ivExpand.getChildAt(0) as? ImageView
+            } else null
+            childImageView?.rotation = if (isExpanded) 180f else 0f
+        }
 
         // Verificar si el estudiante tiene alguna observación
         val hasAnyObservation = observations.any { it.student_id == student.id }
         holder.ivGlobalObservation.visibility = if (hasAnyObservation) View.VISIBLE else View.GONE
-        holder.ivGlobalObservation.setImageResource(R.drawable.ic_note_filled)
-        holder.ivGlobalObservation.setColorFilter(
-            ContextCompat.getColor(holder.itemView.context, R.color.observation_active)
-        )
 
         // Mostrar/ocultar contenido expandible
         holder.llExpandableContent.visibility = if (isExpanded) View.VISIBLE else View.GONE
 
-        // Click en la card para expandir/colapsar
-        holder.cardView.setOnClickListener {
-            if (expandedPositions.contains(position)) {
-                expandedPositions.remove(position)
-            } else {
-                expandedPositions.add(position)
+        // ✅ CAMBIO IMPORTANTE: Click en toda la card para expandir/colapsar
+        val clickListener = View.OnClickListener {
+            val currentPosition = holder.adapterPosition
+            if (currentPosition != RecyclerView.NO_POSITION) {
+                if (expandedPositions.contains(currentPosition)) {
+                    expandedPositions.remove(currentPosition)
+                    Log.d("ReportAdapter", "Colapsando estudiante en posición $currentPosition")
+                } else {
+                    expandedPositions.add(currentPosition)
+                    Log.d("ReportAdapter", "Expandiendo estudiante en posición $currentPosition")
+                }
+                notifyItemChanged(currentPosition)
             }
-            notifyItemChanged(position)
         }
+
+        // Aplicar el click listener a múltiples elementos
+        holder.cardView.setOnClickListener(clickListener)
+        holder.itemView.setOnClickListener(clickListener)
+        holder.ivExpand.setOnClickListener(clickListener)
 
         // Solo renderizar el contenido si está expandido (optimización)
         if (isExpanded) {
+            Log.d("ReportAdapter", "Renderizando detalles del estudiante: ${student.full_name}")
             renderStudentDetails(holder, student)
         } else {
             holder.llSessions.removeAllViews()
@@ -113,11 +131,11 @@ class ReportStudentAdapter(
         val tvSessionName = sessionView.findViewById<TextView>(R.id.tvSessionName)
         val llAbilities = sessionView.findViewById<LinearLayout>(R.id.llAbilities)
 
-        tvSessionName.text = "📚 ${session.title ?: "Sesión ${session.number}"}"
+        tvSessionName.text = session.title ?: "Sesión ${session.number}"
 
         Log.d("ReportAdapter", "Sesión ${session.id}: ${session.title}")
 
-        // ✅ CORRECCIÓN: Filtrar competencias por esta sesión
+        // Filtrar competencias por esta sesión
         val competenciesInSession = competencies.filter { it.session_id == session.id }
 
         if (competenciesInSession.isEmpty()) {
@@ -130,7 +148,7 @@ class ReportStudentAdapter(
             }
             llAbilities.addView(emptyView)
         } else {
-            // ✅ CORRECCIÓN: Solo mostrar capacidades de las competencias de esta sesión
+            // Solo mostrar capacidades de las competencias de esta sesión
             competenciesInSession.forEach { competency ->
                 val abilitiesInCompetency = abilitiesByCompetency[competency.id] ?: emptyList()
 
@@ -281,10 +299,10 @@ class ReportStudentAdapter(
         val oldWatcher = holder.etFinalAverage.tag as? TextWatcher
         oldWatcher?.let { holder.etFinalAverage.removeTextChangedListener(it) }
 
-        // Calcular promedio final automático - versión optimizada
+        // Calcular promedio final automático
         val allGrades = mutableListOf<String>()
 
-        // ✅ CORRECCIÓN: Solo considerar valores del estudiante actual
+        // Solo considerar valores del estudiante actual
         values.filter { it.student_id == student.id }
             .forEach { value ->
                 if (value.value in listOf("AD", "A", "B", "C")) {

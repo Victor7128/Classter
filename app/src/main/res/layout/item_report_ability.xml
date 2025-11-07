@@ -1,65 +1,89 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:background="#FFFFFF"
-    android:layout_marginBottom="8dp"
-    android:padding="12dp">
+    android:background="@drawable/bg_ability_container"
+    android:padding="12dp"
+    android:layout_marginBottom="8dp">
 
-    <TextView
-        android:id="@+id/tvAbilityName"
+    <!-- Nombre de la habilidad -->
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Determina una alternativa de solución"
-        android:textSize="14sp"
-        android:textStyle="bold"
-        android:textColor="#1565C0"
-        android:paddingBottom="8dp"
-        tools:text="Determina una alternativa de solución"/>
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingBottom="8dp">
 
+        <View
+            android:layout_width="3dp"
+            android:layout_height="20dp"
+            android:background="@color/primaryColor"
+            android:layout_marginEnd="8dp" />
+
+        <TextView
+            android:id="@+id/tvAbilityName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Determina una alternativa de solución"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:textColor="@color/text_primary"
+            android:fontFamily="sans-serif-medium"
+            tools:text="Determina una alternativa de solución" />
+
+    </LinearLayout>
+
+    <!-- Lista de criterios -->
     <LinearLayout
         android:id="@+id/llCriteria"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:paddingStart="8dp"
-        android:paddingEnd="0dp"/>
+        android:paddingStart="12dp"
+        android:paddingEnd="0dp" />
 
+    <!-- Promedio de la habilidad -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center_vertical"
         android:paddingTop="8dp"
-        android:paddingStart="8dp"
-        android:paddingEnd="0dp">
+        android:paddingStart="12dp"
+        android:paddingEnd="0dp"
+        android:background="@drawable/bg_ability_average">
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="PROM.:"
+            android:text="PROMEDIO:"
             android:textSize="13sp"
             android:textStyle="bold"
-            android:textColor="#0D47A1"/>
+            android:textColor="@color/primaryDark"
+            android:fontFamily="sans-serif-medium" />
 
         <EditText
             android:id="@+id/etAbilityAverage"
             android:layout_width="70dp"
-            android:layout_height="36dp"
+            android:layout_height="40dp"
             android:hint="Prom."
-            android:textSize="13sp"
+            android:textSize="14sp"
             android:textStyle="bold"
-            android:textColor="#0D47A1"
+            android:textColor="@color/primaryDark"
             android:gravity="center"
-            android:background="@drawable/bg_editable_grade"
+            android:background="@drawable/bg_editable_grade_enhanced"
             android:inputType="textCapCharacters"
             android:maxLength="2"
             android:layout_marginEnd="28dp"
             android:importantForAutofill="no"
-            tools:text="A"/>
+            tools:text="A" />
+
     </LinearLayout>
+
 </LinearLayout>

@@ -1,76 +1,120 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="24dp"
+    android:background="@drawable/bg_bottom_sheet">
 
+    <!-- Indicador de arrastre -->
+    <View
+        android:layout_width="40dp"
+        android:layout_height="4dp"
+        android:background="@drawable/bg_drag_indicator"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="16dp" />
+
+    <!-- Título -->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Consolidado de Notas"
-        android:textSize="20sp"
+        android:text="📱 Código QR Generado"
+        android:textSize="22sp"
         android:textStyle="bold"
+        android:textColor="@color/text_primary"
         android:gravity="center"
-        android:layout_marginBottom="8dp"/>
+        android:fontFamily="sans-serif-medium"
+        android:layout_marginBottom="8dp" />
 
+    <!-- Subtítulo -->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Comparte este código QR para acceder al reporte"
-        android:textSize="16sp"
-        android:gravity="center"
-        android:layout_marginBottom="16dp"/>
-
-    <androidx.cardview.widget.CardView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        app:cardCornerRadius="8dp"
-        app:cardElevation="4dp"
-        android:layout_marginBottom="16dp">
-
-        <ImageView
-            android:id="@+id/ivQRCode"
-            android:layout_width="256dp"
-            android:layout_height="256dp"
-            android:padding="8dp"
-            android:scaleType="fitCenter"/>
-    </androidx.cardview.widget.CardView>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="📱 Instrucciones:\n• Al escanear se abrirá el archivo HTML\n• El reporte se guarda en tu dispositivo\n• Puedes compartirlo directamente"
+        android:text="Escanea este código para ver el consolidado"
         android:textSize="14sp"
-        android:gravity="start"
-        android:layout_marginBottom="16dp"/>
+        android:textColor="@color/text_secondary"
+        android:gravity="center"
+        android:layout_marginBottom="24dp" />
 
+    <!-- Card del QR -->
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="4dp"
+        app:cardBackgroundColor="@color/white"
+        android:layout_marginBottom="24dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="24dp"
+            android:gravity="center">
+
+            <!-- Imagen QR -->
+            <ImageView
+                android:id="@+id/ivQRCode"
+                android:layout_width="280dp"
+                android:layout_height="280dp"
+                android:src="@drawable/ic_qr_code"
+                android:scaleType="fitCenter"
+                android:contentDescription="Código QR" />
+
+            <!-- Texto informativo -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Toca el QR para ver una vista previa"
+                android:textSize="12sp"
+                android:textColor="@color/text_hint"
+                android:gravity="center"
+                android:layout_marginTop="16dp" />
+
+        </LinearLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <!-- Botones de acción -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center">
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnShare"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Compartir QR"
-            app:icon="@android:drawable/ic_menu_share"/>
-
-        <Space
-            android:layout_width="8dp"
-            android:layout_height="wrap_content"/>
-
+        <!-- Botón Vista Previa -->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnPreview"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Ver Reporte"
-            app:icon="@android:drawable/ic_menu_view"/>
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="56dp"
+            android:text="Vista Previa"
+            android:textSize="15sp"
+            android:layout_marginEnd="12dp"
+            app:icon="@drawable/ic_visibility"
+            app:iconTint="@color/primaryColor"
+            app:iconGravity="textStart"
+            app:strokeColor="@color/primaryColor"
+            app:strokeWidth="2dp"
+            app:cornerRadius="12dp" />
+
+        <!-- Botón Compartir -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnShare"
+            style="@style/Widget.Material3.Button"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="56dp"
+            android:text="Compartir"
+            android:textSize="15sp"
+            app:icon="@drawable/ic_share"
+            app:iconTint="@color/white"
+            app:iconGravity="textStart"
+            app:backgroundTint="@color/primaryColor"
+            app:cornerRadius="12dp" />
+
     </LinearLayout>
+
 </LinearLayout>

@@ -25,7 +25,7 @@
 
     <!-- Superficies (Cards, Dialogs) -->
     <color name="surface">#FFFFFF</color>
-    <color name="surface_variant">#F5F5F5</color>
+    <color name="surface_variant">#F5F7FA</color>
 
     <!-- Textos -->
     <color name="text_primary">#212121</color>
