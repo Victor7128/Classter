@@ -2,59 +2,304 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/background_primary">
 
-    <!-- AppBarLayout con el Toolbar DENTRO -->
+    <!-- AppBarLayout con Header -->
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:elevation="8dp"
+        android:background="@drawable/bg_toolbar_gradient">
 
+        <!-- Toolbar -->
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
+            android:background="@android:color/transparent"
             app:title="Sesiones"
-            app:titleTextColor="@android:color/white"
-            app:navigationIcon="@drawable/ic_back" />
+            app:titleTextAppearance="@style/ToolbarTitleStyle"
+            app:titleTextColor="@color/white"
+            app:navigationIcon="@drawable/ic_back"
+            app:navigationIconTint="@color/white" />
+
+        <!-- Header Card con estadísticas -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="6dp"
+            app:cardBackgroundColor="@color/surface">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <!-- Título principal -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/ic_sessions_enhanced"
+                        app:tint="@color/primaryColor"
+                        android:contentDescription="Sesiones"
+                        android:padding="8dp"
+                        android:background="@drawable/bg_icon_circle_light_blue" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:layout_marginStart="16dp">
+
+                        <TextView
+                            android:id="@+id/tvSectionTitle"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Sesiones - 3° A"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            android:textColor="@color/text_primary"
+                            android:fontFamily="sans-serif-medium"
+                            tools:text="Sesiones - 3° A" />
+
+                        <TextView
+                            android:id="@+id/tvSectionSubtitle"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="II Bimestre"
+                            android:textSize="13sp"
+                            android:textColor="@color/text_secondary"
+                            android:layout_marginTop="2dp"
+                            tools:text="II Bimestre" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <!-- Estadísticas -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="16dp"
+                    android:gravity="center">
+
+                    <!-- Total de sesiones -->
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:gravity="center"
+                        android:background="@drawable/bg_stat_card_blue"
+                        android:padding="12dp"
+                        android:layout_marginEnd="8dp">
+
+                        <TextView
+                            android:id="@+id/tvTotalSessions"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="8"
+                            android:textSize="24sp"
+                            android:textStyle="bold"
+                            android:textColor="@color/primaryColor"
+                            android:fontFamily="sans-serif-black"
+                            tools:text="8" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Sesiones"
+                            android:textSize="12sp"
+                            android:textColor="@color/text_secondary"
+                            android:layout_marginTop="4dp" />
+
+                    </LinearLayout>
+
+                    <!-- Última fecha -->
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:gravity="center"
+                        android:background="@drawable/bg_stat_card_green"
+                        android:padding="12dp">
+
+                        <TextView
+                            android:id="@+id/tvLastDate"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="15 Nov"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            android:textColor="@color/secondaryColor"
+                            android:fontFamily="sans-serif-medium"
+                            tools:text="15 Nov" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Última sesión"
+                            android:textSize="12sp"
+                            android:textColor="@color/text_secondary"
+                            android:layout_marginTop="4dp" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <!-- SwipeRefreshLayout que respeta el AppBar -->
+    <!-- Contenido principal con SwipeRefresh -->
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipeRefresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvSessions"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="8dp"
-            android:clipToPadding="false" />
+            android:layout_height="match_parent">
+
+            <!-- RecyclerView de sesiones -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvSessions"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="12dp"
+                android:clipToPadding="false"
+                android:paddingBottom="88dp"
+                tools:listitem="@layout/item_session" />
+
+            <!-- Estado vacío mejorado -->
+            <LinearLayout
+                android:id="@+id/layoutEmptyState"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:padding="32dp"
+                android:visibility="gone"
+                tools:visibility="gone">
+
+                <!-- Icono grande -->
+                <ImageView
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    android:src="@drawable/ic_empty_sessions"
+                    app:tint="@color/text_hint"
+                    android:alpha="0.5"
+                    android:contentDescription="Sin sesiones" />
+
+                <!-- Texto principal -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="No hay sesiones"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/text_secondary"
+                    android:layout_marginTop="16dp"
+                    android:fontFamily="sans-serif-medium" />
+
+                <!-- Texto secundario -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Agrega tu primera sesión con el botón +"
+                    android:textSize="14sp"
+                    android:textColor="@color/text_hint"
+                    android:layout_marginTop="8dp"
+                    android:gravity="center" />
+
+            </LinearLayout>
+
+        </FrameLayout>
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-    <!-- FloatingActionButton para agregar sesión -->
+    <!-- FloatingActionButton mejorado -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabAddSession"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
-        android:layout_margin="16dp"
+        android:layout_margin="24dp"
+        android:src="@drawable/ic_add_enhanced"
         android:contentDescription="Agregar sesión"
-        android:src="@drawable/ic_add"
-        app:tint="@android:color/white" />
+        app:backgroundTint="@color/accentColor"
+        app:tint="@color/white"
+        app:elevation="8dp"
+        app:hoveredFocusedTranslationZ="12dp"
+        app:pressedTranslationZ="16dp" />
 
-    <!-- ProgressBar centrado -->
-    <ProgressBar
-        android:id="@+id/progressBar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:visibility="gone" />
+    <!-- ProgressBar mejorado -->
+    <FrameLayout
+        android:id="@+id/loadingOverlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/overlay_medium"
+        android:visibility="gone"
+        android:clickable="true"
+        android:focusable="true"
+        tools:visibility="gone">
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="8dp"
+            app:cardBackgroundColor="@color/surface">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:padding="32dp">
+
+                <ProgressBar
+                    android:id="@+id/progressBar"
+                    style="?android:attr/progressBarStyleLarge"
+                    android:layout_width="56dp"
+                    android:layout_height="56dp"
+                    android:indeterminate="true"
+                    android:indeterminateTint="@color/primaryColor" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Cargando..."
+                    android:textSize="14sp"
+                    android:textColor="@color/text_primary"
+                    android:layout_marginTop="16dp"
+                    android:fontFamily="sans-serif-medium" />
+
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+    </FrameLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

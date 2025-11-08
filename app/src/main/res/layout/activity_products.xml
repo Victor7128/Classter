@@ -2,22 +2,127 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/background_primary">
 
-    <!-- AppBar con Toolbar -->
+    <!-- AppBar con Header -->
     <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:elevation="8dp"
+        android:background="@drawable/bg_toolbar_gradient">
 
+        <!-- Toolbar -->
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
+            android:background="@android:color/transparent"
             app:title="Productos"
-            app:titleTextColor="@android:color/white"
-            app:navigationIcon="@drawable/ic_back" />
+            app:titleTextAppearance="@style/ToolbarTitleStyle"
+            app:titleTextColor="@color/white"
+            app:navigationIcon="@drawable/ic_back"
+            app:navigationIconTint="@color/white" />
+
+        <!-- Header Card con información de la sesión -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="6dp"
+            app:cardBackgroundColor="@color/surface">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <!-- Icono y título -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="12dp">
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/ic_product"
+                        app:tint="@color/primaryColor"
+                        android:contentDescription="Producto"
+                        android:padding="8dp"
+                        android:background="@drawable/bg_icon_circle_light_blue" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:layout_marginStart="16dp">
+
+                        <TextView
+                            android:id="@+id/tvSessionTitle"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Sesión 1"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            android:textColor="@color/text_primary"
+                            android:fontFamily="sans-serif-medium"
+                            tools:text="Soluciones Tecnológicas" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Gestión de productos"
+                            android:textSize="13sp"
+                            android:textColor="@color/text_secondary"
+                            android:layout_marginTop="2dp" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <!-- Indicador de productos -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:background="@drawable/bg_badge_info_blue"
+                    android:padding="12dp"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/ic_info"
+                        app:tint="@color/primaryColor"
+                        android:contentDescription="Info" />
+
+                    <TextView
+                        android:id="@+id/tvProductCount"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Solo se permite 1 producto por sesión"
+                        android:textSize="12sp"
+                        android:textColor="@color/text_primary"
+                        android:layout_marginStart="8dp"
+                        android:fontFamily="sans-serif-medium"
+                        tools:text="💡 1 producto configurado" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
     </com.google.android.material.appbar.AppBarLayout>
 
     <!-- SwipeRefreshLayout -->
@@ -27,31 +132,145 @@
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvProducts"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="8dp"
-            android:clipToPadding="false" />
+            android:layout_height="match_parent">
+
+            <!-- RecyclerView de productos -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvProducts"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="12dp"
+                android:clipToPadding="false"
+                android:paddingBottom="88dp"
+                tools:listitem="@layout/item_product" />
+
+            <!-- Estado vacío mejorado -->
+            <LinearLayout
+                android:id="@+id/layoutEmptyState"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:padding="32dp"
+                android:visibility="gone"
+                tools:visibility="gone">
+
+                <!-- Icono grande -->
+                <ImageView
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    android:src="@drawable/ic_empty_products"
+                    app:tint="@color/text_hint"
+                    android:alpha="0.5"
+                    android:contentDescription="Sin productos" />
+
+                <!-- Texto principal -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Sin producto"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/text_secondary"
+                    android:layout_marginTop="16dp"
+                    android:fontFamily="sans-serif-medium" />
+
+                <!-- Texto secundario -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Crea el producto de esta sesión\npara poder evaluar competencias"
+                    android:textSize="14sp"
+                    android:textColor="@color/text_hint"
+                    android:layout_marginTop="8dp"
+                    android:gravity="center" />
+
+                <!-- Botón de crear -->
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnCreateProduct"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Crear Producto"
+                    android:layout_marginTop="24dp"
+                    app:icon="@drawable/ic_add"
+                    app:iconGravity="textStart"
+                    app:cornerRadius="12dp"
+                    app:backgroundTint="@color/primaryColor"
+                    style="@style/Widget.Material3.Button" />
+
+            </LinearLayout>
+
+        </FrameLayout>
+
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-    <!-- FloatingActionButton para agregar producto -->
+    <!-- FloatingActionButton mejorado (solo cuando no hay productos) -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabAddProduct"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
-        android:layout_margin="16dp"
+        android:layout_margin="24dp"
+        android:src="@drawable/ic_add_enhanced"
         android:contentDescription="Agregar producto"
-        android:src="@drawable/ic_add"
-        app:tint="@android:color/white" />
+        app:backgroundTint="@color/accentColor"
+        app:tint="@color/white"
+        app:elevation="8dp"
+        app:hoveredFocusedTranslationZ="12dp"
+        app:pressedTranslationZ="16dp"
+        android:visibility="gone"
+        tools:visibility="visible" />
 
-    <!-- ProgressBar -->
-    <ProgressBar
-        android:id="@+id/progressBar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:visibility="gone" />
+    <!-- ProgressBar mejorado -->
+    <FrameLayout
+        android:id="@+id/loadingOverlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/overlay_medium"
+        android:visibility="gone"
+        android:clickable="true"
+        android:focusable="true"
+        tools:visibility="gone">
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="8dp"
+            app:cardBackgroundColor="@color/surface">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:padding="32dp">
+
+                <ProgressBar
+                    android:id="@+id/progressBar"
+                    style="?android:attr/progressBarStyleLarge"
+                    android:layout_width="56dp"
+                    android:layout_height="56dp"
+                    android:indeterminate="true"
+                    android:indeterminateTint="@color/primaryColor" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Cargando..."
+                    android:textSize="14sp"
+                    android:textColor="@color/text_primary"
+                    android:layout_marginTop="16dp"
+                    android:fontFamily="sans-serif-medium" />
+
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+    </FrameLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

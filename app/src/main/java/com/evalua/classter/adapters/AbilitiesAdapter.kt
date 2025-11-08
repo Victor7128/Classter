@@ -3,7 +3,6 @@ package com.evalua.classter.adapters
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -11,23 +10,25 @@ import androidx.recyclerview.widget.RecyclerView
 import com.evalua.classter.R
 import com.evalua.classter.models.Ability
 import com.evalua.classter.models.Criterion
+import com.google.android.material.button.MaterialButton
 
 class AbilitiesAdapter(
     private var abilities: List<Ability>,
     private var abilityCriteria: Map<Int, List<Criterion>>,
     private var expandedAbilityId: Int? = null,
     private val onAbilityExpanded: (Int, Boolean) -> Unit,
-    private val onAbilityOptionsClick: (Ability, View) -> Unit,
+    private val onDeleteAbility: (Ability) -> Unit,  // ✅ CAMBIO
     private val onAddCriterion: (Int) -> Unit,
-    private val onCriterionOptionsClick: (Criterion, View) -> Unit
+    private val onEditCriterion: (Criterion) -> Unit,  // ✅ NUEVO
+    private val onDeleteCriterion: (Criterion) -> Unit  // ✅ CAMBIO
 ) : RecyclerView.Adapter<AbilitiesAdapter.AbilityViewHolder>() {
 
     inner class AbilityViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val layoutAbilityHeader: View = view.findViewById(R.id.layoutAbilityHeader)
         val ivAbilityExpandIcon: ImageView = view.findViewById(R.id.ivAbilityExpandIcon)
         val tvAbilityName: TextView = view.findViewById(R.id.tvAbilityName)
-        val tvAbilityDescription: TextView = view.findViewById(R.id.tvAbilityDescription)
-        val btnAbilityOptions: ImageButton = view.findViewById(R.id.btnAbilityOptions)
+        val tvCriteriaCount: TextView = view.findViewById(R.id.tvCriteriaCount)
+        val btnDeleteAbility: MaterialButton = view.findViewById(R.id.btnDeleteAbility)  // ✅ NUEVO
         val layoutAbilityExpandedContent: View = view.findViewById(R.id.layoutAbilityExpandedContent)
         val layoutAgregarCriterio: View = view.findViewById(R.id.layoutAgregarCriterio)
         val rvCriteria: RecyclerView = view.findViewById(R.id.rvCriteria)
@@ -45,11 +46,14 @@ class AbilitiesAdapter(
 
         holder.tvAbilityName.text = ability.name
 
-        if (ability.description.isNullOrEmpty()) {
-            holder.tvAbilityDescription.visibility = View.GONE
+        // Mostrar contador de criterios
+        val criteria = abilityCriteria[ability.id] ?: emptyList()
+        if (criteria.isNotEmpty()) {
+            holder.tvCriteriaCount.visibility = View.VISIBLE
+            val count = criteria.size
+            holder.tvCriteriaCount.text = "✓ $count criterio${if (count > 1) "s" else ""}"
         } else {
-            holder.tvAbilityDescription.visibility = View.VISIBLE
-            holder.tvAbilityDescription.text = ability.description
+            holder.tvCriteriaCount.visibility = View.GONE
         }
 
         // Estado de expansión
@@ -64,9 +68,9 @@ class AbilitiesAdapter(
             notifyDataSetChanged()
         }
 
-        // Opciones de capacidad
-        holder.btnAbilityOptions.setOnClickListener {
-            onAbilityOptionsClick(ability, it)
+        // ✅ NUEVO: Botón eliminar
+        holder.btnDeleteAbility.setOnClickListener {
+            onDeleteAbility(ability)
         }
 
         // Agregar criterio
@@ -76,10 +80,10 @@ class AbilitiesAdapter(
 
         // Setup RecyclerView de criterios
         if (isExpanded) {
-            val criteria = abilityCriteria[ability.id] ?: emptyList()
             val criteriaAdapter = CriteriaAdapter(
                 criteria = criteria,
-                onCriterionOptionsClick = onCriterionOptionsClick
+                onEditCriterion = onEditCriterion,  // ✅ NUEVO
+                onDeleteCriterion = onDeleteCriterion  // ✅ CAMBIO
             )
             holder.rvCriteria.layoutManager = LinearLayoutManager(holder.itemView.context)
             holder.rvCriteria.adapter = criteriaAdapter
@@ -87,4 +91,18 @@ class AbilitiesAdapter(
     }
 
     override fun getItemCount() = abilities.size
+
+    fun updateData(
+        newAbilities: List<Ability>,
+        newAbilityCriteria: Map<Int, List<Criterion>>
+    ) {
+        abilities = newAbilities
+        abilityCriteria = newAbilityCriteria
+        notifyDataSetChanged()
+    }
+
+    fun updateExpandedState(newExpandedAbilityId: Int?) {
+        expandedAbilityId = newExpandedAbilityId
+        notifyDataSetChanged()
+    }
 }

@@ -2,11 +2,16 @@
 <com.google.android.material.card.MaterialCardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp"
-    app:cardElevation="2dp"
-    app:cardCornerRadius="8dp">
+    android:layout_marginStart="8dp"
+    android:layout_marginEnd="8dp"
+    android:layout_marginTop="6dp"
+    android:layout_marginBottom="6dp"
+    app:cardElevation="4dp"
+    app:cardCornerRadius="16dp"
+    app:cardBackgroundColor="@color/surface">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -14,59 +19,137 @@
         android:orientation="vertical">
 
         <!-- Header de la competencia -->
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layoutCompetencyHeader"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             android:padding="16dp"
             android:background="?attr/selectableItemBackground"
             android:clickable="true"
             android:focusable="true">
 
             <!-- Icono de expansión -->
-            <ImageView
-                android:id="@+id/ivExpandIcon"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@drawable/ic_expand_more"
-                android:layout_marginEnd="12dp"
-                android:layout_gravity="center_vertical" />
+            <FrameLayout
+                android:id="@+id/frameExpandIcon"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/bg_expand_circle"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:id="@+id/ivExpandIcon"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_expand_more"
+                    android:layout_gravity="center"
+                    app:tint="@color/primaryColor"
+                    android:contentDescription="Expandir" />
+
+            </FrameLayout>
 
             <!-- Información de la competencia -->
             <LinearLayout
+                android:id="@+id/layoutCompetencyInfo"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="8dp"
+                app:layout_constraintStart_toEndOf="@id/frameExpandIcon"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent">
 
+                <!-- Badge de nivel -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="🎯 COMPETENCIA"
+                    android:textSize="10sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/primaryColor"
+                    android:background="@drawable/bg_level_badge_competency"
+                    android:paddingHorizontal="8dp"
+                    android:paddingVertical="4dp"
+                    android:layout_marginBottom="6dp"
+                    android:fontFamily="sans-serif-black" />
+
+                <!-- Nombre de la competencia -->
                 <TextView
                     android:id="@+id/tvCompetencyName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Resuelve problemas de cantidad"
-                    android:textSize="16sp"
+                    android:textSize="17sp"
                     android:textStyle="bold"
-                    android:textColor="@android:color/black" />
+                    android:textColor="@color/text_primary"
+                    android:maxLines="2"
+                    android:ellipsize="end"
+                    android:fontFamily="sans-serif-medium"
+                    tools:text="Resuelve problemas de cantidad" />
 
+                <!-- Área curricular -->
                 <TextView
                     android:id="@+id/tvCompetencyDescription"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
                     android:text="Área: Matemática"
+                    android:textSize="13sp"
+                    android:textColor="@color/text_secondary"
+                    android:layout_marginTop="4dp"
+                    tools:text="Área: Matemática" />
+
+                <!-- Contador de capacidades -->
+                <TextView
+                    android:id="@+id/tvAbilitiesCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="💡 3 capacidades"
                     android:textSize="12sp"
-                    android:textColor="@android:color/darker_gray" />
+                    android:textColor="@color/secondaryColor"
+                    android:layout_marginTop="6dp"
+                    android:fontFamily="sans-serif-medium"
+                    android:visibility="gone"
+                    tools:visibility="visible"
+                    tools:text="💡 3 capacidades" />
+
             </LinearLayout>
 
-            <!-- Botón de opciones -->
-            <ImageButton
-                android:id="@+id/btnCompetencyOptions"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:src="@drawable/ic_more_vert"
-                android:contentDescription="Opciones" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!-- Divider -->
+        <View
+            android:id="@+id/dividerHeader"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/divider"
+            android:layout_marginHorizontal="16dp" />
+
+        <!-- ✅ NUEVO: Botones de acción visibles -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="12dp"
+            android:gravity="center">
+
+            <!-- Botón Eliminar -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnDeleteCompetency"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:layout_width="match_parent"
+                android:layout_height="42dp"
+                android:text="Eliminar"
+                android:textSize="13sp"
+                app:icon="@drawable/ic_delete"
+                app:iconTint="@color/error"
+                app:iconSize="18dp"
+                app:iconGravity="textStart"
+                app:strokeColor="@color/error"
+                app:strokeWidth="1.5dp"
+                app:cornerRadius="10dp" />
+
         </LinearLayout>
 
         <!-- Contenido expandible -->
@@ -76,47 +159,71 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:visibility="gone"
-            android:background="#F5F5F5">
+            android:background="#FAFAFA"
+            tools:visibility="visible">
 
             <!-- Botón agregar capacidad -->
-            <LinearLayout
+            <com.google.android.material.card.MaterialCardView
                 android:id="@+id/layoutAgregarCapacidad"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="16dp"
-                android:background="?attr/selectableItemBackground"
+                android:layout_margin="12dp"
+                app:cardElevation="2dp"
+                app:cardCornerRadius="12dp"
                 android:clickable="true"
-                android:focusable="true">
+                android:focusable="true"
+                app:cardBackgroundColor="#E8F5E8">
 
-                <TextView
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:background="@drawable/circle_background_green"
-                    android:gravity="center"
-                    android:text="+"
-                    android:textSize="16sp"
-                    android:textColor="@android:color/white"
-                    android:layout_marginEnd="12dp" />
-
-                <TextView
-                    android:layout_width="0dp"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_gravity="center_vertical"
-                    android:text="Agregar Capacidad del Catálogo"
-                    android:textSize="14sp"
-                    android:textStyle="bold" />
-            </LinearLayout>
+                    android:orientation="horizontal"
+                    android:padding="16dp"
+                    android:gravity="center_vertical">
+
+                    <FrameLayout
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:background="@drawable/bg_add_ability_circle">
+
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:src="@drawable/ic_add"
+                            android:layout_gravity="center"
+                            app:tint="@color/white"
+                            android:contentDescription="Agregar" />
+
+                    </FrameLayout>
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginStart="12dp"
+                        android:text="Agregar Capacidad del Catálogo"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/text_primary"
+                        android:fontFamily="sans-serif-medium" />
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
 
             <!-- Lista de capacidades -->
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvAbilities"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
-                android:paddingBottom="8dp" />
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                android:paddingBottom="12dp"
+                android:clipToPadding="false"
+                tools:listitem="@layout/item_ability_expandable" />
+
         </LinearLayout>
+
     </LinearLayout>
+
 </com.google.android.material.card.MaterialCardView>

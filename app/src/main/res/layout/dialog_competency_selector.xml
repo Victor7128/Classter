@@ -1,97 +1,221 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="24dp"
+    android:background="@drawable/bg_dialog">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Seleccionar Competencia para Evaluación"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:textColor="@android:color/black"
-        android:layout_marginBottom="8dp" />
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Selecciona la competencia que deseas evaluar:"
-        android:textSize="14sp"
-        android:textColor="@android:color/darker_gray"
-        android:layout_marginBottom="16dp" />
-
-    <!-- Producto seleccionado automáticamente -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:background="#E8F5E8"
-        android:padding="12dp"
+    <!-- Icono decorativo -->
+    <FrameLayout
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_gravity="center"
+        android:background="@drawable/bg_dialog_icon_green"
         android:layout_marginBottom="16dp">
 
-        <TextView
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:background="@drawable/circle_green"
-            android:gravity="center"
-            android:text="✓"
-            android:textSize="12sp"
-            android:textColor="@android:color/white"
-            android:layout_marginEnd="8dp" />
+        <ImageView
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:src="@drawable/ic_evaluation"
+            android:layout_gravity="center"
+            app:tint="@color/secondaryColor"
+            android:contentDescription="Evaluación" />
 
-        <TextView
-            android:id="@+id/tvProductInfo"
-            android:layout_width="0dp"
+    </FrameLayout>
+
+    <!-- Título -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Seleccionar Competencia"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:textColor="@color/text_primary"
+        android:gravity="center"
+        android:fontFamily="sans-serif-medium"
+        android:layout_marginBottom="8dp" />
+
+    <!-- Subtítulo -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Elige la competencia que deseas evaluar"
+        android:textSize="14sp"
+        android:textColor="@color/text_secondary"
+        android:gravity="center"
+        android:layout_marginBottom="24dp" />
+
+    <!-- Producto seleccionado automáticamente -->
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="2dp"
+        app:cardBackgroundColor="#E8F5E8">
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Producto: Informe de investigación"
-            android:textSize="14sp"
-            android:textStyle="bold"
-            android:textColor="@android:color/black" />
-    </LinearLayout>
+            android:orientation="horizontal"
+            android:padding="16dp"
+            android:gravity="center_vertical">
+
+            <FrameLayout
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:background="@drawable/bg_check_circle_green">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_check"
+                    android:layout_gravity="center"
+                    app:tint="@color/white"
+                    android:contentDescription="Seleccionado" />
+
+            </FrameLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:layout_marginStart="12dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Producto seleccionado"
+                    android:textSize="12sp"
+                    android:textColor="@color/text_secondary"
+                    android:fontFamily="sans-serif" />
+
+                <TextView
+                    android:id="@+id/tvProductInfo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Informe de investigación"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/text_primary"
+                    android:layout_marginTop="2dp"
+                    android:fontFamily="sans-serif-medium" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </com.google.android.material.card.MaterialCardView>
 
     <!-- Selector de Competencia -->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Competencia a evaluar:"
+        android:text="Competencia a evaluar"
         android:textSize="14sp"
         android:textStyle="bold"
+        android:textColor="@color/text_primary"
+        android:fontFamily="sans-serif-medium"
         android:layout_marginBottom="8dp" />
 
-    <Spinner
-        android:id="@+id/spinnerCompetencies"
+    <!-- Spinner con mejor diseño -->
+    <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:layout_marginBottom="16dp" />
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="2dp"
+        app:strokeWidth="2dp"
+        app:strokeColor="@color/primaryColor"
+        app:cardBackgroundColor="@color/surface">
+
+        <Spinner
+            android:id="@+id/spinnerCompetencies"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:background="@android:color/transparent" />
+
+    </com.google.android.material.card.MaterialCardView>
 
     <!-- Información adicional -->
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="0dp"
+        app:cardBackgroundColor="#E3F2FD">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="16dp"
+            android:gravity="center_vertical">
+
+            <FrameLayout
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:background="@drawable/bg_info_icon_blue">
+
+                <ImageView
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:src="@drawable/ic_info"
+                    android:layout_gravity="center"
+                    app:tint="@color/primaryColor"
+                    android:contentDescription="Info" />
+
+            </FrameLayout>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="La matriz mostrará todos los criterios de evaluación para cada estudiante"
+                android:textSize="12sp"
+                android:textColor="@color/text_secondary"
+                android:layout_marginStart="12dp"
+                android:lineSpacingExtra="2dp" />
+
+        </LinearLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <!-- Botones de acción -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:background="#E3F2FD"
-        android:padding="12dp">
+        android:gravity="end">
 
-        <TextView
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:background="@drawable/circle_background"
-            android:gravity="center"
-            android:text="ℹ"
-            android:textSize="12sp"
-            android:textColor="@android:color/white"
-            android:layout_marginEnd="8dp" />
-
-        <TextView
-            android:layout_width="0dp"
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnCancel"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="La matriz de evaluación mostrará todos los criterios de esta competencia para evaluar a cada estudiante."
-            android:textSize="12sp"
-            android:textColor="@android:color/black" />
+            android:text="Cancelar"
+            android:textColor="@color/text_secondary"
+            android:paddingHorizontal="24dp"
+            style="@style/Widget.Material3.Button.TextButton"
+            android:layout_marginEnd="12dp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnAccept"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Evaluar"
+            android:paddingHorizontal="32dp"
+            app:icon="@drawable/ic_arrow_forward"
+            app:iconGravity="textEnd"
+            app:cornerRadius="12dp"
+            app:backgroundTint="@color/secondaryColor"
+            style="@style/Widget.Material3.Button" />
+
     </LinearLayout>
 
 </LinearLayout>

@@ -1,66 +1,178 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="24dp"
+    android:background="@drawable/bg_dialog">
 
-    <!-- MOSTRAR ÁREA AUTOMÁTICA DEL DOCENTE -->
+    <!-- Icono decorativo -->
+    <FrameLayout
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_gravity="center"
+        android:background="@drawable/bg_dialog_icon_blue"
+        android:layout_marginBottom="16dp">
+
+        <ImageView
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:src="@drawable/ic_competencies"
+            android:layout_gravity="center"
+            app:tint="@color/primaryColor"
+            android:contentDescription="Competencias" />
+
+    </FrameLayout>
+
+    <!-- Título -->
     <TextView
-        android:id="@+id/tvAreaInfo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Agregar Competencias"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:textColor="@color/text_primary"
+        android:gravity="center"
+        android:fontFamily="sans-serif-medium"
+        android:layout_marginBottom="8dp" />
+
+    <!-- Subtítulo -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Del Currículo Nacional"
+        android:textSize="14sp"
+        android:textColor="@color/text_secondary"
+        android:gravity="center"
+        android:layout_marginBottom="16dp" />
+
+    <!-- Card de información del área -->
+    <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
-        android:text="Área: Cargando..."
-        android:textSize="14sp"
-        android:textStyle="bold"
-        android:background="#E8F5E8"
-        android:padding="12dp"
-        android:gravity="center" />
+        app:cardCornerRadius="12dp"
+        app:cardElevation="2dp"
+        app:cardBackgroundColor="#E8F5E8">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Agregar Competencias del Currículo Nacional"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        android:textColor="@android:color/black"
-        android:layout_marginBottom="8dp" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="16dp"
+            android:gravity="center_vertical">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Selecciona las competencias que trabajarás en esta sesión de aprendizaje."
-        android:textSize="14sp"
-        android:textColor="@android:color/darker_gray"
-        android:layout_marginBottom="16dp" />
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_area_subject"
+                app:tint="@color/secondaryColor"
+                android:contentDescription="Área" />
 
-    <!-- Lista de competencias con scroll -->
+            <TextView
+                android:id="@+id/tvAreaInfo"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Área: Cargando..."
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:textColor="@color/text_primary"
+                android:layout_marginStart="12dp"
+                android:fontFamily="sans-serif-medium" />
+
+        </LinearLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <!-- Título de la lista -->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Competencias disponibles:"
-        android:textSize="14sp"
+        android:textSize="15sp"
         android:textStyle="bold"
-        android:layout_marginBottom="8dp" />
+        android:textColor="@color/text_primary"
+        android:fontFamily="sans-serif-medium"
+        android:layout_marginBottom="12dp" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvCompetenciasDialog"
+    <!-- Lista de competencias con scroll -->
+    <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="350dp"
-        android:background="#FAFAFA"
-        android:padding="8dp" />
+        android:layout_marginBottom="16dp"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="2dp"
+        app:strokeWidth="1dp"
+        app:strokeColor="@color/divider"
+        app:cardBackgroundColor="#FAFAFA">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvCompetenciasDialog"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="8dp"
+            android:clipToPadding="false" />
+
+    </com.google.android.material.card.MaterialCardView>
 
     <!-- Información adicional -->
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="💡 Las competencias se filtran automáticamente por tu área curricular."
-        android:textSize="12sp"
-        android:textColor="@android:color/darker_gray"
-        android:background="#F0F8FF"
-        android:padding="8dp"
-        android:drawablePadding="8dp" />
+        android:orientation="horizontal"
+        android:background="@drawable/bg_info_note"
+        android:padding="12dp"
+        android:layout_marginBottom="24dp"
+        android:gravity="center_vertical">
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/ic_lightbulb"
+            app:tint="@color/accentColor"
+            android:contentDescription="Info" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Las competencias se filtran automáticamente por tu área curricular"
+            android:textSize="12sp"
+            android:textColor="@color/text_secondary"
+            android:layout_marginStart="8dp" />
+
+    </LinearLayout>
+
+    <!-- Botones de acción -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="end">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnCancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cancelar"
+            android:textColor="@color/text_secondary"
+            android:paddingHorizontal="24dp"
+            style="@style/Widget.Material3.Button.TextButton"
+            android:layout_marginEnd="12dp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnAccept"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Agregar"
+            android:paddingHorizontal="32dp"
+            app:icon="@drawable/ic_check"
+            app:iconGravity="textStart"
+            app:cornerRadius="12dp"
+            style="@style/Widget.Material3.Button" />
+
+    </LinearLayout>
 
 </LinearLayout>

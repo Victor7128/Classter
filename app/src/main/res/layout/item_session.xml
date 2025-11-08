@@ -2,38 +2,75 @@
 <com.google.android.material.card.MaterialCardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp"
-    app:cardElevation="2dp"
-    app:cardCornerRadius="8dp">
+    android:layout_marginStart="8dp"
+    android:layout_marginEnd="8dp"
+    android:layout_marginTop="6dp"
+    android:layout_marginBottom="6dp"
+    app:cardElevation="3dp"
+    app:cardCornerRadius="16dp"
+    app:cardBackgroundColor="@color/surface">
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:padding="16dp">
 
-        <!-- Número de sesión -->
-        <TextView
-            android:id="@+id/tvSessionNumber"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:background="@drawable/circle_background"
-            android:gravity="center"
-            android:text="1"
-            android:textColor="@android:color/white"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+        <!-- Avatar circular con número de sesión -->
+        <FrameLayout
+            android:id="@+id/frameAvatar"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:background="@drawable/bg_session_avatar"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent">
 
-        <!-- Información de la sesión -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:gravity="center">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_sessions_mini"
+                    app:tint="@color/white"
+                    android:contentDescription="Sesión" />
+
+                <TextView
+                    android:id="@+id/tvSessionNumber"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="1"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/white"
+                    android:fontFamily="sans-serif-black"
+                    android:layout_marginTop="2dp"
+                    tools:text="1" />
+
+            </LinearLayout>
+
+        </FrameLayout>
+
+        <!-- Contenido de la sesión -->
         <LinearLayout
+            android:id="@+id/layoutContent"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:orientation="vertical"
             android:layout_marginStart="16dp"
-            android:orientation="vertical">
+            android:layout_marginEnd="8dp"
+            app:layout_constraintStart_toEndOf="@id/frameAvatar"
+            app:layout_constraintEnd_toStartOf="@id/layoutActions"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent">
 
+            <!-- Título de la sesión -->
             <TextView
                 android:id="@+id/tvSessionTitle"
                 android:layout_width="match_parent"
@@ -41,25 +78,104 @@
                 android:text="Título de la sesión"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                android:textColor="@android:color/black" />
+                android:textColor="@color/text_primary"
+                android:maxLines="2"
+                android:ellipsize="end"
+                android:fontFamily="sans-serif-medium"
+                tools:text="Soluciones Tecnológicas" />
 
-            <TextView
-                android:id="@+id/tvSessionDate"
+            <!-- Fecha con icono -->
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="6dp"
+                android:gravity="center_vertical">
+
+                <ImageView
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:src="@drawable/ic_calendar"
+                    app:tint="@color/text_secondary"
+                    android:contentDescription="Fecha" />
+
+                <TextView
+                    android:id="@+id/tvSessionDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="14 Oct 2025"
+                    android:textSize="13sp"
+                    android:textColor="@color/text_secondary"
+                    android:layout_marginStart="6dp"
+                    tools:text="14 Oct 2025" />
+
+            </LinearLayout>
+
+            <!-- Indicador de competencias (opcional) -->
+            <LinearLayout
+                android:id="@+id/layoutCompetencies"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
                 android:layout_marginTop="4dp"
-                android:text="2025-10-09"
-                android:textSize="14sp"
-                android:textColor="@android:color/darker_gray" />
+                android:gravity="center_vertical"
+                android:visibility="gone"
+                tools:visibility="visible">
+
+                <ImageView
+                    android:layout_width="14dp"
+                    android:layout_height="14dp"
+                    android:src="@drawable/ic_check_circle"
+                    app:tint="@color/secondaryColor"
+                    android:contentDescription="Competencias" />
+
+                <TextView
+                    android:id="@+id/tvCompetenciesCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="2 competencias"
+                    android:textSize="12sp"
+                    android:textColor="@color/secondaryColor"
+                    android:layout_marginStart="4dp"
+                    android:fontFamily="sans-serif-medium"
+                    tools:text="2 competencias" />
+
+            </LinearLayout>
+
         </LinearLayout>
 
-        <!-- Botón de menú (opciones) -->
-        <ImageButton
-            android:id="@+id/btnSessionOptions"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:src="@drawable/ic_more_vert"
-            android:contentDescription="Opciones" />
-    </LinearLayout>
+        <!-- Acciones -->
+        <LinearLayout
+            android:id="@+id/layoutActions"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <!-- Botón de opciones -->
+            <FrameLayout
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/bg_action_button_gray">
+
+                <ImageButton
+                    android:id="@+id/btnSessionOptions"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:src="@drawable/ic_more_vert"
+                    android:contentDescription="Opciones"
+                    android:scaleType="centerInside"
+                    android:padding="8dp"
+                    app:tint="@color/text_secondary" />
+
+            </FrameLayout>
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 </com.google.android.material.card.MaterialCardView>

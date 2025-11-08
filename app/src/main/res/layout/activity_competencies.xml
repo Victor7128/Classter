@@ -2,22 +2,112 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/background_primary">
 
-    <!-- AppBar con Toolbar -->
+    <!-- AppBar con Header -->
     <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:elevation="8dp"
+        android:background="@drawable/bg_toolbar_gradient">
 
+        <!-- Toolbar -->
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
+            android:background="@android:color/transparent"
             app:title="Competencias"
-            app:titleTextColor="@android:color/white"
-            app:navigationIcon="@drawable/ic_back" />
+            app:titleTextAppearance="@style/ToolbarTitleStyle"
+            app:titleTextColor="@color/white"
+            app:navigationIcon="@drawable/ic_back"
+            app:navigationIconTint="@color/white" />
+
+        <!-- Header Card con información del área -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="6dp"
+            app:cardBackgroundColor="@color/surface">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <!-- Icono y título -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="12dp">
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/ic_competencies"
+                        app:tint="@color/primaryColor"
+                        android:contentDescription="Competencias"
+                        android:padding="8dp"
+                        android:background="@drawable/bg_icon_circle_light_blue" />
+
+                    <TextView
+                        android:id="@+id/tvAreaInfo"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Área: Cargando..."
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/text_primary"
+                        android:layout_marginStart="16dp"
+                        android:fontFamily="sans-serif-medium"
+                        tools:text="Área: Matemática" />
+
+                </LinearLayout>
+
+                <!-- Indicador de cantidad -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:background="@drawable/bg_badge_info_blue"
+                    android:padding="12dp"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/ic_info"
+                        app:tint="@color/primaryColor"
+                        android:contentDescription="Info" />
+
+                    <TextView
+                        android:id="@+id/tvCompetencyInfo"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Selecciona competencias del currículo nacional"
+                        android:textSize="12sp"
+                        android:textColor="@color/text_primary"
+                        android:layout_marginStart="8dp"
+                        android:fontFamily="sans-serif-medium"
+                        tools:text="15 competencias disponibles" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
     </com.google.android.material.appbar.AppBarLayout>
 
     <!-- Contenido principal -->
@@ -27,14 +117,77 @@
         android:orientation="vertical"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <!-- Información del área automática -->
+        <!-- Lista de competencias -->
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/swipeRefresh"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvCompetencias"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="12dp"
+                    android:clipToPadding="false"
+                    tools:listitem="@layout/item_competencia_template" />
+
+                <!-- Estado vacío -->
+                <LinearLayout
+                    android:id="@+id/layoutEmptyState"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:padding="32dp"
+                    android:visibility="gone"
+                    tools:visibility="gone">
+
+                    <ImageView
+                        android:layout_width="120dp"
+                        android:layout_height="120dp"
+                        android:src="@drawable/ic_empty_competencies"
+                        app:tint="@color/text_hint"
+                        android:alpha="0.5"
+                        android:contentDescription="Sin competencias" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Sin competencias"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/text_secondary"
+                        android:layout_marginTop="16dp"
+                        android:fontFamily="sans-serif-medium" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="No hay competencias disponibles\npara tu área curricular"
+                        android:textSize="14sp"
+                        android:textColor="@color/text_hint"
+                        android:layout_marginTop="8dp"
+                        android:gravity="center" />
+
+                </LinearLayout>
+
+            </FrameLayout>
+
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+        <!-- Barra inferior con contador y botón -->
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            app:cardElevation="2dp"
-            app:cardCornerRadius="8dp"
-            app:cardBackgroundColor="#E8F5E8">
+            app:cardElevation="8dp"
+            app:cardCornerRadius="0dp"
+            app:cardBackgroundColor="@color/surface">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -43,73 +196,98 @@
                 android:padding="16dp"
                 android:gravity="center_vertical">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="📚"
-                    android:textSize="20sp"
-                    android:layout_marginEnd="12dp" />
-
-                <TextView
-                    android:id="@+id/tvAreaInfo"
+                <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Área: Cargando..."
-                    android:textSize="14sp"
-                    android:textStyle="bold" />
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tvSelectedCount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0 seleccionadas"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/text_primary"
+                        android:fontFamily="sans-serif-medium"
+                        tools:text="3 seleccionadas" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Toca para seleccionar"
+                        android:textSize="12sp"
+                        android:textColor="@color/text_secondary"
+                        android:layout_marginTop="2dp" />
+
+                </LinearLayout>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnGuardarCompetencias"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Guardar"
+                    android:paddingHorizontal="32dp"
+                    app:icon="@drawable/ic_check"
+                    app:iconGravity="textStart"
+                    app:cornerRadius="12dp"
+                    android:enabled="false"
+                    style="@style/Widget.Material3.Button" />
+
             </LinearLayout>
+
         </com.google.android.material.card.MaterialCardView>
 
-        <!-- Lista de competencias -->
-        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-            android:id="@+id/swipeRefresh"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1">
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvCompetencias"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:padding="8dp"
-                android:clipToPadding="false" />
-        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-
-        <!-- Botón para guardar competencias seleccionadas -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="16dp"
-            android:background="@color/white"
-            android:elevation="4dp">
-
-            <TextView
-                android:id="@+id/tvSelectedCount"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_gravity="center_vertical"
-                android:text="0 competencias seleccionadas"
-                android:textSize="14sp"
-                android:textColor="@android:color/darker_gray" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnGuardarCompetencias"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Guardar"
-                android:enabled="false" />
-        </LinearLayout>
     </LinearLayout>
 
-    <!-- ProgressBar -->
-    <ProgressBar
-        android:id="@+id/progressBar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:visibility="gone" />
+    <!-- ProgressBar mejorado -->
+    <FrameLayout
+        android:id="@+id/loadingOverlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/overlay_medium"
+        android:visibility="gone"
+        android:clickable="true"
+        android:focusable="true"
+        tools:visibility="gone">
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="8dp"
+            app:cardBackgroundColor="@color/surface">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:padding="32dp">
+
+                <ProgressBar
+                    android:id="@+id/progressBar"
+                    style="?android:attr/progressBarStyleLarge"
+                    android:layout_width="56dp"
+                    android:layout_height="56dp"
+                    android:indeterminate="true"
+                    android:indeterminateTint="@color/primaryColor" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Cargando..."
+                    android:textSize="14sp"
+                    android:textColor="@color/text_primary"
+                    android:layout_marginTop="16dp"
+                    android:fontFamily="sans-serif-medium" />
+
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+    </FrameLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

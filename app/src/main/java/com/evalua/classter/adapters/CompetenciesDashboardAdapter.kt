@@ -3,7 +3,6 @@ package com.evalua.classter.adapters
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -12,6 +11,7 @@ import com.evalua.classter.R
 import com.evalua.classter.models.Ability
 import com.evalua.classter.models.Competency
 import com.evalua.classter.models.Criterion
+import com.google.android.material.button.MaterialButton
 
 class CompetenciesDashboardAdapter(
     private var competencies: List<Competency>,
@@ -20,12 +20,13 @@ class CompetenciesDashboardAdapter(
     private var expandedCompetencyId: Int? = null,
     private var expandedAbilityId: Int? = null,
     private val onCompetencyExpanded: (Int, Boolean) -> Unit,
-    private val onCompetencyOptionsClick: (Competency, View) -> Unit,
+    private val onDeleteCompetency: (Competency) -> Unit,  // ✅ CAMBIO
     private val onAddAbility: (Int) -> Unit,
     private val onAbilityExpanded: (Int, Boolean) -> Unit,
-    private val onAbilityOptionsClick: (Ability, View) -> Unit,
+    private val onDeleteAbility: (Ability) -> Unit,  // ✅ CAMBIO
     private val onAddCriterion: (Int) -> Unit,
-    private val onCriterionOptionsClick: (Criterion, View) -> Unit
+    private val onEditCriterion: (Criterion) -> Unit,  // ✅ NUEVO
+    private val onDeleteCriterion: (Criterion) -> Unit  // ✅ CAMBIO
 ) : RecyclerView.Adapter<CompetenciesDashboardAdapter.CompetencyViewHolder>() {
 
     inner class CompetencyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -33,7 +34,7 @@ class CompetenciesDashboardAdapter(
         val ivExpandIcon: ImageView = view.findViewById(R.id.ivExpandIcon)
         val tvCompetencyName: TextView = view.findViewById(R.id.tvCompetencyName)
         val tvCompetencyDescription: TextView = view.findViewById(R.id.tvCompetencyDescription)
-        val btnCompetencyOptions: ImageButton = view.findViewById(R.id.btnCompetencyOptions)
+        val btnDeleteCompetency: MaterialButton = view.findViewById(R.id.btnDeleteCompetency)  // ✅ NUEVO
         val layoutExpandedContent: View = view.findViewById(R.id.layoutExpandedContent)
         val layoutAgregarCapacidad: View = view.findViewById(R.id.layoutAgregarCapacidad)
         val rvAbilities: RecyclerView = view.findViewById(R.id.rvAbilities)
@@ -65,9 +66,9 @@ class CompetenciesDashboardAdapter(
             notifyDataSetChanged()
         }
 
-        // Opciones de competencia
-        holder.btnCompetencyOptions.setOnClickListener {
-            onCompetencyOptionsClick(competency, it)
+        // ✅ NUEVO: Botón eliminar
+        holder.btnDeleteCompetency.setOnClickListener {
+            onDeleteCompetency(competency)
         }
 
         // Agregar capacidad
@@ -87,9 +88,10 @@ class CompetenciesDashboardAdapter(
                     onAbilityExpanded(abilityId, expanded)
                     notifyDataSetChanged()
                 },
-                onAbilityOptionsClick = onAbilityOptionsClick,
+                onDeleteAbility = onDeleteAbility,  // ✅ CAMBIO
                 onAddCriterion = onAddCriterion,
-                onCriterionOptionsClick = onCriterionOptionsClick
+                onEditCriterion = onEditCriterion,  // ✅ NUEVO
+                onDeleteCriterion = onDeleteCriterion  // ✅ CAMBIO
             )
             holder.rvAbilities.layoutManager = LinearLayoutManager(holder.itemView.context)
             holder.rvAbilities.adapter = abilitiesAdapter

@@ -8,7 +8,6 @@ import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
@@ -25,7 +24,6 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputEditText
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.async
-import androidx.core.graphics.toColorInt
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -40,7 +38,7 @@ class CompetenciesDashboardActivity : AppCompatActivity() {
     private lateinit var cardAgregarCompetencia: MaterialCardView
     private lateinit var swipeRefresh: SwipeRefreshLayout
     private lateinit var rvCompetencies: RecyclerView
-    private lateinit var progressBar: ProgressBar
+    private lateinit var loadingOverlay: View  // ✅ CAMBIO: De ProgressBar a View
     private lateinit var adapter: CompetenciesDashboardAdapter
 
     private var sessionId: Int = -1
@@ -51,7 +49,7 @@ class CompetenciesDashboardActivity : AppCompatActivity() {
     private var competencyAbilities: Map<Int, List<Ability>> = emptyMap()
     private var abilityCriteria: Map<Int, List<Criterion>> = emptyMap()
 
-    private lateinit var tvEmptyState: TextView
+    private lateinit var layoutEmptyState: LinearLayout
 
     // Datos del usuario
     private lateinit var sharedPreferences: SharedPreferences
@@ -67,71 +65,110 @@ class CompetenciesDashboardActivity : AppCompatActivity() {
     private lateinit var cardAreaInfo: MaterialCardView
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        Log.d(TAG, "=== onCreate INICIADO ===")
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_competencies_dashboard)
 
-        // Obtener datos del usuario
-        sharedPreferences = getSharedPreferences("user_prefs", MODE_PRIVATE)
-        userAreaId = sharedPreferences.getInt("user_area_id", 0)
-        userRole = sharedPreferences.getString("user_role", "") ?: ""
-        userAreaName = sharedPreferences.getString("user_area_name", "") ?: ""
+        try {
+            Log.d(TAG, "Intentando inflar layout...")
+            setContentView(R.layout.activity_competencies_dashboard)
+            Log.d(TAG, "✅ Layout inflado correctamente")
 
-        initViews()
-        sessionId = intent.getIntExtra("SESSION_ID", -1)
-        sessionTitle = intent.getStringExtra("SESSION_TITLE") ?: "Competencias"
+            Log.d(TAG, "Obteniendo SharedPreferences...")
+            sharedPreferences = getSharedPreferences("user_prefs", MODE_PRIVATE)
+            userAreaId = sharedPreferences.getInt("user_area_id", 0)
+            userRole = sharedPreferences.getString("user_role", "") ?: ""
+            userAreaName = sharedPreferences.getString("user_area_name", "") ?: ""
+            Log.d(TAG, "Usuario: Rol=$userRole, Área=$userAreaName (ID=$userAreaId)")
 
-        if (sessionId == -1) {
-            Toast.makeText(this, "Error: Sesión no válida", Toast.LENGTH_SHORT).show()
+            Log.d(TAG, "Inicializando vistas...")
+            initViews()
+
+            Log.d(TAG, "Obteniendo extras del Intent...")
+            sessionId = intent.getIntExtra("SESSION_ID", -1)
+            sessionTitle = intent.getStringExtra("SESSION_TITLE") ?: "Competencias"
+            Log.d(TAG, "SESSION_ID: $sessionId")
+            Log.d(TAG, "SESSION_TITLE: $sessionTitle")
+
+            if (sessionId == -1) {
+                Log.e(TAG, "❌ SESSION_ID inválido")
+                Toast.makeText(this, "Error: Sesión no válida", Toast.LENGTH_SHORT).show()
+                finish()
+                return
+            }
+
+            Log.d(TAG, "Configurando componentes...")
+            setupToolbar()
+            setupRecyclerView()
+            setupSwipeRefresh()
+            setupSearchAndFilters()
+            setupButtons()
+
+            Log.d(TAG, "Actualizando info del área...")
+            updateAreaInfo()
+
+            Log.d(TAG, "Cargando datos iniciales...")
+            loadInitialData()
+
+            Log.d(TAG, "=== onCreate COMPLETADO EXITOSAMENTE ===")
+
+        } catch (e: Exception) {
+            Log.e(TAG, "❌ EXCEPCIÓN FATAL en onCreate", e)
+            Log.e(TAG, "Mensaje: ${e.message}")
+            Log.e(TAG, "Causa: ${e.cause}")
+            e.printStackTrace()
+            Toast.makeText(this, "Error fatal: ${e.message}", Toast.LENGTH_LONG).show()
             finish()
-            return
-        }
-
-        setupToolbar()
-        setupRecyclerView()
-        setupSwipeRefresh()
-        setupSearchAndFilters()
-        setupButtons()
-
-        // ✅ ACTUALIZAR EL ÁREA INMEDIATAMENTE
-        updateAreaInfo()
-
-        loadInitialData()
-    }
-
-    private fun setupAreaInfo(tvAreaInfo: TextView) {
-        when {
-            userRole == "ADMIN" -> {
-                tvAreaInfo.text = "👑 Modo ADMIN - Todas las áreas disponibles"
-                tvAreaInfo.setBackgroundColor(Color.parseColor("#E3F2FD"))
-            }
-
-            userRole == "DOCENTE" && userAreaName.isNotEmpty() -> {
-                tvAreaInfo.text = "📚 Tu área: $userAreaName"
-                tvAreaInfo.setBackgroundColor(Color.parseColor("#E8F5E8"))
-            }
-
-            else -> {
-                tvAreaInfo.text = "⚠️ Área no asignada"
-                tvAreaInfo.setBackgroundColor(Color.parseColor("#FFEBEE"))
-            }
         }
     }
 
     private fun initViews() {
-        toolbar = findViewById(R.id.toolbar)
-        etBuscarCompetencias = findViewById(R.id.etBuscarCompetencias)
-        spinnerAreas = findViewById(R.id.spinnerAreas)
-        cardAgregarCompetencia = findViewById(R.id.cardAgregarCompetencia)
-        swipeRefresh = findViewById(R.id.swipeRefresh)
-        rvCompetencies = findViewById(R.id.rvCompetencies)
-        progressBar = findViewById(R.id.progressBar)
+        try {
+            Log.d(TAG, "  Buscando toolbar...")
+            toolbar = findViewById(R.id.toolbar)
+            Log.d(TAG, "  ✅ toolbar encontrado: ${toolbar != null}")
 
-        // ✅ INICIALIZAR las nuevas vistas
-        tvAreaInfo = findViewById(R.id.tvAreaInfo)
-        cardAreaInfo = findViewById(R.id.cardAreaInfo)
+            Log.d(TAG, "  Buscando etBuscarCompetencias...")
+            etBuscarCompetencias = findViewById(R.id.etBuscarCompetencias)
+            Log.d(TAG, "  ✅ etBuscarCompetencias encontrado: ${etBuscarCompetencias != null}")
 
-        // ✅ INICIALIZAR vista de estado vacío
-        tvEmptyState = findViewById(R.id.tvEmptyState)
+            Log.d(TAG, "  Buscando spinnerAreas...")
+            spinnerAreas = findViewById(R.id.spinnerAreas)
+            Log.d(TAG, "  ✅ spinnerAreas encontrado: ${spinnerAreas != null}")
+
+            Log.d(TAG, "  Buscando cardAgregarCompetencia...")
+            cardAgregarCompetencia = findViewById(R.id.cardAgregarCompetencia)
+            Log.d(TAG, "  ✅ cardAgregarCompetencia encontrado: ${cardAgregarCompetencia != null}")
+
+            Log.d(TAG, "  Buscando swipeRefresh...")
+            swipeRefresh = findViewById(R.id.swipeRefresh)
+            Log.d(TAG, "  ✅ swipeRefresh encontrado: ${swipeRefresh != null}")
+
+            Log.d(TAG, "  Buscando rvCompetencies...")
+            rvCompetencies = findViewById(R.id.rvCompetencies)
+            Log.d(TAG, "  ✅ rvCompetencies encontrado: ${rvCompetencies != null}")
+
+            Log.d(TAG, "  Buscando loadingOverlay...")
+            loadingOverlay = findViewById(R.id.loadingOverlay)
+            Log.d(TAG, "  ✅ loadingOverlay encontrado: ${loadingOverlay != null}")
+
+            Log.d(TAG, "  Buscando tvAreaInfo...")
+            tvAreaInfo = findViewById(R.id.tvAreaInfo)
+            Log.d(TAG, "  ✅ tvAreaInfo encontrado: ${tvAreaInfo != null}")
+
+            Log.d(TAG, "  Buscando cardAreaInfo...")
+            cardAreaInfo = findViewById(R.id.cardAreaInfo)
+            Log.d(TAG, "  ✅ cardAreaInfo encontrado: ${cardAreaInfo != null}")
+
+            Log.d(TAG, "  Buscando layoutEmptyState...")
+            layoutEmptyState = findViewById(R.id.tvEmptyState)  // Sí, el ID sigue siendo tvEmptyState
+            Log.d(TAG, "  ✅ layoutEmptyState encontrado: ${layoutEmptyState != null}")
+
+            Log.d(TAG, "✅ Todas las vistas inicializadas correctamente")
+
+        } catch (e: Exception) {
+            Log.e(TAG, "❌ ERROR al inicializar vistas", e)
+            throw e
+        }
     }
 
     private fun setupToolbar() {
@@ -183,8 +220,8 @@ class CompetenciesDashboardActivity : AppCompatActivity() {
                 if (!isExpanded) expandedAbilityId = null
                 loadAbilitiesForCompetency(competencyId)
             },
-            onCompetencyOptionsClick = { competency, view ->
-                showCompetencyOptionsMenu(competency, view)
+            onDeleteCompetency = { competency ->
+                showDeleteCompetencyDialog(competency)
             },
             onAddAbility = { competencyId ->
                 showAddAbilityDialog(competencyId)
@@ -194,20 +231,22 @@ class CompetenciesDashboardActivity : AppCompatActivity() {
                 expandedAbilityId = if (isExpanded) abilityId else null
                 loadCriteriaForAbility(abilityId)
             },
-            onAbilityOptionsClick = { ability, view ->
-                showAbilityOptionsMenu(ability, view)
+            onDeleteAbility = { ability ->
+                showDeleteAbilityDialog(ability)
             },
             onAddCriterion = { abilityId ->
                 showAddCriterionDialog(abilityId)
             },
-            onCriterionOptionsClick = { criterion, view ->
-                showCriterionOptionsMenu(criterion, view)
+            onEditCriterion = { criterion ->
+                showEditCriterionDialog(criterion)
+            },
+            onDeleteCriterion = { criterion ->
+                showDeleteCriterionDialog(criterion)
             }
         )
         rvCompetencies.layoutManager = LinearLayoutManager(this)
         rvCompetencies.adapter = adapter
 
-        // ✅ MOSTRAR ESTADO VACÍO INICIAL
         showEmptyState(true, "Cargando competencias...")
     }
 
@@ -218,7 +257,6 @@ class CompetenciesDashboardActivity : AppCompatActivity() {
     }
 
     private fun setupSearchAndFilters() {
-        // Configurar spinner de áreas basado en el rol del usuario
         setupAreaSpinner()
 
         etBuscarCompetencias.addTextChangedListener(object : TextWatcher {
@@ -237,12 +275,11 @@ class CompetenciesDashboardActivity : AppCompatActivity() {
     }
 
     private fun loadInitialData() {
-        progressBar.visibility = View.VISIBLE
+        loadingOverlay.visibility = View.VISIBLE  // ✅ CAMBIO
         showEmptyState(true, "Cargando competencias...")
 
         lifecycleScope.launch {
             try {
-                // Cargar áreas (solo necesarias para ADMIN)
                 val areasDeferred = async {
                     if (userRole == "ADMIN") {
                         RetrofitClient.curriculumApiService.getAreas()
@@ -251,19 +288,15 @@ class CompetenciesDashboardActivity : AppCompatActivity() {
                     }
                 }
 
-                // ✅ Cargar competencias según el rol del usuario
                 val competenciasTemplateDeferred = async {
                     if (userRole == "ADMIN") {
-                        // ADMIN: Usar el endpoint /competencias que ya tiene area_id y area_nombre
                         RetrofitClient.curriculumApiService.getAllCompetencias()
                     } else {
-                        // DOCENTE: Obtener competencias de su área
                         if (userAreaId > 0) {
                             val area: Area = RetrofitClient.curriculumApiService.getArea(userAreaId)
                             val competenciasDetalladas: List<CompetenciaDetallada> =
                                 RetrofitClient.curriculumApiService.getCompetenciasByArea(userAreaId)
 
-                            // ✅ Convertir CompetenciaDetallada a CompetenciaTemplate
                             competenciasDetalladas.map { comp ->
                                 CompetenciaTemplate(
                                     id = comp.id,
@@ -283,7 +316,6 @@ class CompetenciesDashboardActivity : AppCompatActivity() {
 
                 Log.d(TAG, "📊 Datos cargados - Áreas: ${areas.size}, Competencias: ${todasCompetenciasTemplate.size}")
 
-                // ✅ CARGAR COMPETENCIAS DE LA SESIÓN
                 loadCompetencies()
 
             } catch (e: Exception) {
@@ -295,16 +327,13 @@ class CompetenciesDashboardActivity : AppCompatActivity() {
                 ).show()
                 showEmptyState(true, "Error al cargar competencias")
             } finally {
-                progressBar.visibility = View.GONE
+                loadingOverlay.visibility = View.GONE  // ✅ CAMBIO
             }
         }
     }
 
     private fun setupAreaSpinner() {
-        // Si el usuario es ADMIN, mostrar todas las áreas
-        // Si es DOCENTE, mostrar solo su área
         if (userRole == "ADMIN") {
-            // ADMIN puede ver todas las áreas
             val areasWithAll = listOf(Area(0, "Todas las áreas")) + areas
             val spinnerAdapter = ArrayAdapter(
                 this,
@@ -321,21 +350,10 @@ class CompetenciesDashboardActivity : AppCompatActivity() {
                 override fun onNothingSelected(parent: AdapterView<*>?) {}
             }
 
-            // Mostrar la sección de filtros para ADMIN
-            findViewById<com.google.android.material.card.MaterialCardView>(R.id.cardFiltroArea)?.visibility = View.VISIBLE
+            findViewById<MaterialCardView>(R.id.cardFiltroArea)?.visibility = View.VISIBLE
         } else {
-            // Para DOCENTE: OCULTAR completamente la sección de filtro
-            findViewById<com.google.android.material.card.MaterialCardView>(R.id.cardFiltroArea)?.visibility = View.GONE
+            findViewById<MaterialCardView>(R.id.cardFiltroArea)?.visibility = View.GONE
         }
-    }
-
-    private fun setupCompetenciesRecyclerView(rvCompetenciasDialog: RecyclerView) {
-        val selectionAdapter = CompetenciasTemplateAdapter(
-            competencias = todasCompetenciasTemplate,
-            onSelectionChanged = { /* manejar selección */ }
-        )
-        rvCompetenciasDialog.layoutManager = LinearLayoutManager(this)
-        rvCompetenciasDialog.adapter = selectionAdapter
     }
 
     private fun loadCompetencies() {
@@ -352,7 +370,6 @@ class CompetenciesDashboardActivity : AppCompatActivity() {
 
                 updateAdapter()
 
-                // ✅ ACTUALIZAR ESTADO VACÍO
                 if (competenciasActuales.isEmpty()) {
                     showEmptyState(true, "No hay competencias en esta sesión.\n\nToca el botón de abajo para agregar competencias de tu área.")
                 } else {
@@ -373,13 +390,15 @@ class CompetenciesDashboardActivity : AppCompatActivity() {
         }
     }
 
+    // ✅ CAMBIAR:
     private fun showEmptyState(show: Boolean, message: String) {
         if (show) {
-            tvEmptyState.text = message
-            tvEmptyState.visibility = View.VISIBLE
+            val tvMessage = layoutEmptyState.findViewById<TextView>(R.id.tvEmptyMessage)
+            tvMessage?.text = message
+            layoutEmptyState.visibility = View.VISIBLE
             rvCompetencies.visibility = View.GONE
         } else {
-            tvEmptyState.visibility = View.GONE
+            layoutEmptyState.visibility = View.GONE
             rvCompetencies.visibility = View.VISIBLE
         }
     }
@@ -393,13 +412,11 @@ class CompetenciesDashboardActivity : AppCompatActivity() {
                     competency.name.lowercase().contains(searchText) ||
                     competency.description?.lowercase()?.contains(searchText) == true
 
-            // Para ADMIN: filtrar por área seleccionada
-            // Para DOCENTE: no filtrar por área (solo tiene una)
             val matchesArea = if (userRole == "ADMIN") {
-                selectedAreaPosition == 0 || // "Todas las áreas"
+                selectedAreaPosition == 0 ||
                         competency.description?.contains(areas[selectedAreaPosition - 1].nombre) == true
             } else {
-                true // DOCENTE siempre ve todas sus competencias
+                true
             }
 
             matchesSearch && matchesArea
@@ -416,7 +433,6 @@ class CompetenciesDashboardActivity : AppCompatActivity() {
             keepExpanded = true
         )
 
-        // ✅ ACTUALIZAR ESTADO VACÍO PARA FILTROS
         if (filteredCompetencies.isEmpty() && competenciasActuales.isNotEmpty()) {
             showEmptyState(true, "No se encontraron competencias que coincidan con tu búsqueda.")
         } else if (filteredCompetencies.isEmpty()) {
@@ -489,27 +505,21 @@ class CompetenciesDashboardActivity : AppCompatActivity() {
         val rvCompetenciasDialog = dialogView.findViewById<RecyclerView>(R.id.rvCompetenciasDialog)
         val tvAreaInfoDialog = dialogView.findViewById<TextView>(R.id.tvAreaInfo)
 
-        // Configurar según el rol del usuario
         if (userRole == "ADMIN") {
-            // ADMIN puede seleccionar entre todas las áreas - usar un diálogo diferente o adaptar
             tvAreaInfoDialog.text = "👑 Modo ADMIN - Todas las áreas disponibles"
             tvAreaInfoDialog.setBackgroundColor(Color.parseColor("#E3F2FD"))
 
-            // Para ADMIN, mostrar todas las competencias sin filtro por área en el diálogo
-            // o podrías crear un layout alternativo con spinner para ADMIN
             val selectionAdapter = CompetenciasTemplateAdapter(
                 competencias = todasCompetenciasTemplate,
-                onSelectionChanged = { /* manejar selección */ }
+                onSelectionChanged = { }
             )
             rvCompetenciasDialog.layoutManager = LinearLayoutManager(this)
             rvCompetenciasDialog.adapter = selectionAdapter
 
         } else {
-            // DOCENTE solo ve competencias de su área
             tvAreaInfoDialog.text = "Área: $userAreaName"
             tvAreaInfoDialog.setBackgroundColor(Color.parseColor("#E8F5E8"))
 
-            // Filtrar competencias solo para el área del docente
             val competenciasDelArea = if (userAreaId > 0) {
                 todasCompetenciasTemplate.filter { it.area_id == userAreaId }
             } else {
@@ -518,12 +528,11 @@ class CompetenciesDashboardActivity : AppCompatActivity() {
 
             val selectionAdapter = CompetenciasTemplateAdapter(
                 competencias = competenciasDelArea,
-                onSelectionChanged = { /* manejar selección */ }
+                onSelectionChanged = { }
             )
             rvCompetenciasDialog.layoutManager = LinearLayoutManager(this)
             rvCompetenciasDialog.adapter = selectionAdapter
 
-            // Mostrar mensaje si no hay competencias para el área
             if (competenciasDelArea.isEmpty()) {
                 Toast.makeText(this,
                     "No hay competencias disponibles para tu área ($userAreaName)",
@@ -573,7 +582,7 @@ class CompetenciesDashboardActivity : AppCompatActivity() {
             Toast.makeText(this, mensaje, Toast.LENGTH_LONG).show()
         }
 
-        progressBar.visibility = View.VISIBLE
+        loadingOverlay.visibility = View.VISIBLE  // ✅ CAMBIO
 
         lifecycleScope.launch {
             try {
@@ -607,7 +616,6 @@ class CompetenciesDashboardActivity : AppCompatActivity() {
                 Toast.makeText(this@CompetenciesDashboardActivity, message, Toast.LENGTH_LONG).show()
 
                 if (savedCount > 0) {
-                    // ✅ RECARGAR LAS COMPETENCIAS DESPUÉS DE AGREGAR
                     loadCompetencies()
                 }
 
@@ -619,7 +627,7 @@ class CompetenciesDashboardActivity : AppCompatActivity() {
                     Toast.LENGTH_LONG
                 ).show()
             } finally {
-                progressBar.visibility = View.GONE
+                loadingOverlay.visibility = View.GONE  // ✅ CAMBIO
             }
         }
     }
@@ -634,7 +642,6 @@ class CompetenciesDashboardActivity : AppCompatActivity() {
                     return@launch
                 }
 
-                // ✅ Buscar la competencia en el catálogo usando el ID
                 val competenciaTemplate = todasCompetenciasTemplate.find {
                     it.nombre.equals(competencia.name, ignoreCase = true)
                 }
@@ -645,7 +652,6 @@ class CompetenciesDashboardActivity : AppCompatActivity() {
                     return@launch
                 }
 
-                // ✅ Obtener capacidades desde el endpoint detallado
                 val capacidades = withContext(Dispatchers.IO) {
                     RetrofitClient.curriculumApiService.getCapacidadesByCompetencia(competenciaTemplate.id)
                 }
@@ -691,7 +697,7 @@ class CompetenciesDashboardActivity : AppCompatActivity() {
             return
         }
 
-        progressBar.visibility = View.VISIBLE
+        loadingOverlay.visibility = View.VISIBLE  // ✅ CAMBIO
 
         lifecycleScope.launch {
             try {
@@ -718,7 +724,7 @@ class CompetenciesDashboardActivity : AppCompatActivity() {
                         "⚠️ Las ${capacidadesDuplicadas.size} capacidades seleccionadas ya existen en esta competencia"
                     }
                     Toast.makeText(this@CompetenciesDashboardActivity, mensaje, Toast.LENGTH_LONG).show()
-                    progressBar.visibility = View.GONE
+                    loadingOverlay.visibility = View.GONE  // ✅ CAMBIO
                     return@launch
                 }
 
@@ -765,7 +771,7 @@ class CompetenciesDashboardActivity : AppCompatActivity() {
                 Toast.makeText(this@CompetenciesDashboardActivity,
                     "Error: ${e.message}", Toast.LENGTH_LONG).show()
             } finally {
-                progressBar.visibility = View.GONE
+                loadingOverlay.visibility = View.GONE  // ✅ CAMBIO
             }
         }
     }
@@ -796,11 +802,10 @@ class CompetenciesDashboardActivity : AppCompatActivity() {
     }
 
     private fun createCriterion(abilityId: Int, name: String, description: String) {
-        progressBar.visibility = View.VISIBLE
+        loadingOverlay.visibility = View.VISIBLE  // ✅ CAMBIO
 
         lifecycleScope.launch {
             try {
-                // ✅ VALIDAR DUPLICADOS EN CRITERIOS
                 val criteriosExistentes = try {
                     RetrofitClient.apiService.getCriteria(abilityId)
                 } catch (e: Exception) {
@@ -818,11 +823,10 @@ class CompetenciesDashboardActivity : AppCompatActivity() {
                         "⚠️ Ya existe un criterio con el nombre \"$name\" en esta capacidad",
                         Toast.LENGTH_LONG
                     ).show()
-                    progressBar.visibility = View.GONE
+                    loadingOverlay.visibility = View.GONE  // ✅ CAMBIO
                     return@launch
                 }
 
-                // Crear criterio si no existe
                 val request = mapOf(
                     "name" to name,
                     "description" to description
@@ -846,66 +850,14 @@ class CompetenciesDashboardActivity : AppCompatActivity() {
                     Toast.LENGTH_LONG
                 ).show()
             } finally {
-                progressBar.visibility = View.GONE
+                loadingOverlay.visibility = View.GONE  // ✅ CAMBIO
             }
         }
-    }
-
-    private fun showCompetencyOptionsMenu(competency: Competency, view: View) {
-        val popup = PopupMenu(this, view)
-        popup.menuInflater.inflate(R.menu.menu_delete_only, popup.menu)
-
-        popup.setOnMenuItemClickListener { item ->
-            when (item.itemId) {
-                R.id.action_delete -> {
-                    showDeleteCompetencyDialog(competency)
-                    true
-                }
-                else -> false
-            }
-        }
-        popup.show()
-    }
-
-    private fun showAbilityOptionsMenu(ability: Ability, view: View) {
-        val popup = PopupMenu(this, view)
-        popup.menuInflater.inflate(R.menu.menu_delete_only, popup.menu)
-
-        popup.setOnMenuItemClickListener { item ->
-            when (item.itemId) {
-                R.id.action_delete -> {
-                    showDeleteAbilityDialog(ability)
-                    true
-                }
-                else -> false
-            }
-        }
-        popup.show()
-    }
-
-    private fun showCriterionOptionsMenu(criterion: Criterion, view: View) {
-        val popup = PopupMenu(this, view)
-        popup.menuInflater.inflate(R.menu.menu_criterion_options, popup.menu)
-
-        popup.setOnMenuItemClickListener { item ->
-            when (item.itemId) {
-                R.id.action_edit -> {
-                    showEditCriterionDialog(criterion)
-                    true
-                }
-                R.id.action_delete -> {
-                    showDeleteCriterionDialog(criterion)
-                    true
-                }
-                else -> false
-            }
-        }
-        popup.show()
     }
 
     private fun showDeleteCompetencyDialog(competency: Competency) {
         MaterialAlertDialogBuilder(this)
-            .setTitle("Eliminar Competencia") // ✅ Corregido: faltaba paréntesis de cierre
+            .setTitle("Eliminar Competencia")
             .setMessage("¿Estás seguro de que deseas eliminar la competencia \"${competency.name}\"?\n\n⚠️ Esta competencia proviene del Currículo Nacional y se eliminará de esta sesión junto con todas sus capacidades y criterios asociados.")
             .setIcon(R.drawable.ic_warning)
             .setPositiveButton("Eliminar") { _, _ ->
@@ -940,7 +892,7 @@ class CompetenciesDashboardActivity : AppCompatActivity() {
     }
 
     private fun deleteCompetency(competencyId: Int) {
-        progressBar.visibility = View.VISIBLE
+        loadingOverlay.visibility = View.VISIBLE  // ✅ CAMBIO
 
         lifecycleScope.launch {
             try {
@@ -963,13 +915,13 @@ class CompetenciesDashboardActivity : AppCompatActivity() {
                     Toast.LENGTH_LONG
                 ).show()
             } finally {
-                progressBar.visibility = View.GONE
+                loadingOverlay.visibility = View.GONE  // ✅ CAMBIO
             }
         }
     }
 
     private fun deleteAbility(abilityId: Int, competencyId: Int) {
-        progressBar.visibility = View.VISIBLE
+        loadingOverlay.visibility = View.VISIBLE  // ✅ CAMBIO
 
         lifecycleScope.launch {
             try {
@@ -992,13 +944,13 @@ class CompetenciesDashboardActivity : AppCompatActivity() {
                     Toast.LENGTH_LONG
                 ).show()
             } finally {
-                progressBar.visibility = View.GONE
+                loadingOverlay.visibility = View.GONE  // ✅ CAMBIO
             }
         }
     }
 
     private fun deleteCriterion(criterionId: Int, abilityId: Int) {
-        progressBar.visibility = View.VISIBLE
+        loadingOverlay.visibility = View.VISIBLE  // ✅ CAMBIO
 
         lifecycleScope.launch {
             try {
@@ -1021,7 +973,7 @@ class CompetenciesDashboardActivity : AppCompatActivity() {
                     Toast.LENGTH_LONG
                 ).show()
             } finally {
-                progressBar.visibility = View.GONE
+                loadingOverlay.visibility = View.GONE  // ✅ CAMBIO
             }
         }
     }
@@ -1064,7 +1016,7 @@ class CompetenciesDashboardActivity : AppCompatActivity() {
     }
 
     private fun updateCriterion(criterionId: Int, abilityId: Int, name: String, description: String) {
-        progressBar.visibility = View.VISIBLE
+        loadingOverlay.visibility = View.VISIBLE  // ✅ CAMBIO
 
         lifecycleScope.launch {
             try {
@@ -1085,9 +1037,10 @@ class CompetenciesDashboardActivity : AppCompatActivity() {
                         "⚠️ Ya existe otro criterio con el nombre \"$name\" en esta capacidad",
                         Toast.LENGTH_LONG
                     ).show()
-                    progressBar.visibility = View.GONE
+                    loadingOverlay.visibility = View.GONE  // ✅ CAMBIO
                     return@launch
                 }
+
                 val request = UpdateCriterionRequest(
                     name = name,
                     description = if (description.isEmpty()) null else description
@@ -1111,7 +1064,7 @@ class CompetenciesDashboardActivity : AppCompatActivity() {
                     Toast.LENGTH_LONG
                 ).show()
             } finally {
-                progressBar.visibility = View.GONE
+                loadingOverlay.visibility = View.GONE  // ✅ CAMBIO
             }
         }
     }

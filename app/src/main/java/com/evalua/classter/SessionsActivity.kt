@@ -6,8 +6,8 @@ import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
-import android.widget.Button
 import android.widget.PopupMenu
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
@@ -86,8 +86,10 @@ class SessionsActivity : AppCompatActivity() {
         }
     }
 
+    // ✅ FUNCIÓN MEJORADA: Cargar sesiones con estadísticas y estado vacío
     private fun loadSessions() {
-        binding.progressBar.visibility = View.VISIBLE
+        // Mostrar loading overlay en lugar del progressBar simple
+        findViewById<View>(R.id.loadingOverlay)?.visibility = View.VISIBLE
         binding.swipeRefresh.isRefreshing = true
 
         lifecycleScope.launch {
@@ -96,13 +98,18 @@ class SessionsActivity : AppCompatActivity() {
                 Log.d("SessionsActivity", "Sessions loaded: ${sessions.size}")
                 adapter.updateSessions(sessions)
 
+                // ✅ NUEVO: Actualizar estadísticas del header
+                updateHeaderStats(sessions)
+
+                // ✅ NUEVO: Manejar estado vacío
                 if (sessions.isEmpty()) {
-                    Toast.makeText(
-                        this@SessionsActivity,
-                        "No hay sesiones registradas",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    findViewById<View>(R.id.layoutEmptyState)?.visibility = View.VISIBLE
+                    binding.rvSessions.visibility = View.GONE
+                } else {
+                    findViewById<View>(R.id.layoutEmptyState)?.visibility = View.GONE
+                    binding.rvSessions.visibility = View.VISIBLE
                 }
+
             } catch (e: Exception) {
                 Log.e("SessionsActivity", "Error loading sessions", e)
                 Toast.makeText(
@@ -111,9 +118,42 @@ class SessionsActivity : AppCompatActivity() {
                     Toast.LENGTH_LONG
                 ).show()
             } finally {
-                binding.progressBar.visibility = View.GONE
+                findViewById<View>(R.id.loadingOverlay)?.visibility = View.GONE
                 binding.swipeRefresh.isRefreshing = false
             }
+        }
+    }
+
+    // ✅ NUEVA FUNCIÓN: Actualizar estadísticas del header
+    private fun updateHeaderStats(sessions: List<Session>) {
+        // Actualizar título de la sección en el header card
+        findViewById<TextView>(R.id.tvSectionTitle)?.text = "Sesiones - $sectionName"
+
+        // Actualizar subtítulo (puedes agregar info del bimestre si la tienes)
+        findViewById<TextView>(R.id.tvSectionSubtitle)?.text = "Gestión de sesiones"
+
+        // Actualizar total de sesiones
+        val tvTotalSessions = findViewById<TextView>(R.id.tvTotalSessions)
+        tvTotalSessions?.text = sessions.size.toString()
+
+        // Actualizar última fecha
+        val tvLastDate = findViewById<TextView>(R.id.tvLastDate)
+        if (sessions.isNotEmpty()) {
+            val lastSession = sessions.maxByOrNull { it.date }
+            lastSession?.let { session ->
+                try {
+                    val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+                    val date = sdf.parse(session.date)
+                    val displayFormat = SimpleDateFormat("dd MMM", Locale("es", "ES"))
+                    tvLastDate?.text = displayFormat.format(date ?: Date())
+                } catch (e: Exception) {
+                    Log.w("SessionsActivity", "Error formatting date: ${session.date}", e)
+                    // Fallback: mostrar fecha sin formato
+                    tvLastDate?.text = session.date.substring(5) // MM-DD
+                }
+            }
+        } else {
+            tvLastDate?.text = "--"
         }
     }
 
@@ -186,7 +226,8 @@ class SessionsActivity : AppCompatActivity() {
     }
 
     private fun createSession(title: String, date: String) {
-        binding.progressBar.visibility = View.VISIBLE
+        // Usar loading overlay
+        findViewById<View>(R.id.loadingOverlay)?.visibility = View.VISIBLE
 
         lifecycleScope.launch {
             try {
@@ -208,14 +249,14 @@ class SessionsActivity : AppCompatActivity() {
                     "Error al crear sesión: ${e.message}",
                     Toast.LENGTH_LONG
                 ).show()
-            } finally {
-                binding.progressBar.visibility = View.GONE
+                findViewById<View>(R.id.loadingOverlay)?.visibility = View.GONE
             }
         }
     }
 
     private fun updateSession(sessionId: Int, title: String, date: String) {
-        binding.progressBar.visibility = View.VISIBLE
+        // Usar loading overlay
+        findViewById<View>(R.id.loadingOverlay)?.visibility = View.VISIBLE
 
         lifecycleScope.launch {
             try {
@@ -237,8 +278,7 @@ class SessionsActivity : AppCompatActivity() {
                     "Error al actualizar sesión: ${e.message}",
                     Toast.LENGTH_LONG
                 ).show()
-            } finally {
-                binding.progressBar.visibility = View.GONE
+                findViewById<View>(R.id.loadingOverlay)?.visibility = View.GONE
             }
         }
     }
@@ -275,7 +315,8 @@ class SessionsActivity : AppCompatActivity() {
     }
 
     private fun deleteSession(sessionId: Int) {
-        binding.progressBar.visibility = View.VISIBLE
+        // Usar loading overlay
+        findViewById<View>(R.id.loadingOverlay)?.visibility = View.VISIBLE
 
         lifecycleScope.launch {
             try {
@@ -296,8 +337,7 @@ class SessionsActivity : AppCompatActivity() {
                     "Error al eliminar sesión: ${e.message}",
                     Toast.LENGTH_LONG
                 ).show()
-            } finally {
-                binding.progressBar.visibility = View.GONE
+                findViewById<View>(R.id.loadingOverlay)?.visibility = View.GONE
             }
         }
     }

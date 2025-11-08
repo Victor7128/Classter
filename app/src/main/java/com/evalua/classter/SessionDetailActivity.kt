@@ -111,26 +111,60 @@ class SessionDetailActivity : AppCompatActivity() {
     }
 
     private fun setupClickListeners() {
+        Log.d(TAG, "=== Iniciando setupClickListeners ===")
+
         // Card Producto
         val cardProduct = findViewById<MaterialCardView>(R.id.cardProduct)
-        cardProduct.setOnClickListener {
-            Log.d(TAG, "Click en Producto")
-            openProductsActivity()
+        Log.d(TAG, "cardProduct encontrado: ${cardProduct != null}")
+        if (cardProduct != null) {
+            cardProduct.setOnClickListener {
+                Log.d(TAG, "✅ Click en Producto detectado")
+                try {
+                    openProductsActivity()
+                } catch (e: Exception) {
+                    Log.e(TAG, "❌ Error al abrir ProductsActivity", e)
+                    Toast.makeText(this, "Error: ${e.message}", Toast.LENGTH_LONG).show()
+                }
+            }
+        } else {
+            Log.e(TAG, "❌ cardProduct es NULL")
         }
 
         // Card Competencias
         val cardCompetencies = findViewById<MaterialCardView>(R.id.cardCompetencies)
-        cardCompetencies.setOnClickListener {
-            Log.d(TAG, "Click en Competencias")
-            openCompetenciesDashboard()
+        Log.d(TAG, "cardCompetencies encontrado: ${cardCompetencies != null}")
+        if (cardCompetencies != null) {
+            cardCompetencies.setOnClickListener {
+                Log.d(TAG, "✅ Click en Competencias detectado")
+                try {
+                    openCompetenciesDashboard()
+                } catch (e: Exception) {
+                    Log.e(TAG, "❌ Error al abrir CompetenciesDashboard", e)
+                    Toast.makeText(this, "Error: ${e.message}", Toast.LENGTH_LONG).show()
+                }
+            }
+        } else {
+            Log.e(TAG, "❌ cardCompetencies es NULL")
         }
 
         // Card Evaluación
         val cardEvaluation = findViewById<MaterialCardView>(R.id.cardEvaluation)
-        cardEvaluation.setOnClickListener {
-            Log.d(TAG, "Click en Evaluación")
-            showEvaluationSelector()
+        Log.d(TAG, "cardEvaluation encontrado: ${cardEvaluation != null}")
+        if (cardEvaluation != null) {
+            cardEvaluation.setOnClickListener {
+                Log.d(TAG, "✅ Click en Evaluación detectado")
+                try {
+                    showEvaluationSelector()
+                } catch (e: Exception) {
+                    Log.e(TAG, "❌ Error al mostrar selector", e)
+                    Toast.makeText(this, "Error: ${e.message}", Toast.LENGTH_LONG).show()
+                }
+            }
+        } else {
+            Log.e(TAG, "❌ cardEvaluation es NULL")
         }
+
+        Log.d(TAG, "=== setupClickListeners completado ===")
     }
 
     private fun formatDate(dateStr: String): String {
@@ -266,5 +300,15 @@ class SessionDetailActivity : AppCompatActivity() {
             }
             .setNegativeButton("Cancelar", null)
             .show()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        Log.d(TAG, "onActivityResult - requestCode: $requestCode, resultCode: $resultCode")
+    }
+
+    override fun onRestart() {
+        super.onRestart()
+        Log.d(TAG, "=== onRestart() - Volviendo de otra Activity ===")
     }
 }

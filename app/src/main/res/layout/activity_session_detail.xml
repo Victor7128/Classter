@@ -2,22 +2,196 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/background_primary">
 
-    <!-- AppBar con Toolbar -->
+    <!-- AppBar con Header -->
     <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:elevation="8dp"
+        android:background="@drawable/bg_toolbar_gradient">
 
+        <!-- Toolbar -->
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
+            android:background="@android:color/transparent"
             app:title="Detalle de Sesión"
-            app:titleTextColor="@android:color/white"
-            app:navigationIcon="@drawable/ic_back" />
+            app:titleTextAppearance="@style/ToolbarTitleStyle"
+            app:titleTextColor="@color/white"
+            app:navigationIcon="@drawable/ic_back"
+            app:navigationIconTint="@color/white" />
+
+        <!-- Header Card con información de la sesión -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="6dp"
+            app:cardBackgroundColor="@color/surface">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <!-- Icono y título -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="16dp">
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/ic_sessions_enhanced"
+                        app:tint="@color/primaryColor"
+                        android:contentDescription="Sesión"
+                        android:padding="8dp"
+                        android:background="@drawable/bg_icon_circle_light_blue" />
+
+                    <TextView
+                        android:id="@+id/tvSessionTitle"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Conocemos las uniones de la vida"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/text_primary"
+                        android:layout_marginStart="16dp"
+                        android:fontFamily="sans-serif-medium"
+                        android:maxLines="2"
+                        android:ellipsize="end"
+                        tools:text="Soluciones Tecnológicas" />
+
+                </LinearLayout>
+
+                <!-- Badges informativos -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+
+                    <!-- Fecha -->
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="horizontal"
+                        android:background="@drawable/bg_badge_info_blue"
+                        android:padding="8dp"
+                        android:layout_marginEnd="6dp"
+                        android:gravity="center">
+
+                        <ImageView
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            android:src="@drawable/ic_calendar"
+                            app:tint="@color/primaryColor"
+                            android:contentDescription="Fecha" />
+
+                        <TextView
+                            android:id="@+id/tvSessionDate"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="14 Oct 2025"
+                            android:textSize="11sp"
+                            android:textColor="@color/text_primary"
+                            android:layout_marginStart="4dp"
+                            android:fontFamily="sans-serif-medium"
+                            tools:text="14 Oct" />
+
+                    </LinearLayout>
+
+                    <!-- Grado y Sección -->
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="horizontal"
+                        android:background="@drawable/bg_badge_info_purple"
+                        android:padding="8dp"
+                        android:layout_marginEnd="6dp"
+                        android:gravity="center">
+
+                        <ImageView
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            android:src="@drawable/ic_school"
+                            app:tint="@color/purple_500"
+                            android:contentDescription="Grado" />
+
+                        <TextView
+                            android:id="@+id/tvGradeInfo"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="5°"
+                            android:textSize="11sp"
+                            android:textColor="@color/text_primary"
+                            android:layout_marginStart="4dp"
+                            android:fontFamily="sans-serif-medium"
+                            tools:text="5°" />
+
+                        <TextView
+                            android:id="@+id/tvSectionInfo"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="A"
+                            android:textSize="11sp"
+                            android:textColor="@color/text_primary"
+                            android:layout_marginStart="2dp"
+                            android:fontFamily="sans-serif-medium"
+                            tools:text="A" />
+
+                    </LinearLayout>
+
+                    <!-- Bimestre -->
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="horizontal"
+                        android:background="@drawable/bg_badge_info_green"
+                        android:padding="8dp"
+                        android:gravity="center">
+
+                        <ImageView
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            android:src="@drawable/ic_timeline"
+                            app:tint="@color/secondaryColor"
+                            android:contentDescription="Bimestre" />
+
+                        <TextView
+                            android:id="@+id/tvBimesterInfo"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="II"
+                            android:textSize="11sp"
+                            android:textColor="@color/text_primary"
+                            android:layout_marginStart="4dp"
+                            android:fontFamily="sans-serif-medium"
+                            tools:text="II" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
     </com.google.android.material.appbar.AppBarLayout>
 
     <!-- ScrollView para el contenido -->
@@ -25,328 +199,324 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        android:padding="16dp">
+        android:padding="16dp"
+        android:clipToPadding="false">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <!-- Información de la sesión -->
-            <com.google.android.material.card.MaterialCardView
+            <!-- Título de sección -->
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp"
-                app:cardElevation="4dp"
-                app:cardCornerRadius="12dp">
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginBottom="16dp">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
+                <TextView
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="20dp">
+                    android:layout_weight="1"
+                    android:text="Gestión de Sesión"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/text_primary"
+                    android:fontFamily="sans-serif-medium" />
 
-                    <!-- ✅ TÍTULO DE LA SESIÓN (se había perdido) -->
-                    <TextView
-                        android:id="@+id/tvSessionTitle"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Conocemos las uniones de la vida"
-                        android:textSize="20sp"
-                        android:textStyle="bold"
-                        android:textColor="@android:color/black"
-                        android:layout_marginBottom="16dp" />
+            </LinearLayout>
 
-                    <!-- Información adicional en 2 filas -->
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_marginBottom="12dp">
-
-                        <!-- Fecha -->
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:orientation="vertical"
-                            android:layout_marginEnd="8dp">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Fecha:"
-                                android:textSize="12sp"
-                                android:textColor="@android:color/darker_gray"
-                                android:layout_marginBottom="4dp" />
-
-                            <TextView
-                                android:id="@+id/tvSessionDate"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="21/08/2025"
-                                android:textSize="14sp"
-                                android:textStyle="bold"
-                                android:textColor="@android:color/black" />
-                        </LinearLayout>
-
-                        <!-- Sección -->
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:orientation="vertical"
-                            android:layout_marginStart="8dp">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Sección:"
-                                android:textSize="12sp"
-                                android:textColor="@android:color/darker_gray"
-                                android:layout_marginBottom="4dp" />
-
-                            <TextView
-                                android:id="@+id/tvSectionInfo"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="A"
-                                android:textSize="14sp"
-                                android:textStyle="bold"
-                                android:textColor="@android:color/black" />
-                        </LinearLayout>
-                    </LinearLayout>
-
-                    <!-- Segunda fila -->
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                        <!-- Grado -->
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:orientation="vertical"
-                            android:layout_marginEnd="8dp">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Grado:"
-                                android:textSize="12sp"
-                                android:textColor="@android:color/darker_gray"
-                                android:layout_marginBottom="4dp" />
-
-                            <TextView
-                                android:id="@+id/tvGradeInfo"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="5°"
-                                android:textSize="14sp"
-                                android:textStyle="bold"
-                                android:textColor="@android:color/black" />
-                        </LinearLayout>
-
-                        <!-- Bimestre -->
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:orientation="vertical"
-                            android:layout_marginStart="8dp">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Bimestre:"
-                                android:textSize="12sp"
-                                android:textColor="@android:color/darker_gray"
-                                android:layout_marginBottom="4dp" />
-
-                            <TextView
-                                android:id="@+id/tvBimesterInfo"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="II"
-                                android:textSize="14sp"
-                                android:textStyle="bold"
-                                android:textColor="@android:color/black" />
-                        </LinearLayout>
-                    </LinearLayout>
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
-
-            <!-- Opciones principales -->
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Gestión de Sesión"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:textColor="@android:color/black"
-                android:layout_marginBottom="16dp" />
-
-            <!-- Card Producto -->
+            <!-- Card Productos -->
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cardProduct"
                 android:layout_width="match_parent"
-                android:layout_height="120dp"
-                android:layout_marginBottom="16dp"
-                app:cardElevation="2dp"
-                app:cardCornerRadius="8dp"
-                android:clickable="true"
-                android:focusable="true"
-                app:cardBackgroundColor="#E3F2FD">
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                app:cardElevation="4dp"
+                app:cardCornerRadius="16dp"
+                app:cardBackgroundColor="@color/surface">
 
-                <LinearLayout
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal"
-                    android:padding="20dp"
-                    android:gravity="center_vertical">
+                    android:layout_height="wrap_content"
+                    android:padding="20dp">
 
-                    <TextView
-                        android:layout_width="60dp"
-                        android:layout_height="60dp"
-                        android:background="@drawable/circle_background"
-                        android:gravity="center"
-                        android:text="📦"
-                        android:textSize="24sp" />
+                    <!-- Icono circular -->
+                    <FrameLayout
+                        android:id="@+id/iconProduct"
+                        android:layout_width="56dp"
+                        android:layout_height="56dp"
+                        android:background="@drawable/bg_option_icon_blue"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent">
 
+                        <ImageView
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:src="@drawable/ic_product"
+                            android:layout_gravity="center"
+                            app:tint="@color/white"
+                            android:contentDescription="Productos" />
+
+                    </FrameLayout>
+
+                    <!-- Contenido -->
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:layout_marginStart="20dp"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="8dp"
+                        app:layout_constraintStart_toEndOf="@id/iconProduct"
+                        app:layout_constraintEnd_toStartOf="@id/arrowProduct"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent">
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Producto"
-                            android:textSize="18sp"
+                            android:text="Productos"
+                            android:textSize="17sp"
                             android:textStyle="bold"
-                            android:textColor="@android:color/black" />
+                            android:textColor="@color/text_primary"
+                            android:fontFamily="sans-serif-medium" />
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="4dp"
                             android:text="Gestionar productos de la sesión"
-                            android:textSize="14sp"
-                            android:textColor="@android:color/darker_gray" />
+                            android:textSize="13sp"
+                            android:textColor="@color/text_secondary"
+                            android:layout_marginTop="2dp" />
+
+                        <!-- Indicador de productos -->
+                        <TextView
+                            android:id="@+id/tvProductCount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="💡 2 productos"
+                            android:textSize="12sp"
+                            android:textColor="@color/primaryColor"
+                            android:layout_marginTop="6dp"
+                            android:visibility="gone"
+                            android:fontFamily="sans-serif-medium"
+                            tools:visibility="visible"
+                            tools:text="💡 2 productos" />
+
                     </LinearLayout>
-                </LinearLayout>
+
+                    <!-- Flecha -->
+                    <ImageView
+                        android:id="@+id/arrowProduct"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/ic_chevron_right"
+                        app:tint="@color/text_hint"
+                        android:contentDescription="Ver"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
             </com.google.android.material.card.MaterialCardView>
 
             <!-- Card Competencias -->
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cardCompetencies"
                 android:layout_width="match_parent"
-                android:layout_height="120dp"
-                android:layout_marginBottom="16dp"
-                app:cardElevation="2dp"
-                app:cardCornerRadius="8dp"
-                android:clickable="true"
-                android:focusable="true"
-                app:cardBackgroundColor="#F3E5F5">
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                app:cardElevation="4dp"
+                app:cardCornerRadius="16dp"
+                app:cardBackgroundColor="@color/surface">
 
-                <LinearLayout
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal"
-                    android:padding="20dp"
-                    android:gravity="center_vertical">
+                    android:layout_height="wrap_content"
+                    android:padding="20dp">
 
-                    <TextView
-                        android:layout_width="60dp"
-                        android:layout_height="60dp"
-                        android:background="@drawable/circle_background_purple"
-                        android:gravity="center"
-                        android:text="🎯"
-                        android:textSize="24sp" />
+                    <!-- Icono circular -->
+                    <FrameLayout
+                        android:id="@+id/iconCompetencies"
+                        android:layout_width="56dp"
+                        android:layout_height="56dp"
+                        android:background="@drawable/bg_option_icon_purple"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent">
 
+                        <ImageView
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:src="@drawable/ic_competencies"
+                            android:layout_gravity="center"
+                            app:tint="@color/white"
+                            android:contentDescription="Competencias" />
+
+                    </FrameLayout>
+
+                    <!-- Contenido -->
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:layout_marginStart="20dp"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="8dp"
+                        app:layout_constraintStart_toEndOf="@id/iconCompetencies"
+                        app:layout_constraintEnd_toStartOf="@id/arrowCompetencies"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent">
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="Competencias"
-                            android:textSize="18sp"
+                            android:textSize="17sp"
                             android:textStyle="bold"
-                            android:textColor="@android:color/black" />
+                            android:textColor="@color/text_primary"
+                            android:fontFamily="sans-serif-medium" />
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="4dp"
                             android:text="Definir competencias y criterios"
-                            android:textSize="14sp"
-                            android:textColor="@android:color/darker_gray" />
+                            android:textSize="13sp"
+                            android:textColor="@color/text_secondary"
+                            android:layout_marginTop="2dp" />
+
+                        <!-- Indicador de competencias -->
+                        <TextView
+                            android:id="@+id/tvCompetencyCount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="✓ 3 competencias"
+                            android:textSize="12sp"
+                            android:textColor="@color/purple_500"
+                            android:layout_marginTop="6dp"
+                            android:visibility="gone"
+                            android:fontFamily="sans-serif-medium"
+                            tools:visibility="visible"
+                            tools:text="✓ 3 competencias" />
+
                     </LinearLayout>
-                </LinearLayout>
+
+                    <!-- Flecha -->
+                    <ImageView
+                        android:id="@+id/arrowCompetencies"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/ic_chevron_right"
+                        app:tint="@color/text_hint"
+                        android:contentDescription="Ver"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
             </com.google.android.material.card.MaterialCardView>
 
             <!-- Card Evaluación -->
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cardEvaluation"
                 android:layout_width="match_parent"
-                android:layout_height="120dp"
-                android:layout_marginBottom="16dp"
-                app:cardElevation="2dp"
-                app:cardCornerRadius="8dp"
-                android:clickable="true"
-                android:focusable="true"
-                app:cardBackgroundColor="#E8F5E8">
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                app:cardElevation="4dp"
+                app:cardCornerRadius="16dp"
+                app:cardBackgroundColor="@color/surface">
 
-                <LinearLayout
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal"
-                    android:padding="20dp"
-                    android:gravity="center_vertical">
+                    android:layout_height="wrap_content"
+                    android:padding="20dp">
 
-                    <TextView
-                        android:layout_width="60dp"
-                        android:layout_height="60dp"
-                        android:background="@drawable/circle_background_green"
-                        android:gravity="center"
-                        android:text="📊"
-                        android:textSize="24sp" />
+                    <!-- Icono circular -->
+                    <FrameLayout
+                        android:id="@+id/iconEvaluation"
+                        android:layout_width="56dp"
+                        android:layout_height="56dp"
+                        android:background="@drawable/bg_option_icon_green"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent">
 
+                        <ImageView
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:src="@drawable/ic_evaluation"
+                            android:layout_gravity="center"
+                            app:tint="@color/white"
+                            android:contentDescription="Evaluación" />
+
+                    </FrameLayout>
+
+                    <!-- Contenido -->
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:layout_marginStart="20dp"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="8dp"
+                        app:layout_constraintStart_toEndOf="@id/iconEvaluation"
+                        app:layout_constraintEnd_toStartOf="@id/arrowEvaluation"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent">
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="Evaluación"
-                            android:textSize="18sp"
+                            android:textSize="17sp"
                             android:textStyle="bold"
-                            android:textColor="@android:color/black" />
+                            android:textColor="@color/text_primary"
+                            android:fontFamily="sans-serif-medium" />
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="4dp"
-                            android:text="Calificar y evaluar alumnos"
-                            android:textSize="14sp"
-                            android:textColor="@android:color/darker_gray" />
+                            android:text="Calificar y evaluar estudiantes"
+                            android:textSize="13sp"
+                            android:textColor="@color/text_secondary"
+                            android:layout_marginTop="2dp" />
+
+                        <!-- Indicador de estudiantes -->
+                        <TextView
+                            android:id="@+id/tvStudentCount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="👥 25 estudiantes"
+                            android:textSize="12sp"
+                            android:textColor="@color/secondaryColor"
+                            android:layout_marginTop="6dp"
+                            android:visibility="gone"
+                            android:fontFamily="sans-serif-medium"
+                            tools:visibility="visible"
+                            tools:text="👥 25 estudiantes" />
+
                     </LinearLayout>
-                </LinearLayout>
+
+                    <!-- Flecha -->
+                    <ImageView
+                        android:id="@+id/arrowEvaluation"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/ic_chevron_right"
+                        app:tint="@color/text_hint"
+                        android:contentDescription="Ver"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
             </com.google.android.material.card.MaterialCardView>
 
         </LinearLayout>
+
     </androidx.core.widget.NestedScrollView>
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

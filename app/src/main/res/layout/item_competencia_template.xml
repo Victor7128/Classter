@@ -2,56 +2,117 @@
 <com.google.android.material.card.MaterialCardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/cardCompetencia"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="4dp"
-    app:cardElevation="2dp"
-    app:cardCornerRadius="8dp"
+    android:layout_marginStart="8dp"
+    android:layout_marginEnd="8dp"
+    android:layout_marginTop="6dp"
+    android:layout_marginBottom="6dp"
+    app:cardElevation="3dp"
+    app:cardCornerRadius="16dp"
     android:checkable="true"
     android:clickable="true"
-    android:focusable="true">
+    android:focusable="true"
+    app:cardBackgroundColor="@color/surface">
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="16dp"
-        android:gravity="center_vertical">
+        android:padding="16dp">
 
         <!-- Checkbox para selección -->
         <CheckBox
             android:id="@+id/checkboxCompetencia"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="12dp"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
             android:clickable="false"
-            android:focusable="false" />
+            android:focusable="false"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+        <!-- Icono de área curricular -->
+        <FrameLayout
+            android:id="@+id/frameAreaIcon"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="12dp"
+            android:background="@drawable/bg_area_icon_circle"
+            app:layout_constraintStart_toEndOf="@id/checkboxCompetencia"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/ivAreaIcon"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_area_subject"
+                android:layout_gravity="center"
+                app:tint="@color/white"
+                android:contentDescription="Área" />
+
+        </FrameLayout>
 
         <!-- Información de la competencia -->
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintStart_toEndOf="@id/frameAreaIcon"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent">
 
+            <!-- Nombre de la competencia -->
             <TextView
                 android:id="@+id/tvCompetenciaNombre"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Nombre de la competencia"
+                android:text="Resuelve problemas de cantidad"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                android:textColor="@android:color/black" />
+                android:textColor="@color/text_primary"
+                android:maxLines="2"
+                android:ellipsize="end"
+                android:fontFamily="sans-serif-medium"
+                tools:text="Resuelve problemas de cantidad" />
 
-            <TextView
-                android:id="@+id/tvCompetenciaArea"
-                android:layout_width="match_parent"
+            <!-- Badge de área -->
+            <LinearLayout
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:text="Área: Matemática"
-                android:textSize="12sp"
-                android:textColor="@android:color/darker_gray" />
+                android:orientation="horizontal"
+                android:layout_marginTop="6dp"
+                android:background="@drawable/bg_area_badge"
+                android:paddingHorizontal="10dp"
+                android:paddingVertical="4dp"
+                android:gravity="center_vertical">
+
+                <ImageView
+                    android:layout_width="14dp"
+                    android:layout_height="14dp"
+                    android:src="@drawable/ic_area_mini"
+                    app:tint="@color/primaryColor"
+                    android:contentDescription="Área" />
+
+                <TextView
+                    android:id="@+id/tvCompetenciaArea"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Matemática"
+                    android:textSize="12sp"
+                    android:textColor="@color/primaryColor"
+                    android:layout_marginStart="4dp"
+                    android:fontFamily="sans-serif-medium"
+                    tools:text="Matemática" />
+
+            </LinearLayout>
+
         </LinearLayout>
-    </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 </com.google.android.material.card.MaterialCardView>

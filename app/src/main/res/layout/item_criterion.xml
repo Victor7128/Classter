@@ -1,58 +1,135 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:padding="8dp"
-    android:background="?attr/selectableItemBackground"
-    android:clickable="true"
-    android:focusable="true">
+    android:layout_marginTop="4dp"
+    android:layout_marginBottom="4dp"
+    app:cardElevation="1dp"
+    app:cardCornerRadius="8dp"
+    app:cardBackgroundColor="@color/surface">
 
-    <!-- Icono de criterio -->
-    <TextView
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:background="@drawable/circle_background_purple"
-        android:gravity="center"
-        android:text="✓"
-        android:textSize="10sp"
-        android:textColor="@android:color/white"
-        android:layout_marginEnd="8dp"
-        android:layout_gravity="center_vertical" />
-
-    <!-- Información del criterio -->
     <LinearLayout
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/tvCriterionName"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Identifica datos y relaciones no explícitas"
-            android:textSize="13sp"
-            android:textColor="@android:color/black" />
+            android:padding="12dp">
 
-        <TextView
-            android:id="@+id/tvCriterionDescription"
+            <!-- Icono de criterio -->
+            <FrameLayout
+                android:id="@+id/frameCriterionIcon"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:background="@drawable/bg_criterion_icon_circle"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:src="@drawable/ic_check"
+                    android:layout_gravity="center"
+                    app:tint="@color/white"
+                    android:contentDescription="Criterio" />
+
+            </FrameLayout>
+
+            <!-- Información del criterio -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="8dp"
+                app:layout_constraintStart_toEndOf="@id/frameCriterionIcon"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent">
+
+                <!-- Nombre del criterio -->
+                <TextView
+                    android:id="@+id/tvCriterionName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Identifica datos y relaciones no explícitas"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/text_primary"
+                    android:maxLines="2"
+                    android:ellipsize="end"
+                    android:fontFamily="sans-serif-medium"
+                    tools:text="Identifica datos y relaciones no explícitas" />
+
+                <!-- Descripción del criterio -->
+                <TextView
+                    android:id="@+id/tvCriterionDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Descripción del criterio"
+                    android:textSize="12sp"
+                    android:textColor="@color/text_secondary"
+                    android:layout_marginTop="4dp"
+                    android:maxLines="2"
+                    android:ellipsize="end"
+                    android:visibility="gone"
+                    tools:visibility="visible"
+                    tools:text="Descripción del criterio de evaluación" />
+
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!-- ✅ NUEVO: Botones de acción visibles -->
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
-            android:text="Descripción del criterio"
-            android:textSize="11sp"
-            android:textColor="@android:color/darker_gray"
-            android:visibility="gone" />
+            android:orientation="horizontal"
+            android:padding="8dp"
+            android:gravity="center">
+
+            <!-- Botón Editar -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnEditCriterion"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="38dp"
+                android:text="Editar"
+                android:textSize="12sp"
+                app:icon="@drawable/ic_edit"
+                app:iconTint="@color/primaryColor"
+                app:iconSize="16dp"
+                app:iconGravity="textStart"
+                app:strokeColor="@color/primaryColor"
+                app:strokeWidth="1.5dp"
+                app:cornerRadius="8dp"
+                android:layout_marginEnd="6dp" />
+
+            <!-- Botón Eliminar -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnDeleteCriterion"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="38dp"
+                android:text="Eliminar"
+                android:textSize="12sp"
+                app:icon="@drawable/ic_delete"
+                app:iconTint="@color/error"
+                app:iconSize="16dp"
+                app:iconGravity="textStart"
+                app:strokeColor="@color/error"
+                app:strokeWidth="1.5dp"
+                app:cornerRadius="8dp" />
+
+        </LinearLayout>
+
     </LinearLayout>
 
-    <!-- Botón de opciones -->
-    <ImageButton
-        android:id="@+id/btnCriterionOptions"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:background="?attr/selectableItemBackgroundBorderless"
-        android:src="@drawable/ic_more_vert"
-        android:contentDescription="Opciones"
-        android:scaleType="center" />
-</LinearLayout>
+</com.google.android.material.card.MaterialCardView>

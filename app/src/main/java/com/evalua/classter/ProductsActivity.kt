@@ -19,9 +19,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.textfield.TextInputEditText
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import android.widget.ProgressBar
 import kotlinx.coroutines.launch
-import android.widget.TextView
 
 class ProductsActivity : AppCompatActivity() {
     companion object {
@@ -32,160 +30,275 @@ class ProductsActivity : AppCompatActivity() {
     private lateinit var swipeRefresh: SwipeRefreshLayout
     private lateinit var rvProducts: RecyclerView
     private lateinit var fabAddProduct: FloatingActionButton
-    private lateinit var progressBar: ProgressBar
+    private lateinit var loadingOverlay: View
     private lateinit var adapter: ProductsAdapter
 
     private var sessionId: Int = -1
     private var sessionTitle: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        Log.d(TAG, "=== onCreate INICIADO ===")
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_products)
 
-        toolbar = findViewById(R.id.toolbar)
-        swipeRefresh = findViewById(R.id.swipeRefresh)
-        rvProducts = findViewById(R.id.rvProducts)
-        fabAddProduct = findViewById(R.id.fabAddProduct)
-        progressBar = findViewById(R.id.progressBar)
+        try {
+            Log.d(TAG, "Intentando inflar layout...")
+            setContentView(R.layout.activity_products)
+            Log.d(TAG, "✅ Layout inflado correctamente")
 
-        sessionId = intent.getIntExtra("SESSION_ID", -1)
-        sessionTitle = intent.getStringExtra("SESSION_TITLE") ?: "Productos"
+            Log.d(TAG, "Obteniendo extras del Intent...")
+            sessionId = intent.getIntExtra("SESSION_ID", -1)
+            sessionTitle = intent.getStringExtra("SESSION_TITLE") ?: "Productos"
+            Log.d(TAG, "SESSION_ID: $sessionId")
+            Log.d(TAG, "SESSION_TITLE: $sessionTitle")
 
-        if (sessionId == -1) {
-            Toast.makeText(this, "Error: Sesión no válida", Toast.LENGTH_SHORT).show()
+            if (sessionId == -1) {
+                Log.e(TAG, "❌ SESSION_ID inválido")
+                Toast.makeText(this, "Error: Sesión no válida", Toast.LENGTH_SHORT).show()
+                finish()
+                return
+            }
+
+            Log.d(TAG, "Inicializando vistas...")
+            initializeViews()
+
+            Log.d(TAG, "Configurando componentes...")
+            setupToolbar()
+            setupRecyclerView()
+            setupSwipeRefresh()
+            setupFab()
+
+            Log.d(TAG, "Cargando productos...")
+            loadProducts()
+
+            Log.d(TAG, "=== onCreate COMPLETADO EXITOSAMENTE ===")
+
+        } catch (e: Exception) {
+            Log.e(TAG, "❌ EXCEPCIÓN FATAL en onCreate", e)
+            Log.e(TAG, "Mensaje: ${e.message}")
+            Log.e(TAG, "Causa: ${e.cause}")
+            e.printStackTrace()
+            Toast.makeText(this, "Error fatal: ${e.message}", Toast.LENGTH_LONG).show()
             finish()
-            return
         }
+    }
 
-        setupToolbar()
-        setupRecyclerView()
-        setupSwipeRefresh()
-        setupFab()
-        loadProducts()
+    private fun initializeViews() {
+        try {
+            Log.d(TAG, "  Buscando toolbar...")
+            toolbar = findViewById(R.id.toolbar)
+            Log.d(TAG, "  ✅ toolbar encontrado: ${toolbar != null}")
+
+            Log.d(TAG, "  Buscando swipeRefresh...")
+            swipeRefresh = findViewById(R.id.swipeRefresh)
+            Log.d(TAG, "  ✅ swipeRefresh encontrado: ${swipeRefresh != null}")
+
+            Log.d(TAG, "  Buscando rvProducts...")
+            rvProducts = findViewById(R.id.rvProducts)
+            Log.d(TAG, "  ✅ rvProducts encontrado: ${rvProducts != null}")
+
+            Log.d(TAG, "  Buscando fabAddProduct...")
+            fabAddProduct = findViewById(R.id.fabAddProduct)
+            Log.d(TAG, "  ✅ fabAddProduct encontrado: ${fabAddProduct != null}")
+
+            Log.d(TAG, "  Buscando loadingOverlay...")
+            loadingOverlay = findViewById(R.id.loadingOverlay)
+            Log.d(TAG, "  ✅ loadingOverlay encontrado: ${loadingOverlay != null}")
+
+            Log.d(TAG, "✅ Todas las vistas inicializadas correctamente")
+
+        } catch (e: Exception) {
+            Log.e(TAG, "❌ ERROR al inicializar vistas", e)
+            throw e
+        }
     }
 
     private fun setupToolbar() {
-        toolbar.title = "Producto - $sessionTitle"
-        toolbar.setNavigationOnClickListener {
-            finish()
+        try {
+            Log.d(TAG, "Configurando toolbar...")
+            toolbar.title = "Producto - $sessionTitle"
+            toolbar.setNavigationOnClickListener {
+                Log.d(TAG, "Click en navegación, cerrando activity")
+                finish()
+            }
+            Log.d(TAG, "✅ Toolbar configurado")
+        } catch (e: Exception) {
+            Log.e(TAG, "❌ ERROR en setupToolbar", e)
+            throw e
         }
     }
 
     private fun setupRecyclerView() {
-        adapter = ProductsAdapter(
-            products = emptyList(),
-            onProductClick = { product ->
-                // TODO: Navegar a detalles del producto o competencias
-                Toast.makeText(this, "Producto: ${product.name}", Toast.LENGTH_SHORT).show()
-            },
-            onProductOptionsClick = { product, view ->
-                showProductOptionsMenu(product, view)
-            }
-        )
-        rvProducts.layoutManager = LinearLayoutManager(this)
-        rvProducts.adapter = adapter
+        try {
+            Log.d(TAG, "Configurando RecyclerView...")
+            adapter = ProductsAdapter(
+                products = emptyList(),
+                onProductClick = { product ->
+                    Log.d(TAG, "Click en producto: ${product.name}")
+                    Toast.makeText(this, "Producto: ${product.name}", Toast.LENGTH_SHORT).show()
+                },
+                onEditClick = { product ->
+                    Log.d(TAG, "Click en editar producto: ${product.name}")
+                    showEditProductDialog(product)
+                },
+                onDeleteClick = { product ->
+                    Log.d(TAG, "Click en eliminar producto: ${product.name}")
+                    showDeleteConfirmationDialog(product)
+                }
+            )
+            rvProducts.layoutManager = LinearLayoutManager(this)
+            rvProducts.adapter = adapter
+            Log.d(TAG, "✅ RecyclerView configurado")
+        } catch (e: Exception) {
+            Log.e(TAG, "❌ ERROR en setupRecyclerView", e)
+            throw e
+        }
     }
 
     private fun setupSwipeRefresh() {
-        swipeRefresh.setOnRefreshListener {
-            loadProducts()
+        try {
+            Log.d(TAG, "Configurando SwipeRefresh...")
+            swipeRefresh.setOnRefreshListener {
+                Log.d(TAG, "SwipeRefresh activado")
+                loadProducts()
+            }
+            Log.d(TAG, "✅ SwipeRefresh configurado")
+        } catch (e: Exception) {
+            Log.e(TAG, "❌ ERROR en setupSwipeRefresh", e)
+            throw e
         }
     }
 
     private fun setupFab() {
-        fabAddProduct.setOnClickListener {
-            showAddProductDialog()
+        try {
+            Log.d(TAG, "Configurando FAB...")
+            fabAddProduct.setOnClickListener {
+                Log.d(TAG, "Click en FAB")
+                showAddProductDialog()
+            }
+            Log.d(TAG, "✅ FAB configurado")
+        } catch (e: Exception) {
+            Log.e(TAG, "❌ ERROR en setupFab", e)
+            throw e
         }
     }
 
     private fun loadProducts() {
-        progressBar.visibility = View.VISIBLE
-        swipeRefresh.isRefreshing = true
+        Log.d(TAG, "=== loadProducts INICIADO ===")
+        try {
+            Log.d(TAG, "Mostrando loading overlay...")
+            loadingOverlay.visibility = View.VISIBLE
+            swipeRefresh.isRefreshing = true
+            Log.d(TAG, "Loading overlay visible")
 
-        lifecycleScope.launch {
-            try {
-                val products = RetrofitClient.apiService.getProducts(sessionId)
-                Log.d(TAG, "Products loaded: ${products.size}")
-                adapter.updateProducts(products)
+            lifecycleScope.launch {
+                try {
+                    Log.d(TAG, "Llamando API para obtener productos...")
+                    val products = RetrofitClient.apiService.getProducts(sessionId)
+                    Log.d(TAG, "✅ Productos recibidos: ${products.size}")
 
-                if (products.isEmpty()) {
-                    fabAddProduct.visibility = View.VISIBLE
+                    Log.d(TAG, "Actualizando adapter...")
+                    adapter.updateProducts(products)
+                    Log.d(TAG, "✅ Adapter actualizado")
+
+                    if (products.isEmpty()) {
+                        Log.d(TAG, "No hay productos, mostrando estado vacío")
+                        fabAddProduct.visibility = View.VISIBLE
+                        findViewById<View>(R.id.layoutEmptyState)?.visibility = View.VISIBLE
+                        rvProducts.visibility = View.GONE
+                    } else {
+                        Log.d(TAG, "Hay ${products.size} producto(s), ocultando estado vacío")
+                        fabAddProduct.visibility = View.GONE
+                        findViewById<View>(R.id.layoutEmptyState)?.visibility = View.GONE
+                        rvProducts.visibility = View.VISIBLE
+                    }
+
+                } catch (e: Exception) {
+                    Log.e(TAG, "❌ ERROR en llamada API", e)
                     Toast.makeText(
                         this@ProductsActivity,
-                        "No hay producto registrado. Crea uno para esta sesión.",
+                        "Error al cargar productos: ${e.message}",
                         Toast.LENGTH_LONG
                     ).show()
-                } else {
-                    fabAddProduct.visibility = View.GONE
-                    Log.d(TAG, "Producto ya existe, ocultando FAB")
+                } finally {
+                    Log.d(TAG, "Ocultando loading overlay...")
+                    loadingOverlay.visibility = View.GONE
+                    swipeRefresh.isRefreshing = false
+                    Log.d(TAG, "=== loadProducts FINALIZADO ===")
                 }
-
-            } catch (e: Exception) {
-                Log.e(TAG, "Error loading products", e)
-                Toast.makeText(
-                    this@ProductsActivity,
-                    "Error al cargar productos: ${e.message}",
-                    Toast.LENGTH_LONG
-                ).show()
-            } finally {
-                progressBar.visibility = View.GONE
-                swipeRefresh.isRefreshing = false
             }
+        } catch (e: Exception) {
+            Log.e(TAG, "❌ EXCEPCIÓN en loadProducts", e)
+            throw e
         }
     }
 
     private fun showAddProductDialog() {
-        val dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_add_product, null)
-        val etProductName = dialogView.findViewById<TextInputEditText>(R.id.etProductName)
-        val etProductDescription = dialogView.findViewById<TextInputEditText>(R.id.etProductDescription)
+        Log.d(TAG, "Mostrando diálogo de agregar producto...")
+        try {
+            val dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_add_product, null)
+            val etProductName = dialogView.findViewById<TextInputEditText>(R.id.etProductName)
+            val etProductDescription = dialogView.findViewById<TextInputEditText>(R.id.etProductDescription)
 
-        MaterialAlertDialogBuilder(this)
-            .setTitle("Crear Producto")
-            .setMessage("Solo se permite un producto por sesión.")
-            .setView(dialogView)
-            .setPositiveButton("Crear") { _, _ ->
-                val name = etProductName.text.toString().trim()
-                val description = etProductDescription.text.toString().trim()
+            MaterialAlertDialogBuilder(this)
+                .setTitle("Crear Producto")
+                .setMessage("Solo se permite un producto por sesión.")
+                .setView(dialogView)
+                .setPositiveButton("Crear") { _, _ ->
+                    val name = etProductName.text.toString().trim()
+                    val description = etProductDescription.text.toString().trim()
 
-                if (name.isEmpty()) {
-                    Toast.makeText(this, "El nombre es obligatorio", Toast.LENGTH_SHORT).show()
-                    return@setPositiveButton
+                    if (name.isEmpty()) {
+                        Toast.makeText(this, "El nombre es obligatorio", Toast.LENGTH_SHORT).show()
+                        return@setPositiveButton
+                    }
+
+                    createProduct(name, description)
                 }
+                .setNegativeButton("Cancelar", null)
+                .show()
 
-                createProduct(name, description)
-            }
-            .setNegativeButton("Cancelar", null)
-            .show()
+            Log.d(TAG, "✅ Diálogo mostrado")
+        } catch (e: Exception) {
+            Log.e(TAG, "❌ ERROR mostrando diálogo", e)
+        }
     }
 
     private fun showEditProductDialog(product: Product) {
-        val dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_add_product, null)
-        val etProductName = dialogView.findViewById<TextInputEditText>(R.id.etProductName)
-        val etProductDescription = dialogView.findViewById<TextInputEditText>(R.id.etProductDescription)
+        Log.d(TAG, "Mostrando diálogo de editar producto: ${product.name}")
+        try {
+            val dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_add_product, null)
+            val etProductName = dialogView.findViewById<TextInputEditText>(R.id.etProductName)
+            val etProductDescription = dialogView.findViewById<TextInputEditText>(R.id.etProductDescription)
 
-        etProductName.setText(product.name)
-        etProductDescription.setText(product.description ?: "")
+            etProductName.setText(product.name)
+            etProductDescription.setText(product.description ?: "")
 
-        MaterialAlertDialogBuilder(this)
-            .setTitle("Editar Producto")
-            .setView(dialogView)
-            .setPositiveButton("Guardar") { _, _ ->
-                val name = etProductName.text.toString().trim()
-                val description = etProductDescription.text.toString().trim()
+            MaterialAlertDialogBuilder(this)
+                .setTitle("Editar Producto")
+                .setView(dialogView)
+                .setPositiveButton("Guardar") { _, _ ->
+                    val name = etProductName.text.toString().trim()
+                    val description = etProductDescription.text.toString().trim()
 
-                if (name.isEmpty()) {
-                    Toast.makeText(this, "El nombre es obligatorio", Toast.LENGTH_SHORT).show()
-                    return@setPositiveButton
+                    if (name.isEmpty()) {
+                        Toast.makeText(this, "El nombre es obligatorio", Toast.LENGTH_SHORT).show()
+                        return@setPositiveButton
+                    }
+
+                    updateProduct(product.id, name, description)
                 }
+                .setNegativeButton("Cancelar", null)
+                .show()
 
-                updateProduct(product.id, name, description)
-            }
-            .setNegativeButton("Cancelar", null)
-            .show()
+            Log.d(TAG, "✅ Diálogo de edición mostrado")
+        } catch (e: Exception) {
+            Log.e(TAG, "❌ ERROR mostrando diálogo de edición", e)
+        }
     }
 
     private fun createProduct(name: String, description: String) {
-        progressBar.visibility = View.VISIBLE
+        Log.d(TAG, "Creando producto: $name")
+        loadingOverlay.visibility = View.VISIBLE
 
         lifecycleScope.launch {
             try {
@@ -193,8 +306,9 @@ class ProductsActivity : AppCompatActivity() {
                     "name" to name,
                     "description" to description
                 )
+                Log.d(TAG, "Enviando request a API...")
                 val newProduct = RetrofitClient.apiService.createProduct(sessionId, request)
-                Log.d(TAG, "Product created: $newProduct")
+                Log.d(TAG, "✅ Producto creado: ${newProduct.name}")
 
                 Toast.makeText(
                     this@ProductsActivity,
@@ -204,26 +318,27 @@ class ProductsActivity : AppCompatActivity() {
 
                 loadProducts()
             } catch (e: Exception) {
-                Log.e(TAG, "Error creating product", e)
+                Log.e(TAG, "❌ ERROR creando producto", e)
                 Toast.makeText(
                     this@ProductsActivity,
                     "Error al crear producto: ${e.message}",
                     Toast.LENGTH_LONG
                 ).show()
-            } finally {
-                progressBar.visibility = View.GONE
+                loadingOverlay.visibility = View.GONE
             }
         }
     }
 
     private fun updateProduct(productId: Int, name: String, description: String) {
-        progressBar.visibility = View.VISIBLE
+        Log.d(TAG, "Actualizando producto ID: $productId")
+        loadingOverlay.visibility = View.VISIBLE
 
         lifecycleScope.launch {
             try {
                 val request = UpdateProductRequest(name = name, description = description)
+                Log.d(TAG, "Enviando actualización a API...")
                 val updatedProduct = RetrofitClient.apiService.updateProduct(productId, request)
-                Log.d(TAG, "Product updated: $updatedProduct")
+                Log.d(TAG, "✅ Producto actualizado: ${updatedProduct.name}")
 
                 Toast.makeText(
                     this@ProductsActivity,
@@ -233,39 +348,47 @@ class ProductsActivity : AppCompatActivity() {
 
                 loadProducts()
             } catch (e: Exception) {
-                Log.e(TAG, "Error updating product", e)
+                Log.e(TAG, "❌ ERROR actualizando producto", e)
                 Toast.makeText(
                     this@ProductsActivity,
                     "Error al actualizar producto: ${e.message}",
                     Toast.LENGTH_LONG
                 ).show()
-            } finally {
-                progressBar.visibility = View.GONE
+                loadingOverlay.visibility = View.GONE
             }
         }
     }
 
     private fun showProductOptionsMenu(product: Product, view: View) {
-        val popup = PopupMenu(this, view)
-        popup.menuInflater.inflate(R.menu.menu_product_options, popup.menu)
+        Log.d(TAG, "Mostrando menú de opciones para: ${product.name}")
+        try {
+            val popup = PopupMenu(this, view)
+            popup.menuInflater.inflate(R.menu.menu_product_options, popup.menu)
 
-        popup.setOnMenuItemClickListener { item ->
-            when (item.itemId) {
-                R.id.action_edit -> {
-                    showEditProductDialog(product)
-                    true
+            popup.setOnMenuItemClickListener { item ->
+                when (item.itemId) {
+                    R.id.action_edit -> {
+                        Log.d(TAG, "Opción: Editar")
+                        showEditProductDialog(product)
+                        true
+                    }
+                    R.id.action_delete -> {
+                        Log.d(TAG, "Opción: Eliminar")
+                        showDeleteConfirmationDialog(product)
+                        true
+                    }
+                    else -> false
                 }
-                R.id.action_delete -> {
-                    showDeleteConfirmationDialog(product)
-                    true
-                }
-                else -> false
             }
+            popup.show()
+            Log.d(TAG, "✅ Menú mostrado")
+        } catch (e: Exception) {
+            Log.e(TAG, "❌ ERROR mostrando menú", e)
         }
-        popup.show()
     }
 
     private fun showDeleteConfirmationDialog(product: Product) {
+        Log.d(TAG, "Mostrando confirmación de eliminación: ${product.name}")
         MaterialAlertDialogBuilder(this)
             .setTitle("Eliminar Producto")
             .setMessage("¿Estás seguro de que deseas eliminar el producto: ${product.name}?\n\nPodrás crear uno nuevo después.")
@@ -277,12 +400,14 @@ class ProductsActivity : AppCompatActivity() {
     }
 
     private fun deleteProduct(productId: Int) {
-        progressBar.visibility = View.VISIBLE
+        Log.d(TAG, "Eliminando producto ID: $productId")
+        loadingOverlay.visibility = View.VISIBLE
 
         lifecycleScope.launch {
             try {
+                Log.d(TAG, "Llamando API para eliminar...")
                 RetrofitClient.apiService.deleteProduct(productId)
-                Log.d(TAG, "Product deleted: $productId")
+                Log.d(TAG, "✅ Producto eliminado")
 
                 Toast.makeText(
                     this@ProductsActivity,
@@ -292,15 +417,44 @@ class ProductsActivity : AppCompatActivity() {
 
                 loadProducts()
             } catch (e: Exception) {
-                Log.e(TAG, "Error deleting product", e)
+                Log.e(TAG, "❌ ERROR eliminando producto", e)
                 Toast.makeText(
                     this@ProductsActivity,
                     "Error al eliminar producto: ${e.message}",
                     Toast.LENGTH_LONG
                 ).show()
-            } finally {
-                progressBar.visibility = View.GONE
+                loadingOverlay.visibility = View.GONE
             }
         }
+    }
+    override fun onStart() {
+        super.onStart()
+        Log.d(TAG, "=== onStart() ===")
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.d(TAG, "=== onResume() ===")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Log.d(TAG, "=== onPause() ===")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Log.d(TAG, "=== onStop() ===")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.d(TAG, "=== onDestroy() - Activity siendo destruida ===")
+    }
+
+    override fun finish() {
+        Log.d(TAG, "❌ finish() llamado - Activity cerrándose")
+        Log.d(TAG, "Stack trace:", Exception("Trace de finish()"))
+        super.finish()
     }
 }

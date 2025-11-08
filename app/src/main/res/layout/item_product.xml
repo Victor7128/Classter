@@ -2,66 +2,194 @@
 <com.google.android.material.card.MaterialCardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp"
-    app:cardElevation="2dp"
-    app:cardCornerRadius="8dp">
+    android:layout_marginStart="8dp"
+    android:layout_marginEnd="8dp"
+    android:layout_marginTop="6dp"
+    android:layout_marginBottom="6dp"
+    app:cardElevation="4dp"
+    app:cardCornerRadius="16dp"
+    app:cardBackgroundColor="@color/surface">
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="16dp">
+        android:padding="20dp">
 
-        <!-- Número del producto -->
-        <TextView
-            android:id="@+id/tvProductNumber"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:background="@drawable/circle_background"
-            android:gravity="center"
-            android:text="1"
-            android:textColor="@android:color/white"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+        <!-- Avatar circular con número/icono -->
+        <FrameLayout
+            android:id="@+id/frameAvatar"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:background="@drawable/bg_product_avatar"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-        <!-- Información del producto -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:gravity="center">
+
+                <ImageView
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:src="@drawable/ic_product_box"
+                    app:tint="@color/white"
+                    android:contentDescription="Producto" />
+
+                <TextView
+                    android:id="@+id/tvProductNumber"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="1"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/white"
+                    android:fontFamily="sans-serif-black"
+                    android:layout_marginTop="2dp"
+                    tools:text="1" />
+
+            </LinearLayout>
+
+        </FrameLayout>
+
+        <!-- Contenido del producto -->
         <LinearLayout
+            android:id="@+id/layoutContent"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:orientation="vertical"
             android:layout_marginStart="16dp"
-            android:orientation="vertical">
+            android:layout_marginEnd="8dp"
+            app:layout_constraintStart_toEndOf="@id/frameAvatar"
+            app:layout_constraintEnd_toStartOf="@id/btnProductOptions"
+            app:layout_constraintTop_toTopOf="parent">
 
+            <!-- Badge de "Único producto" -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="⭐ ÚNICO PRODUCTO"
+                android:textSize="10sp"
+                android:textStyle="bold"
+                android:textColor="@color/accentColor"
+                android:background="@drawable/bg_badge_unique"
+                android:paddingHorizontal="8dp"
+                android:paddingVertical="4dp"
+                android:layout_marginBottom="8dp"
+                android:fontFamily="sans-serif-black" />
+
+            <!-- Nombre del producto -->
             <TextView
                 android:id="@+id/tvProductName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Nombre del producto"
-                android:textSize="16sp"
+                android:textSize="17sp"
                 android:textStyle="bold"
-                android:textColor="@android:color/black" />
+                android:textColor="@color/text_primary"
+                android:maxLines="2"
+                android:ellipsize="end"
+                android:fontFamily="sans-serif-medium"
+                tools:text="Informe de Investigación" />
 
+            <!-- Descripción del producto -->
             <TextView
                 android:id="@+id/tvProductDescription"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
                 android:text="Descripción del producto"
                 android:textSize="14sp"
-                android:textColor="@android:color/darker_gray"
-                android:maxLines="2"
-                android:ellipsize="end" />
+                android:textColor="@color/text_secondary"
+                android:layout_marginTop="6dp"
+                android:maxLines="3"
+                android:ellipsize="end"
+                android:lineSpacingExtra="2dp"
+                tools:text="Documento escrito donde se analizan los resultados obtenidos" />
+
         </LinearLayout>
 
-        <!-- Botón de menú (opciones) -->
-        <ImageButton
+        <!-- Botón de opciones -->
+        <FrameLayout
             android:id="@+id/btnProductOptions"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:src="@drawable/ic_more_vert"
-            android:contentDescription="Opciones" />
-    </LinearLayout>
+            android:background="@drawable/bg_action_button_gray"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageButton
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:src="@drawable/ic_more_vert"
+                android:contentDescription="Opciones"
+                android:scaleType="centerInside"
+                android:padding="8dp"
+                app:tint="@color/text_secondary" />
+
+        </FrameLayout>
+
+        <!-- Divider -->
+        <View
+            android:id="@+id/divider"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="@color/divider"
+            android:layout_marginTop="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/layoutContent" />
+
+        <!-- Botones de acción -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="12dp"
+            android:gravity="center"
+            app:layout_constraintTop_toBottomOf="@id/divider">
+
+            <!-- Botón Editar -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnEdit"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="42dp"
+                android:text="Editar"
+                android:textSize="13sp"
+                app:icon="@drawable/ic_edit"
+                app:iconTint="@color/primaryColor"
+                app:iconSize="18dp"
+                app:iconGravity="textStart"
+                app:strokeColor="@color/primaryColor"
+                app:strokeWidth="1.5dp"
+                app:cornerRadius="10dp"
+                android:layout_marginEnd="8dp" />
+
+            <!-- Botón Eliminar -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnDelete"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="42dp"
+                android:text="Eliminar"
+                android:textSize="13sp"
+                app:icon="@drawable/ic_delete"
+                app:iconTint="@color/error"
+                app:iconSize="18dp"
+                app:iconGravity="textStart"
+                app:strokeColor="@color/error"
+                app:strokeWidth="1.5dp"
+                app:cornerRadius="10dp" />
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 </com.google.android.material.card.MaterialCardView>

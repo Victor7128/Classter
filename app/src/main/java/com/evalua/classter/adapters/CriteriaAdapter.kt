@@ -3,21 +3,23 @@ package com.evalua.classter.adapters
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageButton
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.evalua.classter.R
 import com.evalua.classter.models.Criterion
+import com.google.android.material.button.MaterialButton
 
 class CriteriaAdapter(
     private var criteria: List<Criterion>,
-    private val onCriterionOptionsClick: (Criterion, View) -> Unit
+    private val onEditCriterion: (Criterion) -> Unit,  // ✅ NUEVO
+    private val onDeleteCriterion: (Criterion) -> Unit  // ✅ CAMBIO
 ) : RecyclerView.Adapter<CriteriaAdapter.CriterionViewHolder>() {
 
     inner class CriterionViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val tvCriterionName: TextView = view.findViewById(R.id.tvCriterionName)
         val tvCriterionDescription: TextView = view.findViewById(R.id.tvCriterionDescription)
-        val btnCriterionOptions: ImageButton = view.findViewById(R.id.btnCriterionOptions)
+        val btnEditCriterion: MaterialButton = view.findViewById(R.id.btnEditCriterion)  // ✅ NUEVO
+        val btnDeleteCriterion: MaterialButton = view.findViewById(R.id.btnDeleteCriterion)  // ✅ NUEVO
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CriterionViewHolder {
@@ -38,8 +40,14 @@ class CriteriaAdapter(
             holder.tvCriterionDescription.text = criterion.description
         }
 
-        holder.btnCriterionOptions.setOnClickListener {
-            onCriterionOptionsClick(criterion, it)
+        // ✅ NUEVO: Botón editar
+        holder.btnEditCriterion.setOnClickListener {
+            onEditCriterion(criterion)
+        }
+
+        // ✅ NUEVO: Botón eliminar
+        holder.btnDeleteCriterion.setOnClickListener {
+            onDeleteCriterion(criterion)
         }
     }
 
