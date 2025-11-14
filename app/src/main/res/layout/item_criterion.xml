@@ -5,10 +5,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="4dp"
-    android:layout_marginBottom="4dp"
+    android:layout_marginTop="6dp"
+    android:layout_marginBottom="6dp"
     app:cardElevation="1dp"
-    app:cardCornerRadius="8dp"
+    app:cardCornerRadius="10dp"
     app:cardBackgroundColor="@color/surface">
 
     <LinearLayout
@@ -16,23 +16,25 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
+        <!-- Contenido del criterio CON MÁS ESPACIO -->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="12dp">
+            android:padding="14dp"
+            android:minHeight="64dp">
 
             <!-- Icono de criterio -->
             <FrameLayout
                 android:id="@+id/frameCriterionIcon"
-                android:layout_width="28dp"
-                android:layout_height="28dp"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
                 android:background="@drawable/bg_criterion_icon_circle"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
                 <ImageView
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
                     android:src="@drawable/ic_check"
                     android:layout_gravity="center"
                     app:tint="@color/white"
@@ -45,8 +47,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="8dp"
+                android:layout_marginStart="12dp"
                 app:layout_constraintStart_toEndOf="@id/frameCriterionIcon"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -61,8 +62,7 @@
                     android:textSize="14sp"
                     android:textStyle="bold"
                     android:textColor="@color/text_primary"
-                    android:maxLines="2"
-                    android:ellipsize="end"
+                    android:lineSpacingExtra="2dp"
                     android:fontFamily="sans-serif-medium"
                     tools:text="Identifica datos y relaciones no explícitas" />
 
@@ -74,9 +74,8 @@
                     android:text="Descripción del criterio"
                     android:textSize="12sp"
                     android:textColor="@color/text_secondary"
-                    android:layout_marginTop="4dp"
-                    android:maxLines="2"
-                    android:ellipsize="end"
+                    android:layout_marginTop="6dp"
+                    android:lineSpacingExtra="2dp"
                     android:visibility="gone"
                     tools:visibility="visible"
                     tools:text="Descripción del criterio de evaluación" />
@@ -85,12 +84,13 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <!-- ✅ NUEVO: Botones de acción visibles -->
+        <!-- Botones de acción MÁS ESPACIOSOS -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:padding="8dp"
+            android:paddingHorizontal="12dp"
+            android:paddingVertical="10dp"
             android:gravity="center">
 
             <!-- Botón Editar -->
@@ -99,17 +99,17 @@
                 style="@style/Widget.Material3.Button.OutlinedButton"
                 android:layout_width="0dp"
                 android:layout_weight="1"
-                android:layout_height="38dp"
+                android:layout_height="44dp"
                 android:text="Editar"
-                android:textSize="12sp"
+                android:textSize="13sp"
                 app:icon="@drawable/ic_edit"
                 app:iconTint="@color/primaryColor"
-                app:iconSize="16dp"
+                app:iconSize="18dp"
                 app:iconGravity="textStart"
                 app:strokeColor="@color/primaryColor"
                 app:strokeWidth="1.5dp"
                 app:cornerRadius="8dp"
-                android:layout_marginEnd="6dp" />
+                android:layout_marginEnd="8dp" />
 
             <!-- Botón Eliminar -->
             <com.google.android.material.button.MaterialButton
@@ -117,12 +117,12 @@
                 style="@style/Widget.Material3.Button.OutlinedButton"
                 android:layout_width="0dp"
                 android:layout_weight="1"
-                android:layout_height="38dp"
+                android:layout_height="44dp"
                 android:text="Eliminar"
-                android:textSize="12sp"
+                android:textSize="13sp"
                 app:icon="@drawable/ic_delete"
                 app:iconTint="@color/error"
-                app:iconSize="16dp"
+                app:iconSize="18dp"
                 app:iconGravity="textStart"
                 app:strokeColor="@color/error"
                 app:strokeWidth="1.5dp"

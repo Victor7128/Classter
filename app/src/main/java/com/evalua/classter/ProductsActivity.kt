@@ -19,6 +19,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.textfield.TextInputEditText
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.google.android.material.button.MaterialButton
+import android.widget.TextView
 import kotlinx.coroutines.launch
 
 class ProductsActivity : AppCompatActivity() {
@@ -235,64 +237,125 @@ class ProductsActivity : AppCompatActivity() {
     private fun showAddProductDialog() {
         Log.d(TAG, "Mostrando diálogo de agregar producto...")
         try {
+            // Inflar el layout personalizado
             val dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_add_product, null)
             val etProductName = dialogView.findViewById<TextInputEditText>(R.id.etProductName)
             val etProductDescription = dialogView.findViewById<TextInputEditText>(R.id.etProductDescription)
+            val btnAccept = dialogView.findViewById<MaterialButton>(R.id.btnAccept)
+            val btnCancel = dialogView.findViewById<MaterialButton>(R.id.btnCancel)
 
-            MaterialAlertDialogBuilder(this)
-                .setTitle("Crear Producto")
-                .setMessage("Solo se permite un producto por sesión.")
+            // Crear el diálogo SIN botones predeterminados
+            val dialog = MaterialAlertDialogBuilder(this)
                 .setView(dialogView)
-                .setPositiveButton("Crear") { _, _ ->
-                    val name = etProductName.text.toString().trim()
-                    val description = etProductDescription.text.toString().trim()
+                .setCancelable(true)
+                .create()
 
-                    if (name.isEmpty()) {
-                        Toast.makeText(this, "El nombre es obligatorio", Toast.LENGTH_SHORT).show()
-                        return@setPositiveButton
-                    }
+            // Configurar el botón Crear
+            btnAccept.setOnClickListener {
+                val name = etProductName.text.toString().trim()
+                val description = etProductDescription.text.toString().trim()
 
-                    createProduct(name, description)
+                Log.d(TAG, "Intentando crear producto: name='$name'")
+
+                if (name.isEmpty()) {
+                    Toast.makeText(this, "El nombre es obligatorio", Toast.LENGTH_SHORT).show()
+                    etProductName.error = "Campo requerido"
+                    return@setOnClickListener
                 }
-                .setNegativeButton("Cancelar", null)
-                .show()
 
-            Log.d(TAG, "✅ Diálogo mostrado")
+                if (name.length > 100) {
+                    Toast.makeText(this, "El nombre no puede exceder 100 caracteres", Toast.LENGTH_SHORT).show()
+                    return@setOnClickListener
+                }
+
+                if (description.length > 200) {
+                    Toast.makeText(this, "La descripción no puede exceder 200 caracteres", Toast.LENGTH_SHORT).show()
+                    return@setOnClickListener
+                }
+
+                dialog.dismiss()
+                createProduct(name, description)
+            }
+
+            // Configurar el botón Cancelar
+            btnCancel.setOnClickListener {
+                Log.d(TAG, "Diálogo cancelado")
+                dialog.dismiss()
+            }
+
+            dialog.show()
+            Log.d(TAG, "✅ Diálogo mostrado correctamente")
+
         } catch (e: Exception) {
             Log.e(TAG, "❌ ERROR mostrando diálogo", e)
+            Toast.makeText(this, "Error al mostrar diálogo: ${e.message}", Toast.LENGTH_LONG).show()
         }
     }
 
     private fun showEditProductDialog(product: Product) {
         Log.d(TAG, "Mostrando diálogo de editar producto: ${product.name}")
         try {
+            // Inflar el layout personalizado
             val dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_add_product, null)
+            val tvDialogTitle = dialogView.findViewById<TextView>(R.id.tvDialogTitle)
             val etProductName = dialogView.findViewById<TextInputEditText>(R.id.etProductName)
             val etProductDescription = dialogView.findViewById<TextInputEditText>(R.id.etProductDescription)
+            val btnAccept = dialogView.findViewById<MaterialButton>(R.id.btnAccept)
+            val btnCancel = dialogView.findViewById<MaterialButton>(R.id.btnCancel)
 
+            // Cambiar el título del diálogo
+            tvDialogTitle.text = "Editar Producto"
+            btnAccept.text = "Guardar"
+
+            // Pre-llenar los campos
             etProductName.setText(product.name)
             etProductDescription.setText(product.description ?: "")
 
-            MaterialAlertDialogBuilder(this)
-                .setTitle("Editar Producto")
+            // Crear el diálogo
+            val dialog = MaterialAlertDialogBuilder(this)
                 .setView(dialogView)
-                .setPositiveButton("Guardar") { _, _ ->
-                    val name = etProductName.text.toString().trim()
-                    val description = etProductDescription.text.toString().trim()
+                .setCancelable(true)
+                .create()
 
-                    if (name.isEmpty()) {
-                        Toast.makeText(this, "El nombre es obligatorio", Toast.LENGTH_SHORT).show()
-                        return@setPositiveButton
-                    }
+            // Configurar el botón Guardar
+            btnAccept.setOnClickListener {
+                val name = etProductName.text.toString().trim()
+                val description = etProductDescription.text.toString().trim()
 
-                    updateProduct(product.id, name, description)
+                Log.d(TAG, "Intentando actualizar producto: name='$name'")
+
+                if (name.isEmpty()) {
+                    Toast.makeText(this, "El nombre es obligatorio", Toast.LENGTH_SHORT).show()
+                    etProductName.error = "Campo requerido"
+                    return@setOnClickListener
                 }
-                .setNegativeButton("Cancelar", null)
-                .show()
 
+                if (name.length > 100) {
+                    Toast.makeText(this, "El nombre no puede exceder 100 caracteres", Toast.LENGTH_SHORT).show()
+                    return@setOnClickListener
+                }
+
+                if (description.length > 200) {
+                    Toast.makeText(this, "La descripción no puede exceder 200 caracteres", Toast.LENGTH_SHORT).show()
+                    return@setOnClickListener
+                }
+
+                dialog.dismiss()
+                updateProduct(product.id, name, description)
+            }
+
+            // Configurar el botón Cancelar
+            btnCancel.setOnClickListener {
+                Log.d(TAG, "Edición cancelada")
+                dialog.dismiss()
+            }
+
+            dialog.show()
             Log.d(TAG, "✅ Diálogo de edición mostrado")
+
         } catch (e: Exception) {
             Log.e(TAG, "❌ ERROR mostrando diálogo de edición", e)
+            Toast.makeText(this, "Error al mostrar diálogo: ${e.message}", Toast.LENGTH_LONG).show()
         }
     }
 

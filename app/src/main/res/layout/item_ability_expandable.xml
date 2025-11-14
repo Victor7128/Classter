@@ -5,8 +5,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="6dp"
-    android:layout_marginBottom="6dp"
+    android:layout_marginTop="8dp"
+    android:layout_marginBottom="8dp"
     app:cardElevation="2dp"
     app:cardCornerRadius="12dp"
     app:cardBackgroundColor="@color/surface">
@@ -16,12 +16,13 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <!-- Header de la capacidad -->
+        <!-- Header de la capacidad CON MÁS ESPACIO -->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layoutAbilityHeader"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="14dp"
+            android:padding="16dp"
+            android:minHeight="72dp"
             android:background="?attr/selectableItemBackground"
             android:clickable="true"
             android:focusable="true">
@@ -29,16 +30,16 @@
             <!-- Icono de expansión -->
             <FrameLayout
                 android:id="@+id/frameAbilityExpandIcon"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
+                android:layout_width="42dp"
+                android:layout_height="42dp"
                 android:background="@drawable/bg_expand_ability_circle"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
                 <ImageView
                     android:id="@+id/ivAbilityExpandIcon"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
                     android:src="@drawable/ic_expand_more"
                     android:layout_gravity="center"
                     app:tint="@color/secondaryColor"
@@ -51,8 +52,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_marginStart="12dp"
-                android:layout_marginEnd="8dp"
+                android:layout_marginStart="14dp"
                 app:layout_constraintStart_toEndOf="@id/frameAbilityExpandIcon"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -69,7 +69,7 @@
                     android:background="@drawable/bg_level_badge_ability"
                     android:paddingHorizontal="8dp"
                     android:paddingVertical="3dp"
-                    android:layout_marginBottom="6dp"
+                    android:layout_marginBottom="8dp"
                     android:fontFamily="sans-serif-black" />
 
                 <!-- Nombre de la capacidad -->
@@ -81,8 +81,7 @@
                     android:textSize="15sp"
                     android:textStyle="bold"
                     android:textColor="@color/text_primary"
-                    android:maxLines="2"
-                    android:ellipsize="end"
+                    android:lineSpacingExtra="2dp"
                     android:fontFamily="sans-serif-medium"
                     tools:text="Traduce cantidades a expresiones numéricas" />
 
@@ -92,9 +91,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="✓ 5 criterios"
-                    android:textSize="11sp"
+                    android:textSize="12sp"
                     android:textColor="@color/purple_500"
-                    android:layout_marginTop="6dp"
+                    android:layout_marginTop="8dp"
                     android:fontFamily="sans-serif-medium"
                     android:visibility="gone"
                     tools:visibility="visible"
@@ -104,25 +103,25 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <!-- ✅ NUEVO: Botones de acción visibles -->
+        <!-- Botón Eliminar -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:padding="10dp"
+            android:paddingHorizontal="14dp"
+            android:paddingVertical="12dp"
             android:gravity="center">
 
-            <!-- Botón Eliminar -->
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnDeleteAbility"
                 style="@style/Widget.Material3.Button.OutlinedButton"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:text="Eliminar"
-                android:textSize="12sp"
+                android:layout_height="48dp"
+                android:text="Eliminar Capacidad"
+                android:textSize="13sp"
                 app:icon="@drawable/ic_delete"
                 app:iconTint="@color/error"
-                app:iconSize="16dp"
+                app:iconSize="18dp"
                 app:iconGravity="textStart"
                 app:strokeColor="@color/error"
                 app:strokeWidth="1.5dp"
@@ -137,9 +136,8 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:visibility="gone"
-            android:background="#F5F5F5"
-            android:paddingStart="16dp"
-            android:paddingEnd="8dp"
+            android:background="#F8F8F8"
+            android:paddingTop="8dp"
             tools:visibility="visible">
 
             <!-- Botón agregar criterio -->
@@ -147,29 +145,31 @@
                 android:id="@+id/layoutAgregarCriterio"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
+                android:layout_marginHorizontal="12dp"
+                android:layout_marginVertical="12dp"
                 app:cardElevation="1dp"
                 app:cardCornerRadius="10dp"
                 android:clickable="true"
                 android:focusable="true"
+                android:foreground="?attr/selectableItemBackground"
                 app:cardBackgroundColor="#F3E5F5">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:padding="12dp"
+                    android:padding="14dp"
+                    android:minHeight="60dp"
                     android:gravity="center_vertical">
 
                     <FrameLayout
-                        android:layout_width="28dp"
-                        android:layout_height="28dp"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
                         android:background="@drawable/bg_add_criterion_circle">
 
                         <ImageView
-                            android:layout_width="16dp"
-                            android:layout_height="16dp"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
                             android:src="@drawable/ic_add"
                             android:layout_gravity="center"
                             app:tint="@color/white"
@@ -181,7 +181,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:layout_marginStart="10dp"
+                        android:layout_marginStart="14dp"
                         android:text="Crear Criterio de Evaluación"
                         android:textSize="14sp"
                         android:textStyle="bold"
@@ -192,12 +192,13 @@
 
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Lista de criterios -->
+            <!-- Lista de criterios CON MÁS PADDING -->
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvCriteria"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingBottom="12dp"
+                android:paddingHorizontal="12dp"
+                android:paddingBottom="16dp"
                 android:clipToPadding="false"
                 tools:listitem="@layout/item_criterion" />
 

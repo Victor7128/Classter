@@ -5,11 +5,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginStart="8dp"
-    android:layout_marginEnd="8dp"
-    android:layout_marginTop="6dp"
-    android:layout_marginBottom="6dp"
-    app:cardElevation="4dp"
+    android:layout_marginTop="8dp"
+    android:layout_marginBottom="8dp"
+    app:cardElevation="3dp"
     app:cardCornerRadius="16dp"
     app:cardBackgroundColor="@color/surface">
 
@@ -18,29 +16,30 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <!-- Header de la competencia -->
+        <!-- Header de la competencia CON MÁS ESPACIO -->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layoutCompetencyHeader"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="16dp"
+            android:padding="20dp"
+            android:minHeight="80dp"
             android:background="?attr/selectableItemBackground"
             android:clickable="true"
             android:focusable="true">
 
-            <!-- Icono de expansión -->
+            <!-- Icono de expansión MÁS GRANDE -->
             <FrameLayout
                 android:id="@+id/frameExpandIcon"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
                 android:background="@drawable/bg_expand_circle"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
                 <ImageView
                     android:id="@+id/ivExpandIcon"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
                     android:src="@drawable/ic_expand_more"
                     android:layout_gravity="center"
                     app:tint="@color/primaryColor"
@@ -54,8 +53,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_marginStart="12dp"
-                android:layout_marginEnd="8dp"
+                android:layout_marginStart="16dp"
                 app:layout_constraintStart_toEndOf="@id/frameExpandIcon"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -70,9 +68,9 @@
                     android:textStyle="bold"
                     android:textColor="@color/primaryColor"
                     android:background="@drawable/bg_level_badge_competency"
-                    android:paddingHorizontal="8dp"
+                    android:paddingHorizontal="10dp"
                     android:paddingVertical="4dp"
-                    android:layout_marginBottom="6dp"
+                    android:layout_marginBottom="8dp"
                     android:fontFamily="sans-serif-black" />
 
                 <!-- Nombre de la competencia -->
@@ -81,11 +79,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Resuelve problemas de cantidad"
-                    android:textSize="17sp"
+                    android:textSize="16sp"
                     android:textStyle="bold"
                     android:textColor="@color/text_primary"
-                    android:maxLines="2"
-                    android:ellipsize="end"
+                    android:lineSpacingExtra="2dp"
                     android:fontFamily="sans-serif-medium"
                     tools:text="Resuelve problemas de cantidad" />
 
@@ -97,7 +94,7 @@
                     android:text="Área: Matemática"
                     android:textSize="13sp"
                     android:textColor="@color/text_secondary"
-                    android:layout_marginTop="4dp"
+                    android:layout_marginTop="6dp"
                     tools:text="Área: Matemática" />
 
                 <!-- Contador de capacidades -->
@@ -108,7 +105,7 @@
                     android:text="💡 3 capacidades"
                     android:textSize="12sp"
                     android:textColor="@color/secondaryColor"
-                    android:layout_marginTop="6dp"
+                    android:layout_marginTop="8dp"
                     android:fontFamily="sans-serif-medium"
                     android:visibility="gone"
                     tools:visibility="visible"
@@ -124,31 +121,30 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@color/divider"
-            android:layout_marginHorizontal="16dp" />
+            android:layout_marginHorizontal="20dp" />
 
-        <!-- ✅ NUEVO: Botones de acción visibles -->
+        <!-- Botón Eliminar MÁS ESPACIOSO -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:padding="12dp"
+            android:padding="16dp"
             android:gravity="center">
 
-            <!-- Botón Eliminar -->
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnDeleteCompetency"
                 style="@style/Widget.Material3.Button.OutlinedButton"
                 android:layout_width="match_parent"
-                android:layout_height="42dp"
-                android:text="Eliminar"
-                android:textSize="13sp"
+                android:layout_height="48dp"
+                android:text="Eliminar Competencia"
+                android:textSize="14sp"
                 app:icon="@drawable/ic_delete"
                 app:iconTint="@color/error"
-                app:iconSize="18dp"
+                app:iconSize="20dp"
                 app:iconGravity="textStart"
                 app:strokeColor="@color/error"
                 app:strokeWidth="1.5dp"
-                app:cornerRadius="10dp" />
+                app:cornerRadius="12dp" />
 
         </LinearLayout>
 
@@ -160,18 +156,21 @@
             android:orientation="vertical"
             android:visibility="gone"
             android:background="#FAFAFA"
+            android:paddingTop="8dp"
             tools:visibility="visible">
 
-            <!-- Botón agregar capacidad -->
+            <!-- Botón agregar capacidad MÁS GRANDE -->
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/layoutAgregarCapacidad"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="12dp"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginVertical="12dp"
                 app:cardElevation="2dp"
                 app:cardCornerRadius="12dp"
                 android:clickable="true"
                 android:focusable="true"
+                android:foreground="?attr/selectableItemBackground"
                 app:cardBackgroundColor="#E8F5E8">
 
                 <LinearLayout
@@ -179,16 +178,17 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:padding="16dp"
+                    android:minHeight="64dp"
                     android:gravity="center_vertical">
 
                     <FrameLayout
-                        android:layout_width="36dp"
-                        android:layout_height="36dp"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
                         android:background="@drawable/bg_add_ability_circle">
 
                         <ImageView
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
+                            android:layout_width="22dp"
+                            android:layout_height="22dp"
                             android:src="@drawable/ic_add"
                             android:layout_gravity="center"
                             app:tint="@color/white"
@@ -200,7 +200,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:layout_marginStart="12dp"
+                        android:layout_marginStart="16dp"
                         android:text="Agregar Capacidad del Catálogo"
                         android:textSize="15sp"
                         android:textStyle="bold"
@@ -211,14 +211,13 @@
 
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Lista de capacidades -->
+            <!-- Lista de capacidades CON MÁS PADDING -->
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvAbilities"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingStart="12dp"
-                android:paddingEnd="12dp"
-                android:paddingBottom="12dp"
+                android:paddingHorizontal="16dp"
+                android:paddingBottom="16dp"
                 android:clipToPadding="false"
                 tools:listitem="@layout/item_ability_expandable" />
 
