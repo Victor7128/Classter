@@ -13,3 +13,16 @@
 .externalNativeBuild
 .cxx
 local.properties
+
+# Archivos a excluir
+*.md
+backend/
+backdocentes2/
+*.db
+*.sqlite
+*.sqlite3
+node_modules/
+*.log
+*.apk
+*.aar
+
