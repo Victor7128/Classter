@@ -43,7 +43,6 @@ class StudentsActivity : AppCompatActivity() {
     companion object {
         private const val TAG = "StudentsActivity"
     }
-
     private lateinit var rvStudents: RecyclerView
     private lateinit var progressBar: ProgressBar
     private lateinit var tvEmptyState: TextView
@@ -282,9 +281,13 @@ class StudentsActivity : AppCompatActivity() {
     }
 
     private fun showAddStudentDialog() {
-        val dialog = AddStudentDialogFragment { fullName ->
-            createStudent(fullName)
-        }
+        // ✅ Pasar la lista de estudiantes existentes
+        val dialog = AddStudentDialogFragment(
+            existingStudents = studentsList,  // ✅ NUEVO
+            onStudentAdded = { fullName ->
+                createStudent(fullName)
+            }
+        )
         dialog.show(supportFragmentManager, "AddStudentDialog")
     }
 
@@ -297,6 +300,20 @@ class StudentsActivity : AppCompatActivity() {
 
     // ✅ MANTENER: Estos usan Call<> porque son operaciones de modificación
     private fun createStudent(fullName: String) {
+        // ✅ Validación de seguridad antes de enviar
+        val isDuplicate = studentsList.any {
+            it.full_name.equals(fullName, ignoreCase = true)
+        }
+
+        if (isDuplicate) {
+            Toast.makeText(
+                this,
+                "⚠️ El estudiante \"$fullName\" ya existe en la lista",
+                Toast.LENGTH_LONG
+            ).show()
+            return  // ✅ No enviar al backend
+        }
+
         progressBar.visibility = ProgressBar.VISIBLE
 
         val request = CreateStudentRequest(full_name = fullName)
@@ -316,15 +333,25 @@ class StudentsActivity : AppCompatActivity() {
 
                             Toast.makeText(
                                 this@StudentsActivity,
-                                "Estudiante agregado exitosamente",
+                                "✅ Estudiante agregado exitosamente",
                                 Toast.LENGTH_SHORT
                             ).show()
                         }
                     } else {
+                        // ✅ Mejorar manejo de errores del backend
+                        val errorBody = response.errorBody()?.string()
+                        val errorMessage = when {
+                            errorBody?.contains("duplicate", ignoreCase = true) == true ||
+                                    errorBody?.contains("already exists", ignoreCase = true) == true ->
+                                "⚠️ El estudiante ya existe en el servidor"
+                            else ->
+                                "❌ Error al agregar estudiante"
+                        }
+
                         Toast.makeText(
                             this@StudentsActivity,
-                            "Error al agregar estudiante",
-                            Toast.LENGTH_SHORT
+                            errorMessage,
+                            Toast.LENGTH_LONG
                         ).show()
                     }
                 }
@@ -333,7 +360,7 @@ class StudentsActivity : AppCompatActivity() {
                     progressBar.visibility = ProgressBar.GONE
                     Toast.makeText(
                         this@StudentsActivity,
-                        "Error: ${t.message}",
+                        "❌ Error: ${t.message}",
                         Toast.LENGTH_SHORT
                     ).show()
                 }

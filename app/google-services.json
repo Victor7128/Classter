@@ -14,7 +14,15 @@
       },
       "oauth_client": [
         {
-          "client_id": "17638515197-c9e7qnrp9a3l50mvbsk6a4dqafots8f3.apps.googleusercontent.com",
+          "client_id": "17638515197-f0eilqd7nctv815g3r7e5b56dflp5lcp.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.evalua.classter",
+            "certificate_hash": "4f789efa0c7a7f0ea24da71477e9d1b158d39651"
+          }
+        },
+        {
+          "client_id": "17638515197-k7hebvm00rg4v5pts8jejeoo0ghkjuii.apps.googleusercontent.com",
           "client_type": 3
         }
       ],

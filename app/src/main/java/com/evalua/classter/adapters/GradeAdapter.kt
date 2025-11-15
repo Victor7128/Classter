@@ -35,6 +35,7 @@ class GradeAdapter(
         val ivExpandIcon: ImageView = view.findViewById(R.id.ivGradeExpandIcon)
         val tvGrade: TextView = view.findViewById(R.id.tvGradeNumber)
         val btnDeleteGrade: ImageButton = view.findViewById(R.id.btnDeleteGrade)
+        val tvGradeLabel: TextView = view.findViewById(R.id.tvGradeLabel)
         val rvSections: RecyclerView = view.findViewById(R.id.recyclerViewSections)
         val layoutSections: LinearLayout = view.findViewById(R.id.layoutSectionsContainer)
         val btnAddSection: Button = view.findViewById(R.id.btnAddSection)
@@ -48,7 +49,20 @@ class GradeAdapter(
 
     override fun onBindViewHolder(holder: GradeViewHolder, position: Int) {
         val grade = grades[position]
+
+        // ✅ Actualizar el badge del número
         holder.tvGrade.text = "${grade.number}°"
+
+        // ✅ Actualizar el nombre del grado dinámicamente
+        holder.tvGradeLabel.text = when (grade.number) {
+            1 -> "Primer Grado"
+            2 -> "Segundo Grado"
+            3 -> "Tercer Grado"
+            4 -> "Cuarto Grado"
+            5 -> "Quinto Grado"
+            6 -> "Sexto Grado"
+            else -> "${grade.number}° Grado"
+        }
 
         Log.d(TAG, "Binding grade ${grade.id}, expandedGradeId: $expandedGradeId")
 

@@ -49,11 +49,14 @@
 
     <!-- Campo de texto mejorado -->
     <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tilStudentName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Nombre completo"
         app:startIconDrawable="@drawable/ic_person"
         app:startIconTint="@color/primaryColor"
+        app:errorEnabled="true"
+        app:errorTextColor="@android:color/holo_red_dark"
         app:boxCornerRadiusTopStart="12dp"
         app:boxCornerRadiusTopEnd="12dp"
         app:boxCornerRadiusBottomStart="12dp"
@@ -66,9 +69,20 @@
             android:layout_height="wrap_content"
             android:inputType="textCapWords"
             android:maxLines="1"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            android:imeOptions="actionDone" />
 
     </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- Mensaje informativo -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="💡 El nombre debe ser único en esta sección"
+        android:textSize="12sp"
+        android:textColor="@color/text_hint"
+        android:alpha="0.7" />
 
     <!-- Botones de acción -->
     <LinearLayout

@@ -370,39 +370,35 @@ class LoginActivity : AppCompatActivity() {
 
                 // Guardar datos del perfil de manera genérica
                 val profileData = userResponse.profileData
-                if (profileData != null) {
-                    Log.d(TAG, "📊 ProfileData recibido: $profileData")
+                Log.d(TAG, "📊 ProfileData recibido: $profileData")
 
-                    editor.putString("user_full_name", profileData["full_name"] as? String)
-                    editor.putString("user_dni", profileData["dni"] as? String)
+                editor.putString("user_full_name", profileData["full_name"] as? String)
+                editor.putString("user_dni", profileData["dni"] as? String)
 
-                    // Para docentes - verificar qué datos llegan
-                    val areaId = profileData["area_id"] as? Double
-                    var areaNombre = profileData["area_nombre"] as? String
-                    val areaIdInt = areaId?.toInt() ?: 0
+                // Para docentes - verificar qué datos llegan
+                val areaId = profileData["area_id"] as? Double
+                var areaNombre = profileData["area_nombre"] as? String
+                val areaIdInt = areaId?.toInt() ?: 0
 
-                    Log.d(TAG, "🏫 Datos del área - ID: $areaIdInt, Nombre: $areaNombre")
+                Log.d(TAG, "🏫 Datos del área - ID: $areaIdInt, Nombre: $areaNombre")
 
-                    // ✅ MEJORADO: Si no viene el nombre del área, obtenerlo del servidor
-                    if (areaIdInt > 0 && areaNombre.isNullOrEmpty()) {
-                        Log.d(TAG, "🔄 Obteniendo nombre del área desde el servidor...")
-                        areaNombre = obtenerNombreAreaYEsperar(areaIdInt)
-                    }
-
-                    editor.putInt("user_area_id", areaIdInt)
-                    editor.putString("user_area_name", areaNombre ?: "")
-                    Log.d(TAG, "💾 Guardando área: ID $areaIdInt, Nombre: ${areaNombre ?: "NO_OBTENIDO"}")
-
-                    // Guardar el resto de datos
-                    editor.putString("user_employee_code", profileData["employee_code"] as? String)
-                    editor.putString("user_nombres", profileData["nombres"] as? String)
-                    editor.putString("user_apellido_paterno", profileData["apellido_paterno"] as? String)
-                    editor.putString("user_apellido_materno", profileData["apellido_materno"] as? String)
-                    editor.putString("user_phone", profileData["phone"] as? String)
-                    editor.putString("user_relationship_type", profileData["relationship_type"] as? String)
-                } else {
-                    Log.w(TAG, "❌ ProfileData es null")
+                // ✅ MEJORADO: Si no viene el nombre del área, obtenerlo del servidor
+                if (areaIdInt > 0 && areaNombre.isNullOrEmpty()) {
+                    Log.d(TAG, "🔄 Obteniendo nombre del área desde el servidor...")
+                    areaNombre = obtenerNombreAreaYEsperar(areaIdInt)
                 }
+
+                editor.putInt("user_area_id", areaIdInt)
+                editor.putString("user_area_name", areaNombre ?: "")
+                Log.d(TAG, "💾 Guardando área: ID $areaIdInt, Nombre: ${areaNombre ?: "NO_OBTENIDO"}")
+
+                // Guardar el resto de datos
+                editor.putString("user_employee_code", profileData["employee_code"] as? String)
+                editor.putString("user_nombres", profileData["nombres"] as? String)
+                editor.putString("user_apellido_paterno", profileData["apellido_paterno"] as? String)
+                editor.putString("user_apellido_materno", profileData["apellido_materno"] as? String)
+                editor.putString("user_phone", profileData["phone"] as? String)
+                editor.putString("user_relationship_type", profileData["relationship_type"] as? String)
 
                 // ✅ APLICAR los cambios y esperar a que termine
                 editor.apply()

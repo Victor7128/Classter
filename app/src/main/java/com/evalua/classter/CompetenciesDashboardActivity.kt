@@ -125,43 +125,43 @@ class CompetenciesDashboardActivity : AppCompatActivity() {
         try {
             Log.d(TAG, "  Buscando toolbar...")
             toolbar = findViewById(R.id.toolbar)
-            Log.d(TAG, "  ✅ toolbar encontrado: ${toolbar != null}")
+            Log.d(TAG, "  ✅ toolbar encontrado: ${true}")
 
             Log.d(TAG, "  Buscando etBuscarCompetencias...")
             etBuscarCompetencias = findViewById(R.id.etBuscarCompetencias)
-            Log.d(TAG, "  ✅ etBuscarCompetencias encontrado: ${etBuscarCompetencias != null}")
+            Log.d(TAG, "  ✅ etBuscarCompetencias encontrado: ${true}")
 
             Log.d(TAG, "  Buscando spinnerAreas...")
             spinnerAreas = findViewById(R.id.spinnerAreas)
-            Log.d(TAG, "  ✅ spinnerAreas encontrado: ${spinnerAreas != null}")
+            Log.d(TAG, "  ✅ spinnerAreas encontrado: ${true}")
 
             Log.d(TAG, "  Buscando cardAgregarCompetencia...")
             cardAgregarCompetencia = findViewById(R.id.cardAgregarCompetencia)
-            Log.d(TAG, "  ✅ cardAgregarCompetencia encontrado: ${cardAgregarCompetencia != null}")
+            Log.d(TAG, "  ✅ cardAgregarCompetencia encontrado: ${true}")
 
             Log.d(TAG, "  Buscando swipeRefresh...")
             swipeRefresh = findViewById(R.id.swipeRefresh)
-            Log.d(TAG, "  ✅ swipeRefresh encontrado: ${swipeRefresh != null}")
+            Log.d(TAG, "  ✅ swipeRefresh encontrado: ${true}")
 
             Log.d(TAG, "  Buscando rvCompetencies...")
             rvCompetencies = findViewById(R.id.rvCompetencies)
-            Log.d(TAG, "  ✅ rvCompetencies encontrado: ${rvCompetencies != null}")
+            Log.d(TAG, "  ✅ rvCompetencies encontrado: ${true}")
 
             Log.d(TAG, "  Buscando loadingOverlay...")
             loadingOverlay = findViewById(R.id.loadingOverlay)
-            Log.d(TAG, "  ✅ loadingOverlay encontrado: ${loadingOverlay != null}")
+            Log.d(TAG, "  ✅ loadingOverlay encontrado: ${true}")
 
             Log.d(TAG, "  Buscando tvAreaInfo...")
             tvAreaInfo = findViewById(R.id.tvAreaInfo)
-            Log.d(TAG, "  ✅ tvAreaInfo encontrado: ${tvAreaInfo != null}")
+            Log.d(TAG, "  ✅ tvAreaInfo encontrado: ${true}")
 
             Log.d(TAG, "  Buscando cardAreaInfo...")
             cardAreaInfo = findViewById(R.id.cardAreaInfo)
-            Log.d(TAG, "  ✅ cardAreaInfo encontrado: ${cardAreaInfo != null}")
+            Log.d(TAG, "  ✅ cardAreaInfo encontrado: ${true}")
 
             Log.d(TAG, "  Buscando layoutEmptyState...")
             layoutEmptyState = findViewById(R.id.tvEmptyState)  // Sí, el ID sigue siendo tvEmptyState
-            Log.d(TAG, "  ✅ layoutEmptyState encontrado: ${layoutEmptyState != null}")
+            Log.d(TAG, "  ✅ layoutEmptyState encontrado: ${true}")
 
             Log.d(TAG, "✅ Todas las vistas inicializadas correctamente")
 

@@ -33,10 +33,10 @@ class StudentAdapter(
         val student = students[position]
         holder.tvStudentName.text = student.full_name
 
-        // ✅ NUEVO: Configurar inicial del avatar
+        // ✅ Configurar inicial del avatar
         holder.tvStudentInitial?.text = student.full_name.firstOrNull()?.uppercase() ?: "?"
 
-        // ✅ NUEVO: Configurar número de orden
+        // ✅ Configurar número de orden
         holder.tvStudentNumber?.text = "#${position + 1}"
 
         holder.btnEditStudent.setOnClickListener {
@@ -56,7 +56,6 @@ class StudentAdapter(
         if (position != -1) {
             students.removeAt(position)
             notifyItemRemoved(position)
-            // ✅ NUEVO: Actualizar números después de eliminar
             notifyItemRangeChanged(position, students.size - position)
         }
     }
@@ -66,7 +65,6 @@ class StudentAdapter(
         students.sortBy { it.full_name }
         val position = students.indexOfFirst { it.id == student.id }
         notifyItemInserted(position)
-        // ✅ NUEVO: Actualizar números después de agregar
         notifyItemRangeChanged(position, students.size - position)
     }
 

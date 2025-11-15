@@ -66,6 +66,18 @@
                 android:letterSpacing="0.1"
                 tools:text="#1" />
 
+            <!-- Añadir después del tvStudentNumber -->
+            <TextView
+                android:id="@+id/tvStudentDni"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="DNI: 12345678"
+                android:textSize="11sp"
+                android:textColor="@color/text_hint"
+                android:visibility="gone"
+                tools:visibility="visible"
+                tools:text="DNI: 12345678" />
+
             <!-- Nombre del estudiante -->
             <TextView
                 android:id="@+id/tvStudentName"
@@ -108,6 +120,20 @@
             </LinearLayout>
 
         </LinearLayout>
+
+        <!-- Añadir antes del layoutActions -->
+        <ImageView
+            android:id="@+id/ivLinked"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/ic_check_circle"
+            app:tint="@color/success"
+            android:visibility="gone"
+            app:layout_constraintEnd_toStartOf="@id/layoutActions"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginEnd="12dp"
+            android:contentDescription="Usuario vinculado" />
 
         <!-- Acciones -->
         <LinearLayout

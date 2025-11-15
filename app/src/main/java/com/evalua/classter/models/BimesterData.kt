@@ -24,5 +24,7 @@ data class Student(
     val id: Int,
     val section_id: Int? = null,
     val full_name: String,
-    val email: String? = null
+    val email: String? = null,
+    val user_id: Int? = null,
+    val dni: String? = null
 )

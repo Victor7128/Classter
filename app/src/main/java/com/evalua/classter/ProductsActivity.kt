@@ -88,23 +88,23 @@ class ProductsActivity : AppCompatActivity() {
         try {
             Log.d(TAG, "  Buscando toolbar...")
             toolbar = findViewById(R.id.toolbar)
-            Log.d(TAG, "  ✅ toolbar encontrado: ${toolbar != null}")
+            Log.d(TAG, "  ✅ toolbar encontrado: ${true}")
 
             Log.d(TAG, "  Buscando swipeRefresh...")
             swipeRefresh = findViewById(R.id.swipeRefresh)
-            Log.d(TAG, "  ✅ swipeRefresh encontrado: ${swipeRefresh != null}")
+            Log.d(TAG, "  ✅ swipeRefresh encontrado: ${true}")
 
             Log.d(TAG, "  Buscando rvProducts...")
             rvProducts = findViewById(R.id.rvProducts)
-            Log.d(TAG, "  ✅ rvProducts encontrado: ${rvProducts != null}")
+            Log.d(TAG, "  ✅ rvProducts encontrado: ${true}")
 
             Log.d(TAG, "  Buscando fabAddProduct...")
             fabAddProduct = findViewById(R.id.fabAddProduct)
-            Log.d(TAG, "  ✅ fabAddProduct encontrado: ${fabAddProduct != null}")
+            Log.d(TAG, "  ✅ fabAddProduct encontrado: ${true}")
 
             Log.d(TAG, "  Buscando loadingOverlay...")
             loadingOverlay = findViewById(R.id.loadingOverlay)
-            Log.d(TAG, "  ✅ loadingOverlay encontrado: ${loadingOverlay != null}")
+            Log.d(TAG, "  ✅ loadingOverlay encontrado: ${true}")
 
             Log.d(TAG, "✅ Todas las vistas inicializadas correctamente")
 

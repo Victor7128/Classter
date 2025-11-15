@@ -572,216 +572,352 @@ class ReportsActivity : AppCompatActivity() {
 
     private fun buildBeautifulHtmlReport(data: ConsolidatedResponse): String {
         val builder = StringBuilder()
+        val currentDate = java.text.SimpleDateFormat("dd/MM/yyyy HH:mm", java.util.Locale.getDefault())
+            .format(java.util.Date())
 
         builder.append("""<!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Consolidado $sectionName</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { 
-            font-family: 'Segoe UI', Arial, sans-serif; 
-            line-height: 1.6; 
-            color: #333; 
-            background: #f8f9fa;
-            padding: 20px;
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
         }
+        
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.5;
+            color: #2d3748;
+            background: #f7fafc;
+            padding: 12px;
+        }
+        
         .container { 
-            max-width: 1200px; 
-            margin: 0 auto; 
+            max-width: 1200px;
+            margin: 0 auto;
             background: white;
-            border-radius: 12px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border-radius: 16px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.07);
             overflow: hidden;
         }
+        
+        /* ===== HEADER ===== */
         .header { 
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
-            padding: 30px;
+            padding: 24px 16px;
             text-align: center;
         }
+        
         .header h1 { 
-            font-size: 28px; 
-            margin-bottom: 10px;
-            font-weight: 600;
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 8px;
         }
+        
         .header .subtitle { 
-            font-size: 16px; 
-            opacity: 0.9;
+            font-size: 14px;
+            opacity: 0.95;
         }
+        
+        /* ===== SUMMARY CARDS ===== */
         .summary-cards {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-            padding: 20px;
-            background: #f8f9fa;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            padding: 16px;
+            background: #f7fafc;
         }
+        
         .card {
             background: white;
-            padding: 20px;
-            border-radius: 8px;
+            padding: 16px;
+            border-radius: 12px;
             text-align: center;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
         }
+        
         .card .number { 
-            font-size: 24px; 
-            font-weight: bold;
+            font-size: 28px;
+            font-weight: 800;
             color: #667eea;
-            margin-bottom: 5px;
+            margin-bottom: 4px;
         }
+        
         .card .label { 
-            font-size: 14px; 
-            color: #666;
+            font-size: 13px;
+            color: #718096;
+            font-weight: 500;
         }
-        .student-section {
-            padding: 20px;
+        
+        /* ===== STUDENTS SECTION ===== */
+        .students-section {
+            padding: 16px;
         }
+        
         .student-card {
             background: white;
-            border: 1px solid #e9ecef;
-            border-radius: 8px;
-            margin-bottom: 15px;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            margin-bottom: 16px;
             overflow: hidden;
         }
+        
         .student-header {
-            background: #f8f9fa;
-            padding: 15px 20px;
-            border-bottom: 1px solid #e9ecef;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 16px;
             display: flex;
-            justify-content: space-between;  // ← CORREGIDO
+            justify-content: space-between;
             align-items: center;
         }
+        
         .student-name {
-            font-size: 18px;
-            font-weight: 600;
-            color: #495057;
+            font-size: 16px;
+            font-weight: 700;
+            flex: 1;
+            line-height: 1.3;
         }
+        
         .student-number {
-            background: #667eea;
-            color: white;
-            padding: 4px 12px;
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
+            padding: 6px 12px;
             border-radius: 20px;
-            font-size: 14px;
+            font-size: 12px;
+            font-weight: 600;
+            white-space: nowrap;
+            margin-left: 12px;
         }
+        
         .student-content {
-            padding: 20px;
+            padding: 16px;
         }
+        
+        /* ===== SESSION GROUP ===== */
         .session-group {
             margin-bottom: 20px;
         }
+        
         .session-title {
             font-size: 16px;
-            font-weight: 600;
-            color: #495057;
-            margin-bottom: 10px;
-            padding-bottom: 5px;
-            border-bottom: 2px solid #667eea;
+            font-weight: 700;
+            color: #2d3748;
+            margin-bottom: 12px;
+            padding: 10px 12px;
+            background: linear-gradient(90deg, #667eea 0%, transparent 100%);
+            background-size: 4px 100%;
+            background-repeat: no-repeat;
+            border-radius: 4px;
         }
-        .competency-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 15px;
-        }
+        
+        /* ===== COMPETENCY CARD ===== */
         .competency-card {
-            background: #f8f9fa;
-            padding: 15px;
-            border-radius: 6px;
-            border-left: 4px solid #667eea;
+            background: #f7fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 14px;
+            margin-bottom: 12px;
         }
+        
         .competency-name {
-            font-weight: 600;
-            margin-bottom: 10px;
-            color: #495057;
+            font-weight: 700;
+            font-size: 15px;
+            margin-bottom: 12px;
+            color: #2d3748;
+            display: flex;
+            align-items: center;
         }
+        
+        .competency-name::before {
+            content: "📚";
+            margin-right: 8px;
+        }
+        
+        /* ===== ABILITY ITEM ===== */
         .ability-item {
-            margin-bottom: 8px;
-            padding-left: 10px;
+            margin-bottom: 12px;
+            background: white;
+            border-radius: 8px;
+            padding: 12px;
+            border: 1px solid #e2e8f0;
         }
+        
         .ability-name {
-            font-weight: 500;
-            margin-bottom: 5px;
+            font-weight: 600;
+            font-size: 14px;
+            margin-bottom: 8px;
+            color: #4a5568;
+            display: flex;
+            align-items: center;
         }
+        
+        .ability-name::before {
+            content: "🎯";
+            margin-right: 6px;
+        }
+        
+        /* ===== CRITERIA LIST ===== */
         .criteria-list {
             list-style: none;
         }
+        
         .criterion-item {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 5px 0;
-            border-bottom: 1px solid #e9ecef;
+            padding: 8px 0;
+            border-bottom: 1px solid #edf2f7;
         }
+        
+        .criterion-item:last-child {
+            border-bottom: none;
+        }
+        
         .criterion-name {
             flex: 1;
+            font-size: 13px;
+            color: #4a5568;
+            padding-right: 8px;
         }
+        
+        /* ===== GRADES ===== */
         .grade {
-            padding: 2px 8px;
-            border-radius: 4px;
-            font-weight: 600;
-            font-size: 12px;
-        }
-        .grade-ad { background: #d4edda; color: #155724; }
-        .grade-a { background: #d1ecf1; color: #0c5460; }
-        .grade-b { background: #fff3cd; color: #856404; }
-        .grade-c { background: #f8d7da; color: #721c24; }
-        .final-average {
-            background: #495057;
-            color: white;
-            padding: 8px 15px;
+            padding: 4px 10px;
             border-radius: 6px;
-            font-weight: 600;
-            margin-top: 10px;
+            font-weight: 700;
+            font-size: 13px;
+            min-width: 40px;
             text-align: center;
         }
+        
+        .grade-ad { 
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+        }
+        
+        .grade-a { 
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+            color: white;
+        }
+        
+        .grade-b { 
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            color: white;
+        }
+        
+        .grade-c { 
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            color: white;
+        }
+        
+        /* ===== FINAL AVERAGE ===== */
+        .final-average {
+            background: linear-gradient(135deg, #1f2937 0%, #374151 100%);
+            color: white;
+            padding: 14px;
+            border-radius: 10px;
+            font-weight: 700;
+            text-align: center;
+            margin-top: 16px;
+            font-size: 16px;
+        }
+        
+        /* ===== OBSERVATIONS ===== */
         .observations {
-            background: #e7f3ff;
-            padding: 15px;
-            border-radius: 6px;
-            margin-top: 15px;
-            border-left: 4px solid #007bff;
+            background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+            padding: 14px;
+            border-radius: 10px;
+            margin-top: 12px;
+            border-left: 4px solid #3b82f6;
         }
+        
         .observations-title {
-            font-weight: 600;
+            font-weight: 700;
             margin-bottom: 8px;
-            color: #0056b3;
+            color: #1e40af;
+            font-size: 14px;
         }
+        
         .observation-item {
-            margin-bottom: 5px;
-            padding-left: 10px;
+            margin-bottom: 6px;
+            font-size: 13px;
+            color: #1e3a8a;
+            line-height: 1.4;
         }
+        
+        .observation-item strong {
+            color: #1e40af;
+        }
+        
+        /* ===== LEGEND ===== */
         .legend {
-            background: #f8f9fa;
-            padding: 15px;
-            border-radius: 6px;
+            background: #f7fafc;
+            padding: 16px;
+            border-radius: 10px;
             margin-top: 20px;
+            border: 1px solid #e2e8f0;
         }
+        
         .legend-title {
-            font-weight: 600;
-            margin-bottom: 10px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            font-size: 15px;
         }
+        
         .legend-items {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 15px;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
         }
+        
         .legend-item {
             display: flex;
             align-items: center;
             gap: 8px;
+            font-size: 13px;
         }
+        
         .legend-color {
-            width: 16px;
-            height: 16px;
-            border-radius: 3px;
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+            flex-shrink: 0;
         }
+        
+        /* ===== FOOTER ===== */
         .footer {
             text-align: center;
             padding: 20px;
-            background: #f8f9fa;
-            color: #666;
+            background: #f7fafc;
+            color: #718096;
             font-size: 12px;
-            border-top: 1px solid #e9ecef;
+            border-top: 1px solid #e2e8f0;
+        }
+        
+        /* ===== RESPONSIVE ===== */
+        @media (min-width: 640px) {
+            body { padding: 20px; }
+            .header h1 { font-size: 32px; }
+            .header .subtitle { font-size: 16px; }
+            .summary-cards { 
+                grid-template-columns: repeat(4, 1fr);
+                gap: 16px;
+                padding: 24px;
+            }
+            .students-section { padding: 24px; }
+            .student-name { font-size: 18px; }
+            .student-number { font-size: 14px; }
+            .legend-items { grid-template-columns: repeat(4, 1fr); }
+        }
+        
+        @media print {
+            body { background: white; padding: 0; }
+            .container { box-shadow: none; }
         }
     </style>
 </head>
@@ -811,52 +947,47 @@ class ReportsActivity : AppCompatActivity() {
             </div>
         </div>
         
-        <div class="student-section">
+        <div class="students-section">
     """)
 
-        // Estudiantes
+        // ===== ESTUDIANTES =====
         data.students.forEachIndexed { index, student ->
             builder.append("""
-        <div class="student-card">
-            <div class="student-header">
-                <div class="student-name">${student.full_name}</div>
-                <div class="student-number">Estudiante ${index + 1}</div>
-            </div>
-            <div class="student-content">
+            <div class="student-card">
+                <div class="student-header">
+                    <div class="student-name">${student.full_name}</div>
+                    <div class="student-number">#${index + 1}</div>
+                </div>
+                <div class="student-content">
         """)
 
-            // Sesiones - CORRECCIÓN: Filtrar por session.id
+            // ===== SESIONES =====
             data.sessions.sortedBy { it.number }.forEach { session ->
-                builder.append("""
-            <div class="session-group">
-                <div class="session-title">${session.title ?: "Sesión ${session.number}"}</div>
-                <div class="competency-grid">
-            """)
-
-                // ✅ CORRECCIÓN: Solo mostrar competencias de ESTA sesión
                 val competenciesInSession = data.competencies.filter { it.session_id == session.id }
 
-                if (competenciesInSession.isEmpty()) {
+                if (competenciesInSession.isNotEmpty()) {
                     builder.append("""
-                <div class="competency-card">
-                    <div class="competency-name">No hay competencias evaluadas</div>
-                </div>
+                    <div class="session-group">
+                        <div class="session-title">${session.title ?: "Sesión ${session.number}"}</div>
                 """)
-                } else {
+
+                    // ===== COMPETENCIAS =====
                     competenciesInSession.forEach { competency ->
                         builder.append("""
-                    <div class="competency-card">
-                        <div class="competency-name">${competency.display_name}</div>
+                        <div class="competency-card">
+                            <div class="competency-name">${competency.display_name}</div>
                     """)
 
+                        // ===== CAPACIDADES =====
                         val abilities = data.abilities.filter { it.competency_id == competency.id }
                         abilities.forEach { ability ->
                             builder.append("""
-                        <div class="ability-item">
-                            <div class="ability-name">${ability.display_name}</div>
-                            <ul class="criteria-list">
+                            <div class="ability-item">
+                                <div class="ability-name">${ability.display_name}</div>
+                                <ul class="criteria-list">
                         """)
 
+                            // ===== CRITERIOS =====
                             val criteria = data.criteria.filter { it.ability_id == ability.id }
                             criteria.forEach { criterion ->
                                 val value = data.values.find {
@@ -872,21 +1003,24 @@ class ReportsActivity : AppCompatActivity() {
                                 }
 
                                 builder.append("""
-                            <li class="criterion-item">
-                                <span class="criterion-name">${criterion.display_name}</span>
-                                <span class="grade $gradeClass">$value</span>
-                            </li>
+                                    <li class="criterion-item">
+                                        <span class="criterion-name">${criterion.display_name}</span>
+                                        <span class="grade $gradeClass">$value</span>
+                                    </li>
                             """)
                             }
+
                             builder.append("</ul></div>")
                         }
+
                         builder.append("</div>")
                     }
+
+                    builder.append("</div>")
                 }
-                builder.append("</div></div>")
             }
 
-            // Promedio final
+            // ===== PROMEDIO FINAL =====
             val finalAverage = calculateStudentFinalAverage(student.id) ?: "-"
             val finalGradeClass = when (finalAverage) {
                 "AD" -> "grade-ad"
@@ -897,25 +1031,25 @@ class ReportsActivity : AppCompatActivity() {
             }
 
             builder.append("""
-            <div class="final-average $finalGradeClass">
-                Promedio Final: $finalAverage
-            </div>
+                    <div class="final-average $finalGradeClass">
+                        📈 Promedio Final: $finalAverage
+                    </div>
         """)
 
-            // Observaciones
+            // ===== OBSERVACIONES =====
             val studentObservations = data.observations.filter { it.student_id == student.id }
             if (studentObservations.isNotEmpty()) {
                 builder.append("""
-                <div class="observations">
-                    <div class="observations-title">📝 Observaciones</div>
+                    <div class="observations">
+                        <div class="observations-title">📝 Observaciones</div>
             """)
 
                 studentObservations.forEach { obs ->
                     val abilityName = data.abilities.find { it.id == obs.ability_id }?.display_name ?: ""
                     builder.append("""
-                    <div class="observation-item">
-                        <strong>$abilityName:</strong> ${obs.observation}
-                    </div>
+                        <div class="observation-item">
+                            <strong>$abilityName:</strong> ${obs.observation}
+                        </div>
                 """)
                 }
 
@@ -925,32 +1059,34 @@ class ReportsActivity : AppCompatActivity() {
             builder.append("</div></div>")
         }
 
-        // Leyenda
+        // ===== LEYENDA =====
         builder.append("""
-        <div class="legend">
-            <div class="legend-title">Leyenda de Calificaciones</div>
-            <div class="legend-items">
-                <div class="legend-item">
-                    <div class="legend-color" style="background-color: #d4edda;"></div>
-                    <span>AD - Logro destacado</span>
-                </div>
-                <div class="legend-item">
-                    <div class="legend-color" style="background-color: #d1ecf1;"></div>
-                    <span>A - Logro esperado</span>
-                </div>
-                <div class="legend-item">
-                    <div class="legend-color" style="background-color: #fff3cd;"></div>
-                    <span>B - En proceso</span>
-                </div>
-                <div class="legend-item">
-                    <div class="legend-color" style="background-color: #f8d7da;"></div>
-                    <span>C - En inicio</span>
+            <div class="legend">
+                <div class="legend-title">📖 Leyenda de Calificaciones</div>
+                <div class="legend-items">
+                    <div class="legend-item">
+                        <div class="legend-color grade-ad"></div>
+                        <span>AD - Logro destacado</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color grade-a"></div>
+                        <span>A - Logro esperado</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color grade-b"></div>
+                        <span>B - En proceso</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color grade-c"></div>
+                        <span>C - En inicio</span>
+                    </div>
                 </div>
             </div>
         </div>
         
         <div class="footer">
-            Generado el ${java.text.SimpleDateFormat("dd/MM/yyyy 'a las' HH:mm", java.util.Locale.getDefault()).format(java.util.Date())}
+            📅 Generado el $currentDate<br>
+            <small>Sistema de Evaluaciones Classter</small>
         </div>
     </div>
 </body>
