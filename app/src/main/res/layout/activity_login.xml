@@ -7,7 +7,7 @@
     android:orientation="vertical"
     android:padding="24dp"
     android:gravity="center"
-    android:background="#F5F5F5">
+    android:background="@color/background_primary">
 
     <ImageView
         android:layout_width="120dp"
@@ -21,7 +21,7 @@
         android:text="Sistema Educativo"
         android:textSize="28sp"
         android:textStyle="bold"
-        android:textColor="#1976D2"
+        android:textColor="@color/primaryColor"
         android:layout_marginBottom="8dp"/>
 
     <TextView
@@ -29,7 +29,7 @@
         android:layout_height="wrap_content"
         android:text="Iniciar Sesión"
         android:textSize="16sp"
-        android:textColor="#666666"
+        android:textColor="@color/text_secondary"
         android:layout_marginBottom="32dp"/>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -37,13 +37,16 @@
         android:layout_height="wrap_content"
         android:hint="Correo electrónico"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        app:boxStrokeColor="@color/primaryColor"
+        app:hintTextColor="@color/primaryColor"
         android:layout_marginBottom="16dp">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/etEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textEmailAddress"/>
+            android:inputType="textEmailAddress"
+            android:textColor="@color/text_primary"/>
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -51,6 +54,8 @@
         android:layout_height="wrap_content"
         android:hint="Contraseña"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        app:boxStrokeColor="@color/primaryColor"
+        app:hintTextColor="@color/primaryColor"
         app:endIconMode="password_toggle"
         android:layout_marginBottom="24dp">
 
@@ -58,7 +63,8 @@
             android:id="@+id/etPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textPassword"/>
+            android:inputType="textPassword"
+            android:textColor="@color/text_primary"/>
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.button.MaterialButton
@@ -68,35 +74,43 @@
         android:layout_marginBottom="16dp"
         android:text="Iniciar Sesión"
         android:textSize="16sp"
-        app:cornerRadius="8dp"/>
+        android:textAllCaps="false"
+        app:cornerRadius="8dp"
+        app:backgroundTint="@color/primaryColor"/>
 
     <!-- Mensaje para docentes -->
-    <LinearLayout
+    <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
-        android:layout_marginBottom="8dp"
-        android:padding="8dp"
-        android:background="#E3F2FD"
-        app:cornerRadius="8dp">
+        android:layout_marginBottom="16dp"
+        app:cardElevation="0dp"
+        app:cardCornerRadius="8dp"
+        app:cardBackgroundColor="@color/primaryLight">
 
-        <ImageView
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:src="@drawable/ic_black"
-            android:layout_marginEnd="8dp"
-            app:tint="#1976D2" />
-
-        <TextView
-            android:layout_width="0dp"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Si eres docente puedes ingresar directamente con tu cuenta Google."
-            android:textColor="#1976D2"
-            android:textSize="14sp"
-            android:textStyle="bold"/>
-    </LinearLayout>
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:padding="12dp">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_black"
+                android:layout_marginEnd="12dp"
+                app:tint="@color/primaryColor" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Si eres docente puedes ingresar directamente con tu cuenta Google."
+                android:textColor="@color/primaryDark"
+                android:textSize="14sp"
+                android:textStyle="bold"/>
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnGoogleSignIn"
@@ -105,10 +119,14 @@
         android:layout_height="56dp"
         android:text="Ingresar con Google"
         android:textSize="16sp"
+        android:textAllCaps="false"
+        android:textColor="@color/text_primary"
         app:icon="@drawable/ic_google"
         app:iconTint="@null"
         app:iconGravity="start"
         app:cornerRadius="8dp"
+        app:strokeColor="@color/border"
+        app:strokeWidth="1.5dp"
         android:layout_marginBottom="16dp"/>
 
     <TextView
@@ -116,8 +134,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="¿No tienes cuenta? Regístrate"
-        android:textColor="#1976D2"
+        android:textColor="@color/primaryColor"
         android:textSize="14sp"
+        android:textStyle="bold"
         android:layout_marginTop="16dp"/>
 
     <ProgressBar
@@ -125,6 +144,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
+        android:indeterminateTint="@color/primaryColor"
         android:visibility="gone"/>
 
 </LinearLayout>
