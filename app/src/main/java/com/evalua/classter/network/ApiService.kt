@@ -149,6 +149,21 @@ interface ApiService {
     @GET("competencies/{competency_id}/abilities")
     suspend fun getAbilities(@Path("competency_id") competencyId: Int): List<Ability>
 
+    // ========== STUDENT DASHBOARD ==========
+    @GET("students/{user_id}/grades")
+    suspend fun getStudentGrades(@Path("user_id") userId: Int): List<StudentGrade>
+
+    @GET("students/{user_id}/profile")
+    suspend fun getStudentProfile(@Path("user_id") userId: Int): StudentProfileResponse
+
+    @GET("students/{user_id}/enrollments")
+    suspend fun getStudentEnrollments(@Path("user_id") userId: Int): List<StudentEnrollment>
+
+    // ========== GUARDIAN DASHBOARD ==========
+
+    @GET("admin/search-students")
+    suspend fun searchStudentsByName(@Query("name") name: String): List<StudentSearchResult>
+
     @GET("abilities/{ability_id}")
     suspend fun getAbility(@Path("ability_id") abilityId: Int): Ability
 

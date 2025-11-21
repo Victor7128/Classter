@@ -33,6 +33,12 @@
     <color name="text_hint">#999999</color>
     <color name="text_disabled">#BDBDBD</color>
 
+    <!-- Escala de Grises Material Design -->
+    <color name="gray_300">#E0E0E0</color>
+    <color name="gray_500">#9E9E9E</color>
+    <color name="gray_600">#757575</color>
+    <color name="gray_700">#616161</color>
+
     <!-- Dividers y Borders -->
     <color name="divider">#E0E0E0</color>
     <color name="border">#BDBDBD</color>

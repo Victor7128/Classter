@@ -8,7 +8,7 @@
     android:background="#F5F5F5"
     tools:context=".DashboardAlumnosActivity">
 
-    <!-- Toolbar/Header -->
+    <!-- Toolbar/Header con menú de notificaciones integrado -->
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
         android:layout_width="0dp"
@@ -21,7 +21,45 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- Botón de menú de usuario -->
+    <!-- Botón de notificaciones (LADO IZQUIERDO) -->
+    <FrameLayout
+        android:id="@+id/frameNotifications"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="8dp"
+        app:layout_constraintTop_toTopOf="@id/toolbar"
+        app:layout_constraintBottom_toBottomOf="@id/toolbar"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <ImageButton
+            android:id="@+id/ibNotifications"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_bell"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Notificaciones"
+            android:padding="12dp"
+            app:tint="@android:color/white" />
+
+        <TextView
+            android:id="@+id/tvNotificationBadge"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:layout_gravity="top|end"
+            android:layout_marginTop="6dp"
+            android:layout_marginEnd="6dp"
+            android:background="@drawable/bg_badge_count_orange"
+            android:gravity="center"
+            android:text="3"
+            android:textColor="@android:color/white"
+            android:textSize="10sp"
+            android:textStyle="bold"
+            android:elevation="8dp"
+            android:visibility="visible" />
+
+    </FrameLayout>
+
+    <!-- Botón de menú de usuario (LADO DERECHO) -->
     <ImageButton
         android:id="@+id/ibUserMenu"
         android:layout_width="48dp"
@@ -37,15 +75,196 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:tint="@android:color/white" />
 
-    <!-- Contenido principal -->
-    <TextView
-        android:layout_width="match_parent"
+    <!-- SwipeRefreshLayout -->
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefresh"
+        android:layout_width="0dp"
         android:layout_height="0dp"
-        android:gravity="center"
-        android:text="Dashboard Alumnos"
-        android:textSize="24sp"
-        android:textStyle="bold"
         app:layout_constraintTop_toBottomOf="@id/toolbar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <!-- Bienvenida -->
+                <TextView
+                    android:id="@+id/tvWelcome"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Bienvenido, Estudiante"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/black" />
+
+                <!-- Información de matrícula -->
+                <TextView
+                    android:id="@+id/tvEnrollmentInfo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="5° A - I Bimestre 2025"
+                    android:textSize="16sp"
+                    android:textColor="@color/gray_700"
+                    android:drawableLeft="@drawable/ic_school"
+                    android:drawablePadding="8dp" />
+
+                <!-- SECCIÓN DE NOTIFICACIONES -->
+                <LinearLayout
+                    android:id="@+id/layoutNotificationsSection"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:orientation="vertical"
+                    android:visibility="visible">
+
+                    <!-- Header de notificaciones -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:layout_marginBottom="12dp">
+
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/ic_bell"
+                            app:tint="@color/primaryColor"
+                            android:layout_marginEnd="8dp" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Notificaciones Recientes"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            android:textColor="@color/black" />
+
+                        <TextView
+                            android:id="@+id/tvSeeAllNotifications"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Ver todas"
+                            android:textSize="14sp"
+                            android:textColor="@color/primaryColor"
+                            android:textStyle="bold"
+                            android:padding="4dp"
+                            android:background="?attr/selectableItemBackground"
+                            android:clickable="true"
+                            android:focusable="true" />
+
+                    </LinearLayout>
+
+                    <!-- RecyclerView de notificaciones -->
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rvNotificationsDashboard"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:nestedScrollingEnabled="false" />
+
+                    <!-- Mensaje vacío -->
+                    <TextView
+                        android:id="@+id/tvNoNotifications"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="No tienes notificaciones"
+                        android:textSize="14sp"
+                        android:textColor="@color/gray_500"
+                        android:gravity="center"
+                        android:padding="16dp"
+                        android:visibility="gone" />
+
+                    <!-- Botón de prueba para generar notificación -->
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnTestNotification"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="8dp"
+                        android:text="🔔 Probar Notificación Push"
+                        android:textSize="12sp"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                        app:strokeColor="@color/primaryColor"
+                        android:textColor="@color/primaryColor" />
+
+                </LinearLayout>
+
+                <!-- Divisor -->
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="16dp"
+                    android:background="@color/gray_300" />
+
+                <!-- Título de calificaciones -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="Mis Calificaciones"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/black" />
+
+                <!-- Filtros por sesión -->
+                <HorizontalScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:scrollbars="none">
+
+                    <com.google.android.material.chip.ChipGroup
+                        android:id="@+id/chipGroup"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:singleSelection="true"
+                        app:selectionRequired="false" />
+
+                </HorizontalScrollView>
+
+                <!-- RecyclerView de calificaciones -->
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvGrades"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:nestedScrollingEnabled="false"
+                    tools:listitem="@layout/item_student_grade" />
+
+                <!-- Estado vacío -->
+                <TextView
+                    android:id="@+id/tvEmptyState"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:gravity="center"
+                    android:text="No tienes calificaciones registradas aún"
+                    android:textSize="16sp"
+                    android:textColor="@color/gray_500"
+                    android:visibility="gone" />
+
+            </LinearLayout>
+
+        </androidx.core.widget.NestedScrollView>
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+    <!-- Progress Bar -->
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
